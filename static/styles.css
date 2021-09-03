@@ -1,0 +1,22 @@
+@font-face {
+    font-family: CRI;
+    src: url('Ultra.ttf');
+}
+
+.navbar .navbar-brand
+{
+    color: rgb(177, 23, 49);
+    font-family: CRI;
+    font-size: 4vh;
+}
+
+.navbar .navbar-brand:hover
+{
+    color: rgb(138, 18, 38);
+}
+
+
+body
+{
+    background-color: rgb(212, 212, 212);
+}
