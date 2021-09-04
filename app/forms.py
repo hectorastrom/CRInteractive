@@ -1,5 +1,6 @@
 from flask.app import Flask
 from flask_wtf import FlaskForm
+from werkzeug.utils import validate_arguments
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, FloatField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from app.models import User
@@ -36,13 +37,17 @@ class LoginForm(FlaskForm):
 
 class TwokForm(FlaskForm):
     minutes = IntegerField('Minutes', 
-                          validators=[DataRequired()], render_kw={"placeholder": "7"})
+                          validators=[DataRequired()], render_kw={"placeholder": "6"})
     seconds = FloatField('Seconds', 
-                          validators=[DataRequired()], render_kw={"placeholder": "02.3"})
+                          validators=[DataRequired()], render_kw={"placeholder": "42.5"})
     date = DateField('Date Completed', format='%Y-%m-%d', 
                     validators=[DataRequired()])
     submit = SubmitField('Submit')
     
+    def validate_seconds(self, field):
+        if field.data > 60:
+            raise ValidationError('Cannot exceed 60 seconds')
+
     def validate_date(self, field):
         if field.data > date.today():
             raise ValidationError('Date cannot be later than today\'s date.')
