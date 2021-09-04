@@ -10,7 +10,9 @@ import os
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'test'
+with open('secretkey.txt', 'r') as f:
+    secretkey = f.readline()
+    app.config['SECRET_KEY'] = secretkey
 bcrypt = Bcrypt()
 # To hash do bycrypt.generate_password_hash(password).decode('utf-8')
 # To check password do bycrypt.check_password_hash(hashed_password, password)
