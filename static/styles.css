@@ -16,6 +16,11 @@
     border-radius: 30px;
 }
 
+.form-control-label
+{
+    margin-left: 1.5%;
+}
+
 .form-group .short
 {
     width: 80%;
