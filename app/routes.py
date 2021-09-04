@@ -64,7 +64,9 @@ def rankings():
             userTwok["name"] = user.firstname + " " + user.lastname
             userTwok["twok"] = Twok.query.filter_by(user_id=user.id).order_by("seconds").first()
             if userTwok['twok']:
+                userTwok['date'] = userTwok['twok'].date_completed
                 userTwok['twok'] = userTwok['twok'].seconds
+                
                 userList.append(userTwok)
         userList.sort(key=lambda x:x["twok"])
         for user in userList:
