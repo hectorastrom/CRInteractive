@@ -4,6 +4,7 @@ from app import app, db, bcrypt
 from app.forms import RegistrationForm, LoginForm, TwokForm
 from app.models import User, Twok
 from flask_login import login_user, current_user, logout_user, login_required
+from time import strftime, gmtime
 
 @app.route("/")
 def index():
@@ -56,18 +57,21 @@ def rankings():
         for user in users:
             userTwok = dict()
             userTwok["name"] = user.firstname + " " + user.lastname
-            userTwok["twok"] = Twok.query.filter_by(user_id=user.id).first()
+            userTwok["twok"] = Twok.query.filter_by(user_id=user.id).order_by("seconds").first()
             if userTwok['twok']:
                 userTwok['twok'] = userTwok['twok'].seconds
                 userList.append(userTwok)
         userList.sort(key=lambda x:x["twok"])
         for user in userList:
             if user['twok']:
-                time = int(user["twok"])
-                minutes = int(time / 60)
-                seconds = time % 60
-                seconds = f"{seconds:02}"
-                user["twok"] = str(minutes) + ":" + seconds
+                # time = int(user["twok"])
+                # minutes = int(time / 60)
+                # seconds = time % 60
+                # seconds = f"{seconds:02}"
+                # user["twok"] = str(minutes) + ":" + seconds
+
+                time = user['twok']
+                user['twok'] = strftime("%M:%S", gmtime(time))
     else:
         userTwok = dict()
         userTwok["name"] = "No user data found"
