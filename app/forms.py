@@ -1,7 +1,8 @@
 from flask.app import Flask
 from flask_wtf import FlaskForm
 from werkzeug.utils import validate_arguments
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, FloatField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, FloatField, SelectField
+from wtforms.fields.core import SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from app.models import User
 from datetime import date
@@ -35,6 +36,13 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember Me')
     submit = SubmitField('Log in')
 
+class SettingsForm(FlaskForm):
+    sides = ["Port", "Starboard"]
+    teams = ["Varsity Mens", "Mens U17"]
+    side = SelectField('Side', choices=sides, validators=[DataRequired()])
+    team = SelectField('Team', choices=teams, validators=[DataRequired()])
+    submit = SubmitField('Update')
+
 class TwokForm(FlaskForm):
     minutes = IntegerField('Minutes', 
                           validators=[DataRequired()], render_kw={"placeholder": "6"})
@@ -55,3 +63,4 @@ class TwokForm(FlaskForm):
     def validate_date(self, field):
         if field.data > date.today():
             raise ValidationError('Date cannot be later than today\'s date.')
+

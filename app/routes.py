@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request
 from flask.helpers import url_for
 from app import app, db, bcrypt
-from app.forms import RegistrationForm, LoginForm, TwokForm
+from app.forms import RegistrationForm, LoginForm, TwokForm, SettingsForm
 from app.models import User, Twok
 from flask_login import login_user, current_user, logout_user, login_required
 from time import strftime, gmtime
@@ -50,7 +50,8 @@ def register():
 @app.route('/settings', methods=["GET", "POST"])
 @login_required
 def settings():
-    return render_template("settings.html")
+    form = SettingsForm()
+    return render_template("settings.html", form=form)
 
 @app.route('/rankings', methods=['GET'])
 @login_required
