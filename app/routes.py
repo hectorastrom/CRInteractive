@@ -1,5 +1,6 @@
 from flask import render_template, flash, redirect
 from flask.helpers import url_for
+from flask_login.utils import login_required
 from app import app, db, bcrypt
 from app.forms import RegistrationForm, LoginForm
 from app.models import User, Twok
@@ -8,7 +9,6 @@ from flask_login import login_user, current_user, logout_user
 @app.route("/")
 def index():
     return render_template('index.html')
-
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
@@ -26,13 +26,13 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
+    print(current_user)
     flash('Logged out user.', 'success')
     return redirect(url_for('index'))
 
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
-    print(current_user.is_authenticated)
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
