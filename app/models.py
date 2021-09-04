@@ -29,4 +29,6 @@ class Twok(db.Model):
 
     def __repr__(self):
         return f"2k(seconds: '{self.seconds}', date_completed: '{self.date_completed}', user_id: '{self.user_id}')"
+
+
         

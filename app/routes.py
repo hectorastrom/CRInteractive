@@ -72,8 +72,11 @@ def settings():
 @login_required
 def rankings():
     userList = list()
-
     users = User.query.all()
+        
+    labels = []
+    values = []
+
     if users:
         for user in users:
             userTwok = dict()
@@ -87,11 +90,9 @@ def rankings():
         userList.sort(key=lambda x:x["twok"])
         for user in userList:
             if user['twok']:
-                # time = int(user["twok"])
-                # minutes = int(time / 60)
-                # seconds = time % 60
-                # seconds = f"{seconds:02}"
-                # user["twok"] = str(minutes) + ":" + seconds
+                # This adds the name and 2k (in seconds!) of the user to labels and vlaues to be used in the chart
+                labels.append(user["name"])
+                values.append(user["twok"])
 
                 time = user['twok']
                 user['twok'] = strftime("%M:%S", gmtime(time))
@@ -101,7 +102,8 @@ def rankings():
         userTwok["twok"] = " "
         userList.append(userTwok)
 
-    return render_template("rankings.html", users = userList)
+
+    return render_template("rankings.html", users = userList, labels = labels, values = values)
 
 @app.route('/2k', methods=['GET', 'POST'])
 @login_required

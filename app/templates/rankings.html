@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block main%}
-
-    <h2>2k Rankings</h2> 
+    <script   script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <h2>2K Rankings</h2> 
     <table class="table table-striped">
         <thead>
             <tr>
@@ -28,4 +28,31 @@
         </tbody>
 
     </table>
+
+    <div>
+        <canvas id="2KChart" width="900" height="400">
+            <script>
+                var ctx = document.getElementById("2KChart").getContext("2d")
+                var barGraph = new Chart(ctx, {
+                    type: "bar",
+                    data: {
+                        labels: {{ labels | safe }},
+                        datasets: [
+                            {
+                                label: "2K Time",
+                                data: {{ values | safe }},
+                                fill: false,
+                                borderColor: "rgba(177, 23, 49)",
+                                borderWidth: 3,
+                                backgroundColor: "rgba(177, 23, 49, 0.25)"
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: false
+                    }
+                });
+            </script>
+        </canvas>
+    </div>
 {% endblock%}
