@@ -11,6 +11,17 @@
 }
 
 
+.navbar .navbar-brand:active
+{
+    color: rgb(177, 23, 49);
+}
+
+.form-control
+{
+    border-radius: 30px;
+}
+
+
 body
 {
     background-color: rgb(212, 212, 212);

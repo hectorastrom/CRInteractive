@@ -4,5 +4,41 @@
 
 
 {% block main %}
-<h1>Register</h1>
+    <div class='content-section'>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom border-dark mb-4">Create Account</legend>
+                <div class="form-group">
+                    {{ form.firstname.label(class="form-control-label") }}
+                    {{ form.firstname(class="form-control form-control-lg") }}
+                </div>
+                <div class="form-group">
+                    {{ form.lastname.label(class="form-control-label") }}
+                    {{ form.lastname(class="form-control form-control-lg") }}  
+                </div>
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+                    {{ form.email(class="form-control form-control-lg") }}  
+                </div>
+                <div class="form-group">
+                    {{ form.password.label(class="form-control-label") }}
+                    {{ form.password(class="form-control form-control-lg") }}  
+                </div>
+                <div class="form-group">
+                    {{ form.confirm_password.label(class="form-control-label") }}
+                    {{ form.confirm_password(class="form-control form-control-lg") }}  
+                </div>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-outline-danger")}}
+                </div>
+                
+            </fieldset>
+        </form>
+    </div>
+    <div class="border-top border-dark pt-3">
+        <small class="text-muted">
+            Already signed up? <a href="{{ url_for('login') }}">Sign in here.</a>
+        </small>
+    </div>
 {% endblock main %}
