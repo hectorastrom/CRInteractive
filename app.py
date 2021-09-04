@@ -11,7 +11,7 @@ import os
 
 
 app = Flask(__name__)
-with open('secretkey.txt', 'r') as f:
+with open('static/secretkey.txt', 'r') as f:
     secretkey = f.readline()
     app.config['SECRET_KEY'] = secretkey
 bcrypt = Bcrypt()
@@ -56,7 +56,7 @@ def index():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        flash(f'Logged in for {form.firstname.data}.', 'success')
+        flash(f'Logged in for {form.email.data}.', 'success')
         return redirect(url_for('index'))
     return render_template('login.html', form=form)
 
