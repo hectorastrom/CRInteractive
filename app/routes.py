@@ -25,3 +25,8 @@ def register():
         flash(f'Account created for {form.firstname.data}.', 'success')
         return redirect(url_for('index'))
     return render_template('register.html', form=form)
+
+@app.route('/rankings', methods=['GET', 'POST'])
+def rankings():
+
+    return render_template("rankings.html")
