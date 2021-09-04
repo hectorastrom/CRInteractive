@@ -43,7 +43,9 @@
 }
 
 /* Not doing anything right now but could be used later */
-.navbar-toggler-icon{
+.navbar-toggler-icon
+{
+    color: blue;
     /* background-image: url("https://img.icons8.com/nolan/64/ruby-programming-language.png") !important; */
 
 }
