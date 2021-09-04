@@ -1,20 +1,15 @@
-.navbar .navbar-brand
+.brand
 {
     font-family: "Ultra";
     color: rgb(177, 23, 49);
-    font-size: 4vh; 
+    font-size: 32px;
 }
 
-.navbar .navbar-brand:hover
+.brand:hover
 {
     color: rgb(138, 18, 38);
 }
 
-
-.navbar .navbar-brand:active
-{
-    color: rgb(177, 23, 49);
-}
 
 .form-control
 {
