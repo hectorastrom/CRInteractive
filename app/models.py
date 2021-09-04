@@ -19,7 +19,7 @@ class User(db.Model, UserMixin):
     twoks = db.relationship('Twok', backref='rower', lazy=True)
 
     def __repr__(self):
-        return f"User(Firstname: '{self.firstname}', Lastname: '{self.lastname}', Email: '{self.email}', Team: '{self.team}', Side: {self.side}, Imagefile: '{self.image_file}')"
+        return f"User(Firstname: '{self.firstname}', Lastname: '{self.lastname}', Email: '{self.email}', Team: '{self.team}', Side: '{self.side}', Imagefile: '{self.image_file}')"
 
 class Twok(db.Model):
     id = db.Column(db.Integer, primary_key=True)

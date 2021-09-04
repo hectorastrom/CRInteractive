@@ -5,39 +5,42 @@
 {% block main %}
 <div class='content-section'>
     <form method="POST" action="">
-        {{ form.hidden_tag() }}
         <fieldset class="form-group">
             <legend class="border-bottom border-dark mb-4" style="font-weight: 600;">Settings</legend>
             <div class="form-group short">
-            {{ form.side.label(class="form-control-label") }}
-            {% if form.side.errors %}
-                {{ form.side(class="form-control form-control-lg is-invalid")}}
-                <div class="invalid-feedback">
-                    {% for error in form.side.errors %}
-                        <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-            {% else %}
-                {{ form.side(class="form-control form-control-lg ml-2") }}
-            {% endif %}
+                <select class="form-select form-control form-control-lg" aria-label="Side Selector" name="side">
+                    {% if current_user.side == "none" %}
+                        <option disabled selected>Choose Side</option>
+                        <option value="Port">Port</option>
+                        <option value="Starboard">Starboard</option>
+                    {% elif current_user.side == "Port" %}
+                        <option disabled>Choose Side</option>
+                        <option selected value="Port">Port</option>
+                        <option value="Starboard">Starboard</option>
+                    {% else %}
+                        <option disabled>Choose Side</option>
+                        <option value="Port">Port</option>
+                        <option selected value="Starboard">Starboard</option>
+                    {% endif %}
+                </select>
             </div>
             <div class="form-group short">
-                {{ form.team.label(class="form-control-label") }}
-                {% if form.team.errors %}
-                    {{ form.team(class="form-control form-control-lg is-invalid")}}
-                    <div class="invalid-feedback">
-                        {% for error in form.team.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    {{ form.team(class="form-control form-control-lg") }}
-                {% endif %}
+                <select class="form-select form-control form-control-lg" aria-label="Team Selector" name="team">
+                    <option disabled>Choose Team</option>
+                    <!-- Teams is a list of team names gotten from the database -->
+                    {% for team in teams %}
+                    {% if current_user.team == team %}
+                        <option selected value='{{ team }}'>{{ team }}</option>
+                    {% else %}
+                        <option value='{{ team }}'>{{ team }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
             </div>
         </fieldset>
         <div class="row">
             <div class="form-group col">
-                {{ form.submit(class="btn btn-outline-danger rounded-pill")}}
+                <button type="submit" class="btn btn-outline-danger rounded-pill">Update</button>
             </div>
         </div>
     </form>

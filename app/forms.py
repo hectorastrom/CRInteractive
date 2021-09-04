@@ -7,6 +7,8 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from app.models import User
 from datetime import date
 from wtforms.fields.html5 import DateField
+from app import db, login_manager
+from flask_login import current_user, LoginManager, login_manager
 
 import email_validator
 
@@ -36,12 +38,6 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember Me')
     submit = SubmitField('Log in')
 
-class SettingsForm(FlaskForm):
-    sides = ["Port", "Starboard"]
-    teams = ["Varsity Mens", "Mens U17"]
-    side = SelectField('Side', choices=sides, validators=[DataRequired()])
-    team = SelectField('Team', choices=teams, validators=[DataRequired()])
-    submit = SubmitField('Update')
 
 class TwokForm(FlaskForm):
     minutes = IntegerField('Minutes', 
