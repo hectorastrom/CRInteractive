@@ -6,7 +6,6 @@ from app.models import User, Twok
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/")
-@login_required
 def index():
     return render_template('index.html')
 
@@ -42,6 +41,7 @@ def register():
         user = User(firstname=form.firstname.data.strip(), lastname=form.lastname.data.strip(), email=form.email.data.strip(), password=hashed_password)
         db.session.add(user)
         db.session.commit()
+        login_user(user, remember=True)
         flash(f'Your account has been created!', 'success')
         return redirect(url_for('index'))
     return render_template('register.html', form=form)
