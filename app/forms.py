@@ -43,10 +43,14 @@ class TwokForm(FlaskForm):
     date = DateField('Date Completed', format='%Y-%m-%d', 
                     validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+    def validate_minutes(self, field):
+        if field.data > 59:
+            raise ValidationError('Cannot exceed 59 minutes')
     
     def validate_seconds(self, field):
-        if field.data > 60:
-            raise ValidationError('Cannot exceed 60 seconds')
+        if field.data > 59.9:
+            raise ValidationError('Cannot exceed 59.9 seconds')
 
     def validate_date(self, field):
         if field.data > date.today():
