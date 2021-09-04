@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title%}
+    Rankings
+{% endblock %}
+
+{% block main%}
+
+    <h2>2k Rankings</h2> 
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>2k</th>
+                <th>Date</th> 
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+            <tr>
+                <td>{{ row.rank }}</td>
+                <td>{{ row.message }}</td>
+                <td>{{ row.url }}</td>
+                <td>{{ row.date_uploaded }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+{% endblock%}
