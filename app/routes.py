@@ -46,6 +46,11 @@ def register():
         return redirect(url_for('index'))
     return render_template('register.html', form=form)
 
+@app.route('/settings', methods=["GET", "POST"])
+@login_required
+def settings():
+    return render_template("settings.html")
+
 @app.route('/rankings', methods=['GET'])
 @login_required
 def rankings():
@@ -88,3 +93,4 @@ def upload_twok():
         flash(f'Logged 2K for {form.date.data}.', 'success')
         return redirect(url_for('index'))
     return render_template('2k.html', form=form)
+
