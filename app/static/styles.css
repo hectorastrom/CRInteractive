@@ -1,3 +1,7 @@
+/* CRI Colors
+rgb(177, 23, 49)
+rgb(42, 43, 44) */
+
 .brand
 {
     font-family: "Ultra";
@@ -58,6 +62,12 @@
     outline: none;
     border: none;
     box-shadow: none;
+}
+
+th
+{
+    background-color: rgb(177, 23, 49) !important;
+    color: white !important;
 }
 
 body
