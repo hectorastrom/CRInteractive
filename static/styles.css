@@ -16,6 +16,11 @@
     border-radius: 30px;
 }
 
+.form-control-label
+{
+    margin-left: 1.5%;
+}
+
 .form-group .short
 {
     width: 80%;
@@ -24,5 +29,5 @@
 
 body
 {
-    background-color: rgb(212, 212, 212);
+    background-color: rgb(235, 234, 234);
 }
