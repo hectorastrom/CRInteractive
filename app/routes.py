@@ -3,6 +3,7 @@ from flask.helpers import url_for
 from app import app, db, bcrypt
 from app.forms import RegistrationForm, LoginForm
 from app.models import User, Twok
+from flask_login import login_user
 
 @app.route("/")
 def index():
@@ -13,8 +14,13 @@ def index():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        flash(f'Logged in for {form.email.data}.', 'success')
-        return redirect(url_for('index'))
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
+            flash(f'Logged in for {form.email.data}!', 'success')
+            return redirect(url_for('index'))
+        else:
+            flash(f'Incorrect credentials. Please check email and password.', 'error')
     return render_template('login.html', form=form)
 
 
