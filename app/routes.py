@@ -1,21 +1,34 @@
 from flask import render_template, flash, redirect
 from flask.helpers import url_for
+from flask_login.utils import login_required
 from app import app, db, bcrypt
 from app.forms import RegistrationForm, LoginForm
 from app.models import User, Twok
+from flask_login import login_user, current_user, logout_user
 
 @app.route("/")
 def index():
     return render_template('index.html')
 
-
 @app.route('/login', methods=["GET", "POST"])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        flash(f'Logged in for {form.email.data}.', 'success')
-        return redirect(url_for('index'))
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
+            flash(f'Logged in for {form.email.data}!', 'success')
+            return redirect(url_for('index'))
+        else:
+            flash(f'Incorrect credentials. Please check email and password.', 'error')
     return render_template('login.html', form=form)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    print(current_user)
+    flash('Logged out user.', 'success')
+    return redirect(url_for('index'))
 
 
 @app.route('/register', methods=["GET", "POST"])
@@ -23,13 +36,6 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-
-        # Checks if email already registered
-        users_with_same_email = User.query.filter_by(email=form.email.data).all()
-        if len(users_with_same_email) > 0:
-            flash(f'User with the same email already exists', 'error')
-            return redirect(url_for('register'))
-
         # Adds user to database
         user = User(firstname=form.firstname.data.strip(), lastname=form.lastname.data.strip(), email=form.email.data.strip(), password=hashed_password)
         db.session.add(user)
