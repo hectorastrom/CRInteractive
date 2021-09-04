@@ -9,33 +9,29 @@
         <fieldset class="form-group">
             <legend class="border-bottom border-dark mb-4" style="font-weight: 600;">Log 2K</legend>
             <div class="form-group short">
-                <div class="col-4">
-                    {{ form.minutes.label(class="form-control-label") }}
-                    {% if form.minutes.errors %}
-                        {{ form.minutes(class="form-control form-control-lg is-invalid")}}
-                        <div class="invalid-feedback">
-                            {% for error in form.minutes.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.minutes(class="form-control form-control-lg") }}
-                    {% endif %}
+            {{ form.minutes.label(class="form-control-label") }}
+            {% if form.minutes.errors %}
+                {{ form.minutes(class="form-control-md ml-2 is-invalid")}}
+                <div class="invalid-feedback">
+                    {% for error in form.minutes.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
                 </div>
-                
-                <div class="col-4">
-                    {{ form.seconds.label(class="form-control-label") }}
-                    {% if form.seconds.errors %}
-                        {{ form.seconds(class="form-control form-control-lg is-invalid")}}
-                        <div class="invalid-feedback">
-                            {% for error in form.seconds.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.seconds(class="form-control form-control-lg") }}
-                    {% endif %}
+            {% else %}
+                {{ form.minutes(class="form-control-md ml-2") }}
+            {% endif %}
+            
+            {{ form.seconds.label(class="form-control-label ml-2") }}
+            {% if form.seconds.errors %}
+                {{ form.seconds(class="form-control-md ml-2 is-invalid")}}
+                <div class="invalid-feedback">
+                    {% for error in form.seconds.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
                 </div>
+            {% else %}
+                {{ form.seconds(class="form-control-md ml-2") }}
+            {% endif %}
             </div>
             <div class="form-group short">
                 {{ form.date.label(class="form-control-label") }}
