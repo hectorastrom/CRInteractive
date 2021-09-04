@@ -1,10 +1,9 @@
-from flask import render_template, flash, redirect
+from flask import render_template, url_for, flash, redirect, request
 from flask.helpers import url_for
-from flask_login.utils import login_required
 from app import app, db, bcrypt
 from app.forms import RegistrationForm, LoginForm
 from app.models import User, Twok
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/")
 def index():
@@ -17,8 +16,12 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
+            next_page = request.args.get('next')
             flash(f'Logged in for {form.email.data}!', 'success')
-            return redirect(url_for('index'))
+            if next_page:
+                return redirect(next_page)
+            else:
+                return redirect(url_for('index'))
         else:
             flash(f'Incorrect credentials. Please check email and password.', 'error')
     return render_template('login.html', form=form)
@@ -26,9 +29,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    print(current_user)
-    flash('Logged out user.', 'success')
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
 
 @app.route('/register', methods=["GET", "POST"])
@@ -40,6 +41,7 @@ def register():
         user = User(firstname=form.firstname.data.strip(), lastname=form.lastname.data.strip(), email=form.email.data.strip(), password=hashed_password)
         db.session.add(user)
         db.session.commit()
+        login_user(user, remember=True)
         flash(f'Your account has been created!', 'success')
         return redirect(url_for('index'))
     return render_template('register.html', form=form)
