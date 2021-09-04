@@ -53,10 +53,12 @@ def rankings():
     users = User.query.all()
     for user in users:
         userTwok = dict()
-        userTwok[user.firstname + " " + user.lastname] = Twok.query.filter_by(user_id=user.id).first()
+        userTwok["name"] = user.firstname + " " + user.lastname
+        userTwok["twok"] = Twok.query.filter_by(user_id=user.id).first()
+        
     
-    # sorted(userList, key=lambda )
+    sorted(userList, key=lambda x:x["twok".seconds])
 
 
 
-    return render_template("rankings.html", users=userTwok)
+    return render_template("rankings.html", users=userList)

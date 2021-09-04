@@ -17,12 +17,12 @@
             </tr>
         </thead>
         <tbody>
-            {% for key,value in users.items() %}
+            {% for user in users %}
             <tr>
-                <td>{{ .rank }}</td>
-                <td>{{ key }}</td>
-                <td>{{ row.va }}</td>
-                <td>{{ row.date_uploaded }}</td>
+                <td>{{ loop.index + 1 }}</td>
+                <td>{{ user["name"] }}</td>
+                <td>{{ user["twok".seconds]}}</td>
+                <td>{{ user["twok".date_uploaded] }}</td>
             </tr>
             {% endfor %}
         </tbody>
