@@ -65,7 +65,7 @@ def rankings():
                 userList.append(userTwok)
         userList.sort(key=lambda x:x["twok"])
         for user in userList:
-            if type(userList[0]['twok']) is int:
+            if userList[0]['twok'] and userTwok['twok'] != "No 2k data":
                 time = int(user["twok"])
                 minutes = int(time / 60)
                 seconds = time % 60
