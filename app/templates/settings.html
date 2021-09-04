@@ -1,9 +1,46 @@
-{% extends "layout.html" %}
+{% extends 'layout.html' %}
 
-{% block title%}
-    Settings
-{% endblock %}
+{% block title %}Settings{% endblock title %}
 
-{% block main%}
-    <h1>Settings</h1>
-{% endblock%}
+{% block main %}
+<div class='content-section'>
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom border-dark mb-4" style="font-weight: 600;">Settings</legend>
+            <div class="form-group short">
+            {{ form.side.label(class="form-control-label") }}
+            {% if form.side.errors %}
+                {{ form.side(class="form-control form-control-lg is-invalid")}}
+                <div class="invalid-feedback">
+                    {% for error in form.side.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.side(class="form-control form-control-lg ml-2") }}
+            {% endif %}
+            </div>
+            <div class="form-group short">
+                {{ form.team.label(class="form-control-label") }}
+                {% if form.team.errors %}
+                    {{ form.team(class="form-control form-control-lg is-invalid")}}
+                    <div class="invalid-feedback">
+                        {% for error in form.team.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.team(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="row">
+            <div class="form-group col">
+                {{ form.submit(class="btn btn-outline-danger rounded-pill")}}
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock main %}
+
