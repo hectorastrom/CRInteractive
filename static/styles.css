@@ -16,6 +16,11 @@
     border-radius: 30px;
 }
 
+.form-group .short
+{
+    width: 80%;
+}
+
 
 body
 {
