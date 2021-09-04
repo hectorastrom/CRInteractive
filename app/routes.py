@@ -59,3 +59,8 @@ def rankings():
 
     sorted(userList, key=lambda x:x["twok".seconds])
     return render_template("rankings.html", users=userList)
+
+@app.route('/2k', methods=['GET', 'POST'])
+@login_required
+def upload_twok():
+    return render_template('2k.html')
