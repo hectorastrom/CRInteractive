@@ -52,10 +52,17 @@ def register():
 def settings():
     teams = ["Varsity Mens", "Mens U17"]
     if request.method == "POST":
+        side = request.form.get("side")
+        team = request.form.get("team")
+        if not side:
+            flash('Side not selected.', 'error')
+            return redirect(url_for('settings'))
+        if not team:
+            flash('Team not selected.', 'error')
+            return redirect(url_for('settings'))
         user = User.query.get(current_user.id)
         user.side = request.form.get("side")
         user.team = request.form.get("team")
-        print(user)
         db.session.commit()
         return redirect(url_for('index'))
     else:
