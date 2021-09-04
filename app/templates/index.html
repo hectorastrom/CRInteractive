@@ -4,6 +4,11 @@
 
 
 {% block main %}
-<h1>Welcome to CRInteractive</h1>
-<h2>You may register <a href="{{ url_for('register') }}">here</a> or log in <a href="{{ url_for('login') }}">here.</a></h2>
+{% if current_user.is_authenticated %}
+<h1>You're logged in</h1>
+{% else %}
+    <h1>Welcome to CRInteractive</h1>
+    <h2>You may register <a href="{{ url_for('register') }}">here</a> or log in <a href="{{ url_for('login') }}">here.</a></h2>
+{% endif %}
+
 {% endblock main %}
