@@ -1,4 +1,5 @@
-from flask import Flask, render_template, flash
+from flask import Flask, render_template, flash, redirect
+from flask.helpers import url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from datetime import datetime
@@ -51,15 +52,18 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/login')
+@app.route('/login', methods=["GET", "POST"])
 def login():
     form = LoginForm()
     return render_template('login.html', form=form)
 
 
-@app.route('/register')
+@app.route('/register', methods=["GET", "POST"])
 def register():
     form = RegistrationForm()
+    if form.validate_on_submit():
+        flash(f'Account created for {form.firstname.data}.', 'success')
+        return redirect(url_for('index'))
     return render_template('register.html', form=form)
 
 if __name__ == '__main__':
