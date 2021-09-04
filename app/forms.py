@@ -29,6 +29,14 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError('Email is taken. Please choose a different email.')
+    
+    def validate_firstname(self, firstname):
+        if not firstname.data.isalpha():
+            raise ValidationError('First name contains characters which are not letters. Please try a different name.')
+
+    def validate_lastname(self, lastname):
+        if not lastname.data.isalpha():
+            raise ValidationError('Last name contains characters which are not letters. Please try a different last name.')
 
 class LoginForm(FlaskForm):
     email = StringField('Email', 

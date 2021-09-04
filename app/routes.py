@@ -73,9 +73,12 @@ def settings():
 def rankings():
     userList = list()
     users = User.query.all()
-        
+
     labels = []
     values = []
+
+    border_colors = []
+    background_colors = []
 
     if users:
         for user in users:
@@ -92,6 +95,14 @@ def rankings():
             if user['twok']:
                 # This adds the name and 2k (in seconds!) of the user to labels and vlaues to be used in the chart
                 labels.append(user["name"])
+                # If the user is in the userList database, set that color value to be purple
+                if user["name"] == (current_user.firstname + " " + current_user.lastname):
+                    border_colors.append('rgb(144, 15, 209)')
+                    background_colors.append('rgba(144, 15, 209, 0.25)')
+                else:
+                    border_colors.append('rgb(177, 23, 49)')
+                    background_colors.append('rgba(177, 23, 49, 0.25)')
+
                 values.append(user["twok"])
 
                 time = user['twok']
@@ -101,9 +112,11 @@ def rankings():
         userTwok["name"] = "No user data found"
         userTwok["twok"] = " "
         userList.append(userTwok)
+    
 
 
-    return render_template("rankings.html", users = userList, labels = labels, values = values)
+
+    return render_template("rankings.html", users = userList, labels = labels, values = values, border_colors = border_colors, background_colors = background_colors)
 
 @app.route('/2k', methods=['GET', 'POST'])
 @login_required

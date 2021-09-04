@@ -42,9 +42,9 @@
                                 label: "2K Time",
                                 data: {{ values | safe }},
                                 fill: false,
-                                borderColor: "rgba(177, 23, 49)",
                                 borderWidth: 3,
-                                backgroundColor: "rgba(177, 23, 49, 0.25)"
+                                borderColor: {{ border_colors | safe }},
+                                backgroundColor: {{ background_colors | safe }}
                             }
                         ]
                     },
