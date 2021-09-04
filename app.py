@@ -11,7 +11,7 @@ import os
 
 
 app = Flask(__name__)
-with open('secretkey.txt', 'r') as f:
+with open('static/secretkey.txt', 'r') as f:
     secretkey = f.readline()
     app.config['SECRET_KEY'] = secretkey
 bcrypt = Bcrypt()
