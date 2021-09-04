@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request
 from flask.helpers import url_for
 from app import app, db, bcrypt
-from app.forms import RegistrationForm, LoginForm
+from app.forms import RegistrationForm, LoginForm, TwokForm
 from app.models import User, Twok
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -73,9 +73,17 @@ def rankings():
             userTwok["twok"] = None
             userList.append()
 
-    return render_template("rankings.html", users=userList)
+    return render_template("rankings.html", users = userList)
 
 @app.route('/2k', methods=['GET', 'POST'])
 @login_required
 def upload_twok():
-    return render_template('2k.html')
+    form = TwokForm()
+    if form.validate_on_submit():
+        total_seconds = int(form.minutes.data)*60 + form.seconds.data
+        twok = Twok(seconds=total_seconds, date_completed=form.date.data, user_id = current_user.id)
+        db.session.add(twok)
+        db.session.commit()
+        flash(f'Logged 2K for {form.date.data}.', 'success')
+        return redirect(url_for('index'))
+    return render_template('2k.html', form=form)

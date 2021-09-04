@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 from sqlalchemy.orm import backref
 from app import db, login_manager
 from flask_login import UserMixin
@@ -24,9 +24,9 @@ class User(db.Model, UserMixin):
 class Twok(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     seconds = db.Column(db.Float, nullable=False)
-    date_uploaded = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date_completed = db.Column(db.Date, nullable=False, default=date.today)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
-        return f"2k(seconds: '{self.seconds}', date_uploaded: '{self.date_uploaded}', user_id: '{self.user_id}')"
+        return f"2k(seconds: '{self.seconds}', date_completed: '{self.date_completed}', user_id: '{self.user_id}')"
         
