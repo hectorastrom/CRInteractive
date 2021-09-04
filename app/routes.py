@@ -56,22 +56,26 @@ def rankings():
         for user in users:
             userTwok = dict()
             userTwok["name"] = user.firstname + " " + user.lastname
-            userTwok["twok"] = Twok.query.filter_by(user_id=user.id).first().seconds
+            userTwok["twok"] = Twok.query.filter_by(user_id=user.id).first()
             if not userTwok['twok']:
-                userTwok['twok'] = 0
-            userList.append(userTwok)
+                userTwok['twok'] = "No 2k data"
+                userList.append(userTwok)
+            else:
+                userTwok['twok'] = userTwok['twok'].seconds
+                userList.append(userTwok)
         userList.sort(key=lambda x:x["twok"])
         for user in userList:
-            time = int(user["twok"].seconds)
-            minutes = int(time / 60)
-            seconds = time % 60
-            seconds = f"{seconds:02}"
-            user["twok"].seconds = str(minutes) + ":" + seconds
-        else:
-            userTwok = dict()
-            userTwok["name"] = "No available data"
-            userTwok["twok"] = None
-            userList.append()
+            if type(userList[0]['twok']) is int:
+                time = int(user["twok"])
+                minutes = int(time / 60)
+                seconds = time % 60
+                seconds = f"{seconds:02}"
+                user["twok"] = str(minutes) + ":" + seconds
+    else:
+        userTwok = dict()
+        userTwok["name"] = "No user data found"
+        userTwok["twok"] = " "
+        userList.append(userTwok)
 
     return render_template("rankings.html", users = userList)
 

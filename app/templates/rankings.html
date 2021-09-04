@@ -19,9 +19,9 @@
         <tbody>
             {% for user in users %}
             <tr>
-                <td>{{ loop.index + 1 }}</td>
+                <td>{{ loop.index }}</td>
                 <td>{{ user["name"] }}</td>
-                <td>{{ user["twok".seconds]}}</td>
+                <td>{{ user["twok"]}}</td>
                 <td>{{ user["twok".date_uploaded] }}</td>
             </tr>
             {% endfor %}
