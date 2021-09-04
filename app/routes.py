@@ -44,7 +44,7 @@ def register():
         return redirect(url_for('index'))
     return render_template('register.html', form=form)
 
-@app.route('/rankings', methods=['GET', 'POST'])
+@app.route('/rankings', methods=['GET'])
 @login_required
 def rankings():
     userList = list()
@@ -54,10 +54,6 @@ def rankings():
         userTwok = dict()
         userTwok["name"] = user.firstname + " " + user.lastname
         userTwok["twok"] = Twok.query.filter_by(user_id=user.id).first()
-        
-    
+
     sorted(userList, key=lambda x:x["twok".seconds])
-
-
-
     return render_template("rankings.html", users=userList)
