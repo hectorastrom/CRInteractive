@@ -3,7 +3,7 @@ from flask.helpers import url_for
 from app import app, db, bcrypt
 from app.forms import RegistrationForm, LoginForm
 from app.models import User, Twok
-from flask_login import login_user
+from flask_login import login_user, current_user, logout_user
 
 @app.route("/")
 def index():
@@ -23,9 +23,16 @@ def login():
             flash(f'Incorrect credentials. Please check email and password.', 'error')
     return render_template('login.html', form=form)
 
+@app.route('/logout')
+def logout():
+    logout_user()
+    flash('Logged out user.', 'success')
+    return redirect(url_for('index'))
+
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
+    print(current_user.is_authenticated)
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
