@@ -34,7 +34,7 @@ class User(db.Model):
     password = db.Column(db.String(60), nullable=False)
     twoks = db.relationship('Twok', backref='rower', lazy=True)
 
-    def __repr__():
+    def __repr__(self):
         return f"User(Firstname: '{self.firstname}', Lastname: '{self.lastname}', Email: '{self.email}', Team: '{self.team}', Imagefile: '{self.imagefile}')"
 
 class Twok(db.Model):
@@ -43,7 +43,7 @@ class Twok(db.Model):
     date_uploaded = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-    def __repr__():
+    def __repr__(self):
         return f"2k(seconds: '{self.seconds}', date_uploaded: '{self.date_uploaded}', user_id: '{self.user_id}')"
         
 
