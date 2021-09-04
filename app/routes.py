@@ -45,6 +45,7 @@ def register():
     return render_template('register.html', form=form)
 
 @app.route('/rankings', methods=['GET', 'POST'])
+@login_required
 def rankings():
     userList = list()
 
