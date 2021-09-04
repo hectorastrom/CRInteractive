@@ -17,11 +17,11 @@
             </tr>
         </thead>
         <tbody>
-            {% for row in rows %}
+            {% for key,value in users.items() %}
             <tr>
-                <td>{{ row.rank }}</td>
-                <td>{{ row.message }}</td>
-                <td>{{ row.url }}</td>
+                <td>{{ .rank }}</td>
+                <td>{{ key }}</td>
+                <td>{{ row.va }}</td>
                 <td>{{ row.date_uploaded }}</td>
             </tr>
             {% endfor %}

@@ -46,5 +46,15 @@ def register():
 
 @app.route('/rankings', methods=['GET', 'POST'])
 def rankings():
+    userList = list()
 
-    return render_template("rankings.html")
+    users = User.query.all()
+    for user in users:
+        userTwok = dict()
+        userTwok[user.firstname + " " + user.lastname] = Twok.query.filter_by(user_id=user.id).first()
+    
+    # sorted(userList, key=lambda )
+
+
+
+    return render_template("rankings.html", users=userTwok)
