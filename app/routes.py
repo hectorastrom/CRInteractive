@@ -25,7 +25,7 @@ def register():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
 
         # Checks if email already registered
-        users_with_same_email = User.query.filter_by(email=form.email.data).all()
+        users_with_same_email = User.query.filter_by(email=form.email.data).first()
         if len(users_with_same_email) > 0:
             flash(f'User with the same email already exists', 'error')
             return redirect(url_for('register'))
