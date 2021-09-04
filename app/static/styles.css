@@ -54,6 +54,15 @@ rgb(42, 43, 44) */
 
 }
 
+.form-control-md
+{
+    border-radius: 10px;
+    border-color: grey;
+    width: 100px;
+    height: 125%;
+    text-align: center;
+}
+
 
 .navbar-toggler,
 .navbar-toggler:focus,
