@@ -1,5 +1,6 @@
 from flask.app import Flask
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from werkzeug.utils import validate_arguments
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, FloatField, SelectField
 from wtforms.fields.core import SelectField
@@ -7,8 +8,7 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from app.models import User
 from datetime import date
 from wtforms.fields.html5 import DateField
-from app import db, login_manager
-from flask_login import current_user, LoginManager, login_manager
+from flask_login import current_user
 
 import email_validator
 
