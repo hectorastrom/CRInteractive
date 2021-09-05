@@ -16,6 +16,10 @@ class User(db.Model, UserMixin):
     side = db.Column(db.String(10), nullable=False, default='none')
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
+    coach_key = db.Column(db.String(6), nullable=False, default="000000")
+    # Height is in inches
+    height = db.Column(db.Integer())
+    weight = db.Column(db.Integer())
     twoks = db.relationship('Twok', backref='rower', lazy=True)
 
     def __repr__(self):

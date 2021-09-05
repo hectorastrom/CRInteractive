@@ -49,7 +49,16 @@
                         ]
                     },
                     options: {
-                        responsive: false
+                        responsive: false,
+                        scales: {
+                            yAxes: [ {
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    text: 'Time'
+                                }
+                            } ]
+                        }
                     }
                 });
             </script>

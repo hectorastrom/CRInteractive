@@ -68,6 +68,12 @@ def settings():
     else:
         return render_template("settings.html", teams = teams)
 
+@app.route('/profile')
+@login_required
+def profile():
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    return render_template('profile.html', image_file = image_file)
+
 @app.route('/rankings', methods=['GET'])
 @login_required
 def rankings():
@@ -85,6 +91,7 @@ def rankings():
             userTwok = dict()
             userTwok["name"] = user.firstname + " " + user.lastname
             userTwok["twok"] = Twok.query.filter_by(user_id=user.id).order_by("seconds").first()
+            userTwok["email"] = user.email
             if userTwok['twok']:
                 userTwok['date'] = userTwok['twok'].date_completed
                 userTwok['twok'] = userTwok['twok'].seconds
@@ -96,7 +103,7 @@ def rankings():
                 # This adds the name and 2k (in seconds!) of the user to labels and vlaues to be used in the chart
                 labels.append(user["name"])
                 # If the user is in the userList database, set that color value to be purple
-                if user["name"] == (current_user.firstname + " " + current_user.lastname):
+                if user["email"] == current_user.email:
                     border_colors.append('rgb(144, 15, 209)')
                     background_colors.append('rgba(144, 15, 209, 0.25)')
                 else:
@@ -112,7 +119,6 @@ def rankings():
         userTwok["name"] = "No user data found"
         userTwok["twok"] = " "
         userList.append(userTwok)
-    
 
 
 
