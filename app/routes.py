@@ -54,12 +54,15 @@ def register():
 @app.route('/settings', methods=["GET", "POST"])
 @login_required
 def settings():
+    possible_feet = [4,5,6,7]
+    possible_inches = [0,1,2,3,4,5,6,7,8,9,10,11]
     if request.method == "POST":
         if current_user.coach_key == "000000":
             side = request.form.get("side")
             team = request.form.get("team")
             weight = request.form.get('weight')
-            height = request.form.get('height')
+            feet = request.form.get('feet')
+            inches = request.form.get('inches')
             if not side:
                 flash('Side not selected.', 'error')
                 return redirect(url_for('settings'))
@@ -68,8 +71,9 @@ def settings():
                 return redirect(url_for('settings'))
             if weight:
                 current_user.weight = request.form.get('weight')
-            if height:
-                current_user.height = request.form.get('height')
+            if feet and inches:
+                current_user.height = int(request.form.get('feet')) * 12 + int(request.form.get('inches'))
+            
 
             current_user.side = request.form.get("side")
             current_user.team = request.form.get("team")
@@ -84,7 +88,7 @@ def settings():
         db.session.commit()
         return redirect(url_for('index'))
     else:
-        return render_template("settings.html", teams=teams)
+        return render_template("settings.html", teams=teams, possible_feet=possible_feet, possible_inches=possible_inches)
 
 @app.route('/profile/<id>')
 @login_required
