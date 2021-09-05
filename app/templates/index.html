@@ -4,25 +4,33 @@
 
 
 {% block main %}
+
 {% if current_user.is_authenticated %}
 
-{% if current_user.coach_key == "000000" %}
+    {% if current_user.coach_key != "000000" %}
 
-<h1>You're logged in, {{ current_user.firstname }}.</h1>
+        <h1>You're logged in, Coach {{ current_user.lastname }}.</h1>
 
-{%else%}
+        {% if current_user.team == "none" %}
+            <h3>You haven't yet specified your <strong>team</strong>. Head to <a href="{{ url_for('settings') }}">Settings</a> to do so.</h3>
+        {% else %}
+            <h3>You are currently coaching <strong>{{ current_user.team }}</strong>. </h3>
+        {% endif %}
 
-<h1>You're logged in, Coach {{ current_user.lastname }}.</h1>
+    {% else %}
 
-{%endif%}
+        <h1>You're logged in, {{ current_user.firstname }}.</h1>
 
-{% if current_user.team == "none" or current_user.side == "none" %}
-    <h3>I notice you haven't specified your <strong>side</strong> and <strong>team</strong>. Head to <a href="{{ url_for('settings') }}">Settings</a> to do so.</h3>
-{% endif %}
-<!-- If side or team is none, prompt setup in homepage -->
+        {% if current_user.team == "none" or current_user.side == "none" %}
+            <h3>I notice you haven't specified your <strong>side</strong> and <strong>team</strong>. Head to <a href="{{ url_for('settings') }}">Settings</a> to do so.</h3>
+        {% endif %}
+
+    {% endif %}
+
+    <!-- If side or team is none, prompt setup in homepage -->
 {% else %}
-    <h1>Welcome to CRInteractive!</h1>
-    <h2>You may register <a href="{{ url_for('register') }}">here</a> or log in <a href="{{ url_for('login') }}">here.</a></h2>
+        <h1>Welcome to CRInteractive!</h1>
+        <h2>You may register <a href="{{ url_for('register') }}">here</a> or log in <a href="{{ url_for('login') }}">here.</a></h2>
 {% endif %}
 
 {% endblock main %}

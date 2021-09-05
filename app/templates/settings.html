@@ -28,11 +28,11 @@
                 <div class="form-group short">
                     <select class="form-select form-control form-control-lg" aria-label="Team Selector" name="team">  
                         <!-- Teams is a list of team names gotten from the database -->
-                        {% for team in teams %}
-                        {% if current_user.team == None %}
+                        {% if current_user.team == "none" %}
                             <option disabled selected>Choose Team</option>
-                        {% elif current_user.team == team %}
-
+                        {% endif %}
+                        {% for team in teams %}
+                        {% if current_user.team == team %}
                             <option selected value='{{ team }}'>{{ team }}</option>
                         {% else %}
                             <option value='{{ team }}'>{{ team }}</option>
@@ -41,16 +41,16 @@
                     </select>
                 </div>
                 <div class="form-group short">
-                    {% if current_user.weight == None %}
-                    <input type="text" class="form-control" name="weight" placeholder="Enter weight">
+                    {% if not current_user.weight %}
+                    <input type="text" class="form-control" name="weight" placeholder="Enter weight (optional)">
                     {%else%}
                     <input type="text" class="form-control" name="weight"  placeholder="{{ current_user.weight }}">
                     {%endif%}
                     <small class="form-text text-muted ml-2">Pounds</small>
                 </div>
                 <div class="form-group short">
-                    {% if current_user.weight == None %}
-                    <input type="text" class="form-control" name="height" placeholder="Enter height">
+                    {% if not current_user.weight %}
+                    <input type="text" class="form-control" name="height" placeholder="Enter height (optional)">
                     {%else%}
                     <input type="text" class="form-control" name="height" placeholder="{{ current_user.height }}">
                     {%endif%}
@@ -60,11 +60,11 @@
                 <div class="form-group short">
                     <select class="form-select form-control form-control-lg" aria-label="Team Selector" name="team">
                         <!-- Teams is a list of team names gotten from the database -->
-                        {% for team in teams %}
-                        {% if current_user.team == None %}
+                        {% if current_user.team == "none" %}
                             <option disabled selected>Choose Team</option>
-                        {% elif current_user.team == team %}
-
+                        {% endif %}
+                        {% for team in teams %}
+                        {% if current_user.team == team %}
                             <option selected value='{{ team }}'>{{ team }}</option>
                         {% else %}
                             <option value='{{ team }}'>{{ team }}</option>

@@ -13,6 +13,9 @@ with open('app/static/secretkey.txt', 'r') as f:
 # Coach keys
 valid_keys = ["ABC123"]
 
+# Teams
+teams = ["Varsity Mens", "Mens U17"]
+
 # To hash do bycrypt.generate_password_hash(password).decode('utf-8')
 # To check password do bycrypt.check_password_hash(hashed_password, password)
 

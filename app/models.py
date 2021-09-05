@@ -20,6 +20,7 @@ class User(db.Model, UserMixin):
     # Height is in inches
     height = db.Column(db.Integer())
     weight = db.Column(db.Integer())
+    grade = db.Column(db.Integer())
     twoks = db.relationship('Twok', backref='rower', lazy=True)
 
     def __repr__(self):

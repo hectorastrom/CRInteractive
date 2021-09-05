@@ -80,7 +80,7 @@ class CoachRegistrationForm(FlaskForm):
                             validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', 
                                     validators=[DataRequired(), EqualTo('password')])
-    coach_key = StringField('Coach Key', validators=[DataRequired(), Length(6)])
+    coach_key = StringField('Coach Key', validators=[DataRequired(), Length(min=6, max=6)])
     submit = SubmitField('Register')
 
     def validate_email(self, email):

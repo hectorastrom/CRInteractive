@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block main%}
+    <!-- If they're a coach -->
     {% if current_user.coach_key != "000000" %}
         <h2>Roster</h2> 
         <table class="table table-striped">
@@ -15,17 +16,21 @@
                 </tr>
             </thead>
             <tbody>
-                {% for user in users %}
+                {% for athlete in athletes %}
                 <tr>
-                    <td><a href="{{ url_for('profile', id=user.id) }}">{{ user.firstname + " " + user.lastname }}</a></td>
-                    <td>{{ user.grade }}</td>
+                    <td><a href="{{ url_for('profile', id=athlete.id) }}">{{ athlete.firstname + " " + athlete.lastname }}</a></td>
+                    {% if athlete.grade %}
+                        <td>{{ athlete.grade }}</td>
+                    {% else %}
+                        <td>No information</td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
 
         </table>
     {%else%}
-        <h1>Access Denied</h1>
+        <h1 style="color:red;">Access Denied</h1>
     {%endif%}
     
 {% endblock%}

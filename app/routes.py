@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from flask.helpers import url_for
-from app import app, db, bcrypt
+from app import app, db, bcrypt, teams
 from app.forms import RegistrationForm, LoginForm, TwokForm, CoachRegistrationForm
 from app.models import User, Twok
 from flask_login import login_user, current_user, logout_user, login_required
@@ -54,7 +54,6 @@ def register():
 @app.route('/settings', methods=["GET", "POST"])
 @login_required
 def settings():
-    teams = ["Varsity Mens", "Mens U17"]
     if request.method == "POST":
         if current_user.coach_key == "000000":
             side = request.form.get("side")
@@ -67,17 +66,14 @@ def settings():
             if not team:
                 flash('Team not selected.', 'error')
                 return redirect(url_for('settings'))
-            if not weight:
-                flash('Weight not specified', 'error')
-                return redirect(url_for('settings'))
-            if not height:
-                flash('Height not specified', 'error')
-                return redirect(url_for('settings'))
+            if weight:
+                current_user.weight = request.form.get('weight')
+            if height:
+                current_user.height = request.form.get('height')
 
             current_user.side = request.form.get("side")
             current_user.team = request.form.get("team")
-            current_user.weight = request.form.get('weight')
-            current_user.height = request.form.get('height')
+        
         else:
             team = request.form.get("team")
             if not team:
@@ -178,12 +174,9 @@ def coach_register():
 @login_required
 def roster():
     if current_user.coach_key != "000000":
-        userList = list()
-        users = User.query.all()
-        for user in users:
-            if user.team == current_user.team and user.coach_key == "000000":
-                userList.append(user)
-        userList.sort(key=lambda x:(x.lastname, x.firstname))
-        print(userList)
-        return render_template('roster.html', users=userList)
-    return redirect(url_for('index'))
+        athletes = User.query.filter(User.team==current_user.team, User.coach_key == "000000").order_by(User.lastname).all()
+        print(athletes)
+        return render_template('roster.html', athletes=athletes)
+    else:
+        flash("You do not have permissions to access that page.", "error")
+        return redirect(url_for('index'))
