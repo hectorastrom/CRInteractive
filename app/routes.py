@@ -54,10 +54,12 @@ def register():
 @app.route('/settings', methods=["GET", "POST"])
 @login_required
 def settings():
+    grades = [9, 10, 11, 12]
     if request.method == "POST":
         if current_user.coach_key == "000000":
             side = request.form.get("side")
             team = request.form.get("team")
+            grade = int(request.form.get("grade"))
             weight = request.form.get('weight')
             height = request.form.get('height')
             if not side:
@@ -66,13 +68,17 @@ def settings():
             if not team:
                 flash('Team not selected.', 'error')
                 return redirect(url_for('settings'))
+            if not grade:
+                flash('Grade not selected.', 'error')
+                return redirect(url_for('settings'))
             if weight:
                 current_user.weight = request.form.get('weight')
             if height:
                 current_user.height = request.form.get('height')
 
-            current_user.side = request.form.get("side")
-            current_user.team = request.form.get("team")
+            current_user.side = side
+            current_user.team = team
+            current_user.grade = grade
         
         else:
             team = request.form.get("team")
@@ -84,7 +90,7 @@ def settings():
         db.session.commit()
         return redirect(url_for('index'))
     else:
-        return render_template("settings.html", teams=teams)
+        return render_template("settings.html", teams=teams, grades=grades)
 
 @app.route('/profile/<id>')
 @login_required
@@ -97,7 +103,7 @@ def profile(id):
 @login_required
 def rankings():
     userList = list()
-    users = User.query.all()
+    users = User.query.filter_by(team = current_user.team).all()
 
     labels = []
     values = []
@@ -175,7 +181,6 @@ def coach_register():
 def roster():
     if current_user.coach_key != "000000":
         athletes = User.query.filter(User.team==current_user.team, User.coach_key == "000000").order_by(User.lastname).all()
-        print(athletes)
         return render_template('roster.html', athletes=athletes)
     else:
         flash("You do not have permissions to access that page.", "error")
