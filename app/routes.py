@@ -57,15 +57,26 @@ def settings():
     if request.method == "POST":
         side = request.form.get("side")
         team = request.form.get("team")
+        weight = request.form.get('weight')
+        height = request.form.get('height')
         if not side:
             flash('Side not selected.', 'error')
             return redirect(url_for('settings'))
         if not team:
             flash('Team not selected.', 'error')
             return redirect(url_for('settings'))
+        if not weight and not current_user.weight:
+            flash('Weight not specified', 'error')
+            return redirect(url_for('settings'))
+        if not height and not current_user.height:
+            flash('Height not specified', 'error')
+            return redirect(url_for('settings'))
 
         current_user.side = request.form.get("side")
         current_user.team = request.form.get("team")
+        current_user.weight = request.form.get('weight')
+        current_user.height = request.form.get('height')
+        
         db.session.commit()
         return redirect(url_for('index'))
     else:
