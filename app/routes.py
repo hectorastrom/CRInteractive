@@ -56,15 +56,20 @@ def register():
 def settings():
     possible_feet = [4,5,6,7]
     possible_inches = [0,1,2,3,4,5,6,7,8,9,10,11]
+    user_inches = -1
+    user_feet = -1
+    if current_user.height:
+        user_feet = int(current_user.height / 12)
+        user_inches = int(current_user.height % 12)
     grades = [9, 10, 11, 12]
     if request.method == "POST":
         if current_user.coach_key == "000000":
             side = request.form.get("side")
             team = request.form.get("team")
             grade = int(request.form.get("grade"))
-            weight = request.form.get('weight')
-            feet = request.form.get('feet')
-            inches = request.form.get('inches')
+            weight = request.form.get("weight")
+            feet = int(request.form.get("feet"))
+            inches = int(request.form.get("inch"))
             if not side:
                 flash('Side not selected.', 'error')
                 return redirect(url_for('settings'))
@@ -75,10 +80,9 @@ def settings():
                 flash('Grade not selected.', 'error')
                 return redirect(url_for('settings'))
             if weight:
-                current_user.weight = request.form.get('weight')
-            if feet and inches:
-                current_user.height = int(request.form.get('feet')) * 12 + int(request.form.get('inches'))
-            
+                current_user.weight = weight
+            if feet and inches in possible_inches:
+                current_user.height = feet * 12 + inches
 
             current_user.side = side
             current_user.team = team
@@ -94,7 +98,7 @@ def settings():
         db.session.commit()
         return redirect(url_for('index'))
     else:
-        return render_template("settings.html", teams=teams, possible_feet=possible_feet, possible_inches=possible_inches, grades=grades)
+        return render_template("settings.html", teams=teams, possible_feet=possible_feet, possible_inches=possible_inches, grades=grades, user_feet = user_feet, user_inches = user_inches)
 
 @app.route('/profile/<id>')
 @login_required
