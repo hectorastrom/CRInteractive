@@ -89,9 +89,9 @@
                         {% endif %}
                         {% for foot in possible_feet %}
                         {% if user_feet == foot %}
-                            <option selected value='{{ foot }}'>{{ foot }}</option>
+                            <option selected value='{{ foot }}'>{{ foot }}'</option>
                         {% else %}
-                            <option value='{{ foot }}'>{{ foot }}</option>
+                            <option value='{{ foot }}'>{{ foot }}'</option>
                         {% endif %}
                         {% endfor %}
                     </select>
@@ -105,9 +105,9 @@
                         {% endif %}
                         {% for inch in possible_inches %}
                         {% if user_inches == inch %}
-                            <option selected value='{{ inch }}'>{{ inch }}</option>
+                            <option selected value='{{ inch }}'>{{ inch }}"</option>
                         {% else %}
-                            <option value='{{ inch }}'>{{ inch }}</option>
+                            <option value='{{ inch }}'>{{ inch }}"</option>
                         {% endif %}
                         {% endfor %}
                     </select>

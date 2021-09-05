@@ -54,7 +54,7 @@ def register():
 @app.route('/settings', methods=["GET", "POST"])
 @login_required
 def settings():
-    possible_feet = [4,5,6,7]
+    possible_feet = [1,2,3,4,5,6,7]
     possible_inches = [0,1,2,3,4,5,6,7,8,9,10,11]
     user_inches = -1
     user_feet = -1
