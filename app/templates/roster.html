@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title%}
+    Rankings
+{% endblock %}
+
+{% block main%}
+    {% if current_user.coach_key != "000000" %}
+        <h2>Roster</h2> 
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td><a href="{{ url_for('profile', id=user.id) }}">{{ user.firstname + " " + user.lastname }}</a></td>
+                    <td>{{ user.grade }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    {%else%}
+        <h1>Access Denied</h1>
+    {%endif%}
+    
+{% endblock%}

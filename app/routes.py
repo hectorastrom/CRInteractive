@@ -56,32 +56,39 @@ def register():
 def settings():
     teams = ["Varsity Mens", "Mens U17"]
     if request.method == "POST":
-        side = request.form.get("side")
-        team = request.form.get("team")
-        weight = request.form.get('weight')
-        height = request.form.get('height')
-        if not side:
-            flash('Side not selected.', 'error')
-            return redirect(url_for('settings'))
-        if not team:
-            flash('Team not selected.', 'error')
-            return redirect(url_for('settings'))
-        if not weight and not current_user.weight:
-            flash('Weight not specified', 'error')
-            return redirect(url_for('settings'))
-        if not height and not current_user.height:
-            flash('Height not specified', 'error')
-            return redirect(url_for('settings'))
+        if current_user.coach_key == "000000":
+            side = request.form.get("side")
+            team = request.form.get("team")
+            weight = request.form.get('weight')
+            height = request.form.get('height')
+            if not side:
+                flash('Side not selected.', 'error')
+                return redirect(url_for('settings'))
+            if not team:
+                flash('Team not selected.', 'error')
+                return redirect(url_for('settings'))
+            if not weight and not current_user.weight:
+                flash('Weight not specified', 'error')
+                return redirect(url_for('settings'))
+            if not height and not current_user.height:
+                flash('Height not specified', 'error')
+                return redirect(url_for('settings'))
 
-        current_user.side = request.form.get("side")
-        current_user.team = request.form.get("team")
-        current_user.weight = request.form.get('weight')
-        current_user.height = request.form.get('height')
-        
+            current_user.side = request.form.get("side")
+            current_user.team = request.form.get("team")
+            current_user.weight = request.form.get('weight')
+            current_user.height = request.form.get('height')
+        else:
+            team = request.form.get("team")
+            if not team:
+                flash('Team not selected.', 'error')
+                return redirect(url_for('settings'))
+            current_user.team = request.form.get("team")
+
         db.session.commit()
         return redirect(url_for('index'))
     else:
-        return render_template("settings.html", teams = teams)
+        return render_template("settings.html", teams=teams)
 
 @app.route('/profile/<id>')
 @login_required
@@ -167,3 +174,16 @@ def coach_register():
         return redirect(url_for('index'))
     return render_template('registercoach.html', form=form)
 
+@app.route('/roster')
+@login_required
+def roster():
+    if current_user.coach_key != "000000":
+        userList = list()
+        users = User.query.all()
+        for user in users:
+            if user.team == current_user.team and user.coach_key == "000000":
+                userList.append(user)
+        userList.sort(key=lambda x:(x.lastname, x.firstname))
+        print(userList)
+        return render_template('roster.html', users=userList)
+    return redirect(url_for('index'))
