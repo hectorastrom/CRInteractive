@@ -8,7 +8,10 @@ from time import strftime, gmtime
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    if current_user.coach_key != "000000":
+        pass
+    else:
+        return render_template('index.html')
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
