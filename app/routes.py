@@ -66,10 +66,10 @@ def settings():
         if current_user.coach_key == "000000":
             side = request.form.get("side")
             team = request.form.get("team")
-            grade = int(request.form.get("grade"))
+            grade = request.form.get("grade")
             weight = request.form.get("weight")
-            feet = int(request.form.get("feet"))
-            inches = int(request.form.get("inch"))
+            feet = request.form.get("feet")
+            inches = request.form.get("inch")
             if not side:
                 flash('Side not selected.', 'error')
                 return redirect(url_for('settings'))
@@ -81,12 +81,13 @@ def settings():
                 return redirect(url_for('settings'))
             if weight:
                 current_user.weight = weight
-            if feet and inches in possible_inches:
-                current_user.height = feet * 12 + inches
+            if feet and inches:
+                if int(feet) and int(inches) in possible_inches:
+                    current_user.height = int(feet) * 12 + int(inches)
 
             current_user.side = side
             current_user.team = team
-            current_user.grade = grade
+            current_user.grade = int(grade)
         
         else:
             team = request.form.get("team")

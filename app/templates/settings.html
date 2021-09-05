@@ -75,9 +75,9 @@
                 <small class="form-text text-muted ml-2">Pounds</small>
                 <div class="form-group short">
                     {% if not current_user.weight %}
-                    <input type="text" class="form-control" name="weight" placeholder="Enter weight (optional)">
+                    <input type="text" class="form-control form-control-lg" name="weight" placeholder="Enter weight (optional)">
                     {%else%}
-                    <input type="text" class="form-control" name="weight"  value="{{ current_user.weight }}">
+                    <input type="text" class="form-control form-control-lg" name="weight"  value="{{ current_user.weight }}">
                     {%endif%}
                 </div>
                 <small class="form-text text-muted ml-2">Feet</small>
