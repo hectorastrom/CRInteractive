@@ -4,7 +4,26 @@ from app import app, db, bcrypt, teams
 from app.forms import RegistrationForm, LoginForm, TwokForm, CoachRegistrationForm
 from app.models import User, Twok
 from flask_login import login_user, current_user, logout_user, login_required
+from datetime import date
 from time import strftime, gmtime
+import secrets
+
+# def create_users(amount):
+#     for i in range(amount):
+#         name = "test"+secrets.token_hex(4)
+#         email = name + "@test.com"
+#         password = name
+#         team = teams[0]
+#         new_user = User(firstname=name, lastname=name, email=email, password=password, team=team, side="Port")
+#         db.session.add(new_user)
+#         db.session.commit()
+#         new_2k = Twok(seconds=360+secrets.randbelow(90), date_completed=date.today(), user_id=new_user.id)
+#         db.session.add(new_2k)
+#         db.session.commit()
+# # REAALLLLY DANGEROUS THIS CREATES 10 NEW USERS EVERYTIME THE PROGRAM IS RUN WHICH IS DANGEROUS BAD BAD NEWS
+# db.drop_all()
+# db.create_all()
+# create_users(30)
 
 @app.route("/")
 def index():
