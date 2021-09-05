@@ -67,10 +67,10 @@ def settings():
             if not team:
                 flash('Team not selected.', 'error')
                 return redirect(url_for('settings'))
-            if not weight and not current_user.weight:
+            if not weight:
                 flash('Weight not specified', 'error')
                 return redirect(url_for('settings'))
-            if not height and not current_user.height:
+            if not height:
                 flash('Height not specified', 'error')
                 return redirect(url_for('settings'))
 

@@ -26,12 +26,14 @@
                     </select>
                 </div>
                 <div class="form-group short">
-                    <select class="form-select form-control form-control-lg" aria-label="Team Selector" name="team">
-                        <option disabled selected>Choose Team</option>
+                    <select class="form-select form-control form-control-lg" aria-label="Team Selector" name="team">  
                         <!-- Teams is a list of team names gotten from the database -->
                         {% for team in teams %}
-                        {% if current_user.team == team %}
-                            <option value='{{ team }}'>{{ team }}</option>
+                        {% if current_user.team == None %}
+                            <option disabled selected>Choose Team</option>
+                        {% elif current_user.team == team %}
+
+                            <option selected value='{{ team }}'>{{ team }}</option>
                         {% else %}
                             <option value='{{ team }}'>{{ team }}</option>
                         {% endif %}
@@ -57,11 +59,13 @@
             {%else%}
                 <div class="form-group short">
                     <select class="form-select form-control form-control-lg" aria-label="Team Selector" name="team">
-                        <option disabled selected>Choose Team</option>
                         <!-- Teams is a list of team names gotten from the database -->
                         {% for team in teams %}
-                        {% if current_user.team == team %}
-                            <option value='{{ team }}'>{{ team }}</option>
+                        {% if current_user.team == None %}
+                            <option disabled selected>Choose Team</option>
+                        {% elif current_user.team == team %}
+
+                            <option selected value='{{ team }}'>{{ team }}</option>
                         {% else %}
                             <option value='{{ team }}'>{{ team }}</option>
                         {% endif %}
