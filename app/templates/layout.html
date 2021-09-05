@@ -39,22 +39,35 @@
             </button>
             <div class="collapse navbar-collapse" id="navbar">
                     {% if current_user.is_authenticated %}
-                        <ul class="navbar-nav mr-auto mt-1">
-                            <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Log
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdown">
-                                <a class="dropdown-item" href="{{ url_for('upload_twok') }}">Upload 2k</a>
-                                <a class="dropdown-item" href="#">Upload 5k</a>
-                            </li>
-                            <li class="nav-item"><a class="nav-link" href="{{ url_for('rankings') }}">Rankings</a></li>
-                        </ul>
-                        <ul class="navbar-nav ml-auto mt-1">
-                            <li class="nav-item"><a class="nav-link" href="{{ url_for('settings') }}">Settings</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
-                        </ul>
+                        {% if current_user.coach_key == "000000" %}
+                            <ul class="navbar-nav mr-auto mt-1">
+                                <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Log
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdown">
+                                    <a class="dropdown-item" href="{{ url_for('upload_twok') }}">Upload 2k</a>
+                                    <a class="dropdown-item" href="#">Upload 5k</a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="{{ url_for('rankings') }}">Rankings</a></li>
+                            </ul>
+                            <ul class="navbar-nav ml-auto mt-1">
+                                <li class="nav-item"><a class="nav-link" href="{{ url_for('settings') }}">Settings</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+                            </ul>
+                        {%else%}
+                            <ul class="navbar-nav mr-auto mt-1">
+                                <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ url_for('rankings') }}">Rankings</a></li>
+                            </ul> 
+
+                            <ul class="navbar-nav ml-auto mt-1">
+                                <li class="nav-item"><a class="nav-link" href="{{ url_for('settings') }}">Settings</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+                            </ul>
+                        {%endif%}
+                            
                     {% else %}
                         <ul class="navbar-nav mr-auto mt-1">
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>

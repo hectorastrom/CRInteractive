@@ -5,7 +5,16 @@
 
 {% block main %}
 {% if current_user.is_authenticated %}
+
+{% if current_user.coach_key == "000000" %}
+
 <h1>You're logged in, {{ current_user.firstname }}.</h1>
+
+{%else%}
+
+<h1>You're logged in, Coach {{ current_user.lastname }}.</h1>
+
+{%endif%}
 
 {% if current_user.team == "none" or current_user.side == "none" %}
     <h3>I notice you haven't specified your <strong>side</strong> and <strong>team</strong>. Head to <a href="{{ url_for('settings') }}">Settings</a> to do so.</h3>

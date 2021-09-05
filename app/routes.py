@@ -1,17 +1,18 @@
 from flask import render_template, url_for, flash, redirect, request
 from flask.helpers import url_for
 from app import app, db, bcrypt
-from app.forms import RegistrationForm, LoginForm, TwokForm
+from app.forms import RegistrationForm, LoginForm, TwokForm, CoachRegistrationForm
 from app.models import User, Twok
 from flask_login import login_user, current_user, logout_user, login_required
 from time import strftime, gmtime
 
 @app.route("/")
 def index():
-    if current_user.coach_key != "000000":
-        pass
-    else:
-        return render_template('index.html')
+    # if current_user.coach_key != "000000":
+    #     pass
+    # else:
+    #     return render_template('index.html')
+    return render_template('index.html')
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
@@ -151,4 +152,18 @@ def upload_twok():
         flash(f'Logged 2K for {form.date.data}.', 'success')
         return redirect(url_for('index'))
     return render_template('2k.html', form=form)
+
+@app.route('/register/coach', methods=['GET', 'POST'])
+def coach_register():
+    form = CoachRegistrationForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        # Adds user to database
+        user = User(firstname=form.firstname.data.strip(), lastname=form.lastname.data.strip(), email=form.email.data.strip(), password=hashed_password, coach_key=form.coach_key.data)
+        db.session.add(user)
+        db.session.commit()
+        login_user(user, remember=True)
+        flash(f'Your account has been created!', 'success')
+        return redirect(url_for('index'))
+    return render_template('registercoach.html', form=form)
 

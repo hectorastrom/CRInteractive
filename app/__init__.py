@@ -9,6 +9,10 @@ app = Flask(__name__)
 with open('app/static/secretkey.txt', 'r') as f:
     secretkey = f.readline()
     app.config['SECRET_KEY'] = secretkey
+
+# Coach keys
+valid_keys = ["ABC123"]
+
 # To hash do bycrypt.generate_password_hash(password).decode('utf-8')
 # To check password do bycrypt.check_password_hash(hashed_password, password)
 
