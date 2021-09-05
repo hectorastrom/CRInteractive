@@ -20,7 +20,7 @@
             {% for user in users %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td>{{ user["name"] }}</td>
+                <td><a href="{{ url_for('profile', id=user['id']) }}">{{ user["name"] }}</a></td>
                 <td>{{ user["twok"]}}</td>
                 <td>{{ user["date"] }}</td>
             </tr>

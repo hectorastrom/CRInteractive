@@ -5,7 +5,18 @@
 {% block main %}
     <div class="content-section">
         <div class="media">
-            <img src="{{ image_file }}" alt="Profile Image" class="rounded-circle account-img">
+            <div class="row">
+                <div class="col-8">
+                    <img src="{{ image_file }}" alt="Profile Image" class="rounded-circle account-img">
+                </div>
+                <div class="col-4">
+                    <div class="media-body">
+                        <h2 class="account-heading">{{ user.firstname }} {{ user.lastname }}</h2>
+                        <p class="text-secondary">{{ user.email }}</p>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
 {% endblock main %}

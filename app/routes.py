@@ -60,19 +60,20 @@ def settings():
         if not team:
             flash('Team not selected.', 'error')
             return redirect(url_for('settings'))
-        user = User.query.get(current_user.id)
-        user.side = request.form.get("side")
-        user.team = request.form.get("team")
+
+        current_user.side = request.form.get("side")
+        current_user.team = request.form.get("team")
         db.session.commit()
         return redirect(url_for('index'))
     else:
         return render_template("settings.html", teams = teams)
 
-@app.route('/profile')
+@app.route('/profile/<id>')
 @login_required
-def profile():
-    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
-    return render_template('profile.html', image_file = image_file)
+def profile(id):
+    user = User.query.get(int(id))
+    image_file = url_for('static', filename='profile_pics/' + user.image_file)
+    return render_template('profile.html', image_file = image_file, user = user)
 
 @app.route('/rankings', methods=['GET'])
 @login_required
@@ -91,7 +92,7 @@ def rankings():
             userTwok = dict()
             userTwok["name"] = user.firstname + " " + user.lastname
             userTwok["twok"] = Twok.query.filter_by(user_id=user.id).order_by("seconds").first()
-            userTwok["email"] = user.email
+            userTwok["id"] = user.id
             if userTwok['twok']:
                 userTwok['date'] = userTwok['twok'].date_completed
                 userTwok['twok'] = userTwok['twok'].seconds
@@ -103,7 +104,7 @@ def rankings():
                 # This adds the name and 2k (in seconds!) of the user to labels and vlaues to be used in the chart
                 labels.append(user["name"])
                 # If the user is in the userList database, set that color value to be purple
-                if user["email"] == current_user.email:
+                if user["id"] == current_user.id:
                     border_colors.append('rgb(144, 15, 209)')
                     background_colors.append('rgba(144, 15, 209, 0.25)')
                 else:

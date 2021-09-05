@@ -85,3 +85,9 @@ body
     background-color: rgb(235, 234, 234);
 }
 
+
+.account-img
+{
+    width: 150px;
+    height: 150px;
+}
