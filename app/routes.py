@@ -14,7 +14,7 @@ def create_users(amount):
         email = name + "@test.com"
         password = name
         team = teams[0]
-        new_user = User(firstname=name, lastname=name, email=email, password=password, team=team, side="Port")
+        new_user = User(firstname=name, lastname=name, email=email, password=bcrypt.generate_password_hash(password).decode('utf-8'), team=team, side="Port")
         db.session.add(new_user)
         db.session.commit()
         new_2k = Twok(seconds=randint(360, 480), date_completed=date.today(), user_id=new_user.id)
