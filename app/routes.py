@@ -137,7 +137,10 @@ def profile(id):
         if not technique:
             technique = Technique(user_id=id)
         twok = Twok.query.filter_by(user_id=id).order_by("seconds").first()
-        twok = convert_2k(twok.seconds, "time")
+        if twok:
+            twok = convert_2k(twok.seconds, "time")
+        else:
+            twok = "No Data"
         return render_template('profile.html', image_file = image_file, user=user, technique=technique, twok=twok)
 
 @app.route('/rankings', methods=['GET'])
