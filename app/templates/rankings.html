@@ -6,7 +6,8 @@
 
 {% block main%}
     <script   script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <h2>2K Rankings for <strong>{{ current_user.team }}</strong></h2> 
+    {% if current_user.team != "none" %}
+    <h2>2k Rankings for <strong>{{ current_user.team }}</strong></h2> 
     <table class="table table-striped">
         <thead>
             <tr>
@@ -64,4 +65,7 @@
             </script>
         </canvas>
     </div>
+    {% else %}
+    <h2>Looks like you haven't specified your team just yet. Head to <a href="{{ url_for('settings') }}">Settings</a> to do so.</h2>
+    {% endif %}
 {% endblock%}
