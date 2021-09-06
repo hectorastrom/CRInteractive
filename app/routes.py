@@ -125,8 +125,9 @@ def settings():
 def profile(id):
     if request.method == "POST":
         coach_rating = request.form.get("coach_rating")
-        new_technique = Technique(coach_rating=coach_rating, user_id=id)
-        db.session.add(new_technique)
+        technique = Technique.query.filter_by(user_id=id).first()
+        technique.coach_rating = coach_rating
+        technique.user_id = id
         db.session.commit()
         return redirect(url_for('index'))
     else:
