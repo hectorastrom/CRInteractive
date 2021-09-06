@@ -7,6 +7,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from datetime import date
 from time import strftime, gmtime
 from random import randint
+from functools import wraps
 
 # def create_users(amount):
 #     for i in range(amount):
@@ -24,6 +25,16 @@ from random import randint
 # db.drop_all()
 # db.create_all()
 # create_users(30)
+
+# Coach Required Decorator 
+def coach_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if current_user.coach_key == "000000":
+            flash(f'Insufficient permissions', 'danger')
+            return redirect("/login")
+        return f(*args, **kwargs)
+    return decorated_function
 
 @app.route("/")
 def index():
