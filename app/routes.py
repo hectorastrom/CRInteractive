@@ -43,7 +43,6 @@ def convert_2k(seconds, form):
     else:
         time = seconds
         time = strftime("%M:%S", gmtime(time))
-    print(time)
     return time
 
 @app.route("/")
@@ -155,6 +154,8 @@ def profile(id):
         user = User.query.get(int(id))
         image_file = url_for('static', filename='profile_pics/' + user.image_file)
         technique = Technique.query.filter_by(user_id=id).first()
+        if not technique:
+            technique = Technique(user_id=id)
         twok = Twok.query.filter_by(user_id=id).order_by("seconds").first()
         twok = convert_2k(twok.seconds, "time")
         return render_template('profile.html', image_file = image_file, user=user, technique=technique, twok=twok)

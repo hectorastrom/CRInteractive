@@ -42,7 +42,7 @@
                 viewBox="0 0 320 210"
                 version="1.1"
                 id="svg5"
-                style="margin-bottom:-350px;"
+                style="margin-bottom:-36%;"
                 xmlns="http://www.w3.org/2000/svg"
                 xmlns:svg="http://www.w3.org/2000/svg">
                 <defs
@@ -55,7 +55,7 @@
                     id="tech_coach_curve" />
                 </g>
                 <circle
-                    r="5"
+                    r="6"
                     cy="0"
                     cx="0"
                     id="tech_coach_dot"
@@ -85,11 +85,7 @@
             <p class="form-text text-muted text-center">Technique</p>
             <div class="form-group short">
                 <div class="slidecontainer">
-                    {% if technique %}
                     <input type="range" min="1" max="100" value="{{ technique.coach_rating }}" class="slider" id="tech_coach_slider" name="coach_rating">
-                    {% else %}
-                    <input type="range" min="1" max="100" value="50" class="slider" id="slider" name="coach_rating">
-                    {% endif %}
                 </div>
             </div>
             <div class="row">
