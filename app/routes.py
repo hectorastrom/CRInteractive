@@ -126,6 +126,8 @@ def profile(id):
     technique = Technique.query.filter_by(user_id=id).first()
     if not technique:
         technique = Technique(user_id=id)
+        db.session.add(technique)
+        db.session.commit()
     if request.method == "POST":
         coach_rating = request.form.get("coach_rating")
         technique.coach_rating = coach_rating
