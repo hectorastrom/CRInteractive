@@ -12,14 +12,20 @@
                 <div class="col-sm-4">
                     <h2 class="account-heading">{{ user.firstname }} {{ user.lastname }}</h2>
         {% if current_user.id != user.id or current_user.coach_key == "000000" %}
+                    <p><strong>Grade: </strong>{% if user.grade != "none" %}{{ user.grade }}{% else %}"No grade"{% endif %}</p>
                     <p><strong>Team: </strong>{% if user.team != "none" %}{{ user.team }}{% else %}"No team"{% endif %}</p>
                     <p><strong>Side: </strong>{% if user.side != "none" %}{{ user.side }}{% else %}"No side"{% endif %}</p>
-                    <p><strong>Grade: </strong>{% if user.grade != "none" %}{{ user.grade }}{% else %}"No grade"{% endif %}</p>
+                    {% if user.height %}
+                    <p><strong>Height: </strong>{{ (user.height / 12) | int }}'{{ user.height % 12 }}"</p>
+                    {% endif %}
+                    {% if user.weight %}
+                    <p><strong>Weight: </strong>{{ user.weight }}lbs</p>
+                    {% endif %}
                     </div>
                 <div class="col-sm-4">
                     <h2>Scores</h2>
-                <p><strong>2k: </strong>{{ twok }}</p>
-              </div>
+                    <p><strong>2k: </strong>{{ twok }}</p>
+                </div>
             </div>
           </div>
           {% if current_user.id != user.id and current_user.coach_key == "000000" %}
