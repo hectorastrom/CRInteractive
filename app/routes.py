@@ -31,8 +31,8 @@ def coach_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if current_user.coach_key == "000000":
-            flash(f'Insufficient permissions', 'danger')
-            return redirect("/login")
+            flash(f'Insufficient permissions', 'error')
+            return redirect(url_for('index'))
         return f(*args, **kwargs)
     return decorated_function
 
