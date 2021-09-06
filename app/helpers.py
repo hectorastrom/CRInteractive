@@ -21,5 +21,4 @@ def convert_2k(seconds, form):
     else:
         time = seconds
         time = strftime("%M:%S", gmtime(time))
-    print(time)
     return time
