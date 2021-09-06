@@ -123,19 +123,17 @@ def settings():
 @app.route('/profile/<id>', methods=["GET", "POST"])
 @login_required
 def profile(id):
+    technique = Technique.query.filter_by(user_id=id).first()
+    if not technique:
+        technique = Technique(user_id=id)
     if request.method == "POST":
         coach_rating = request.form.get("coach_rating")
-        technique = Technique.query.filter_by(user_id=id).first()
         technique.coach_rating = coach_rating
-        technique.user_id = id
         db.session.commit()
         return redirect(url_for('index'))
     else:
         user = User.query.get(int(id))
         image_file = url_for('static', filename='profile_pics/' + user.image_file)
-        technique = Technique.query.filter_by(user_id=id).first()
-        if not technique:
-            technique = Technique(user_id=id)
         twok = Twok.query.filter_by(user_id=id).order_by("seconds").first()
         if twok:
             twok = convert_2k(twok.seconds, "time")
