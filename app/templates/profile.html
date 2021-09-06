@@ -14,6 +14,7 @@
         {% if current_user.id != user.id or current_user.coach_key == "000000" %}
                     <p><strong>Team: </strong>{% if user.team != "none" %}{{ user.team }}{% else %}"No team"{% endif %}</p>
                     <p><strong>Side: </strong>{% if user.side != "none" %}{{ user.side }}{% else %}"No side"{% endif %}</p>
+                    <p><strong>Grade: </strong>{% if user.grade != "none" %}{{ user.grade }}{% else %}"No grade"{% endif %}</p>
                     </div>
                 <div class="col-sm-4">
                     <h2>Scores</h2>
