@@ -36,6 +36,16 @@ def coach_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def convert_2k(seconds, form):
+    if form == "split":
+        time = seconds/4
+        time = strftime("%M:%S", gmtime(time))
+    else:
+        time = seconds
+        time = strftime("%M:%S", gmtime(time))
+    print(time)
+    return time
+
 @app.route("/")
 def index():
     # if current_user.coach_key != "000000":
@@ -145,7 +155,9 @@ def profile(id):
         user = User.query.get(int(id))
         image_file = url_for('static', filename='profile_pics/' + user.image_file)
         technique = Technique.query.filter_by(user_id=id).first()
-        return render_template('profile.html', image_file = image_file, user = user, technique=technique)
+        twok = Twok.query.filter_by(user_id=id).order_by("seconds").first()
+        twok = convert_2k(twok.seconds, "time")
+        return render_template('profile.html', image_file = image_file, user=user, technique=technique, twok=twok)
 
 @app.route('/rankings', methods=['GET'])
 @login_required
@@ -186,7 +198,7 @@ def rankings():
                 values.append(user["twok"])
 
                 time = user['twok']
-                user['twok'] = strftime("%M:%S", gmtime(time))
+                user['twok'] = convert_2k(time, "time")
     else:
         userTwok = dict()
         userTwok["name"] = "No user data found"
