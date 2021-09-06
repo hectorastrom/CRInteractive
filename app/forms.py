@@ -59,11 +59,11 @@ class TwokForm(FlaskForm):
 
     def validate_minutes(self, field):
         if field.data > 59:
-            raise ValidationError('Cannot exceed 59 minutes')
+            raise ValidationError('Minutes cannot exceed a value of 59.')
     
     def validate_seconds(self, field):
         if field.data > 59.9:
-            raise ValidationError('Cannot exceed 59.9 seconds')
+            raise ValidationError('Seconds cannot exceed a value of 59.9.')
 
     def validate_date(self, field):
         if field.data > date.today():

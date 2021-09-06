@@ -19,5 +19,60 @@
             </div>
             
         </div>
+        {% if current_user.coach_id != "000000" %}
+        <form action="" method="POST">
+            <legend class="border-bottom border-dark mb-4" style="font-weight: 600;">Set Ratings</legend>
+            <small class="form-text text-muted">Technique</small>
+            <div class="form-group short">
+                <div class="slidecontainer">
+                    {% if technique %}
+                    <input type="range" min="1" max="100" value="{{ technique.coach_rating }}" class="slider" id="slider" name="coach_rating">
+                    {% else %}
+                    <input type="range" min="1" max="100" value="50" class="slider" id="slider" name="coach_rating">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col">
+                    <button type="submit" class="btn btn-outline-danger rounded-pill text-center">Update</button>
+                </div>
+            </div>
+        </form>
+
+        <svg width="800" height="520" viewBox="0 0 702 422" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path 
+                id = "curve"
+                d="M1 421C50 415 148.8 395.6 176 342C203.2 288.4 265 143 280 79C295.333 51 310 1 351 1C392 1 406.667 51 422 79C437 143 498.8 288.4 526 342C553.2 395.6 652 415 701 421" 
+                stroke="black"/>
+            <circle
+                 r="10"
+                 cy="0"
+                 cx="0"
+                 id="dot"
+                 style="fill: rgb(177, 23, 49)" />
+        </svg>
+        <script>
+            window.onload = () => {
+                let dot = document.getElementById('dot');
+                let curve = document.getElementById('curve');
+                let slider = document.getElementById('slider')
+                let totalLength = curve.getTotalLength();
+
+                var portion = slider.value/100.0;
+                var coordinates = curve.getPointAtLength(portion * totalLength);
+                dot.setAttribute("transform", `translate(${coordinates.x}, ${coordinates.y})`);
+
+                slider.oninput = function() {
+                    portion = this.value/100.0;
+                    coordinates = curve.getPointAtLength(portion * totalLength);
+                    dot.setAttribute("transform", `translate(${coordinates.x}, ${coordinates.y})`);
+                }
+                
+                
+            }
+        </script>
+
+            
+        {% endif %}
     </div>
 {% endblock main %}

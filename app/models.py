@@ -38,9 +38,9 @@ class Twok(db.Model):
 
 class Technique(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    coach_rating = db.Column(db.Integer)
-    user_rating = db.Column(db.Integer)
-    user_importance = db.Column(db.Integer)
+    coach_rating = db.Column(db.Integer, default=50)
+    user_rating = db.Column(db.Integer, default=50)
+    user_importance = db.Column(db.Integer, default=50)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     
 

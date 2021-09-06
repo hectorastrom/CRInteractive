@@ -120,12 +120,20 @@ def settings():
     else:
         return render_template("settings.html", teams=teams, possible_feet=possible_feet, possible_inches=possible_inches, grades=grades, user_feet = user_feet, user_inches = user_inches)
 
-@app.route('/profile/<id>')
+@app.route('/profile/<id>', methods=["GET", "POST"])
 @login_required
 def profile(id):
-    user = User.query.get(int(id))
-    image_file = url_for('static', filename='profile_pics/' + user.image_file)
-    return render_template('profile.html', image_file = image_file, user = user)
+    if request.method == "POST":
+        coach_rating = request.form.get("coach_rating")
+        new_technique = Technique(coach_rating=coach_rating, user_id=id)
+        db.session.add(new_technique)
+        db.session.commit()
+        return redirect(url_for('index'))
+    else:
+        user = User.query.get(int(id))
+        image_file = url_for('static', filename='profile_pics/' + user.image_file)
+        technique = Technique.query.filter_by(user_id=id).first()
+        return render_template('profile.html', image_file = image_file, user = user, technique=technique)
 
 @app.route('/rankings', methods=['GET'])
 @login_required

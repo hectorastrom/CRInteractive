@@ -1,0 +1,12 @@
+<svg width="702" height="422" viewBox="0 0 702 422" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path 
+id = "curve"
+d="M1 421C50 415 148.8 395.6 176 342C203.2 288.4 265 143 280 79C295.333 51 310 1 351 1C392 1 406.667 51 422 79C437 143 498.8 288.4 526 342C553.2 395.6 652 415 701 421" 
+stroke="black"/>
+<circle
+     r="10"
+     cy="0"
+     cx="0"
+     id="dot"
+     style="fill: #dd1819" />
+</svg>
