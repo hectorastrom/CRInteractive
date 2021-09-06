@@ -2,28 +2,28 @@ from flask import render_template, url_for, flash, redirect, request
 from flask.helpers import url_for
 from app import app, db, bcrypt, teams
 from app.forms import RegistrationForm, LoginForm, TwokForm, CoachRegistrationForm
-from app.models import User, Twok
+from app.models import User, Twok, Technique
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import date
 from time import strftime, gmtime
 from random import randint
 
-def create_users(amount):
-    for i in range(amount):
-        name = "test"+str(i)
-        email = name + "@test.com"
-        password = name
-        team = teams[0]
-        new_user = User(firstname=name, lastname=name, email=email, password=bcrypt.generate_password_hash(password).decode('utf-8'), team=team, side="Port")
-        db.session.add(new_user)
-        db.session.commit()
-        new_2k = Twok(seconds=randint(360, 480), date_completed=date.today(), user_id=new_user.id)
-        db.session.add(new_2k)
-        db.session.commit()
-# REAALLLLY DANGEROUS THIS CREATES 10 NEW USERS EVERYTIME THE PROGRAM IS RUN WHICH IS DANGEROUS BAD BAD NEWS
-db.drop_all()
-db.create_all()
-create_users(30)
+# def create_users(amount):
+#     for i in range(amount):
+#         name = "test"+str(i)
+#         email = name + "@test.com"
+#         password = name
+#         team = teams[0]
+#         new_user = User(firstname=name, lastname=name, email=email, password=bcrypt.generate_password_hash(password).decode('utf-8'), team=team, side="Port")
+#         db.session.add(new_user)
+#         db.session.commit()
+#         new_2k = Twok(seconds=randint(360, 480), date_completed=date.today(), user_id=new_user.id)
+#         db.session.add(new_2k)
+#         db.session.commit()
+# # REAALLLLY DANGEROUS THIS CREATES 10 NEW USERS EVERYTIME THE PROGRAM IS RUN WHICH IS DANGEROUS BAD BAD NEWS
+# db.drop_all()
+# db.create_all()
+# create_users(30)
 
 @app.route("/")
 def index():

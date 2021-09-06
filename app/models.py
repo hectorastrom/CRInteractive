@@ -22,6 +22,7 @@ class User(db.Model, UserMixin):
     weight = db.Column(db.Integer())
     grade = db.Column(db.Integer())
     twoks = db.relationship('Twok', backref='rower', lazy=True)
+    technique = db.relationship('Technique', backref='rower', lazy=True)
 
     def __repr__(self):
         return f"User(Firstname: '{self.firstname}', Lastname: '{self.lastname}', Email: '{self.email}', Team: '{self.team}', Side: '{self.side}', Imagefile: '{self.image_file}')"
@@ -35,5 +36,12 @@ class Twok(db.Model):
     def __repr__(self):
         return f"2k(seconds: '{self.seconds}', date_completed: '{self.date_completed}', user_id: '{self.user_id}')"
 
+class Technique(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    coach_rating = db.Column(db.Integer)
+    user_rating = db.Column(db.Integer)
+    user_importance = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    
 
         
