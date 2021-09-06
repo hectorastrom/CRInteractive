@@ -5,9 +5,8 @@ from app.forms import RegistrationForm, LoginForm, TwokForm, CoachRegistrationFo
 from app.models import User, Twok, Technique
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import date
-from time import strftime, gmtime
 from random import randint
-from functools import wraps
+from app.helpers import convert_2k, coach_required
 
 # def create_users(amount):
 #     for i in range(amount):
@@ -25,25 +24,6 @@ from functools import wraps
 # db.drop_all()
 # db.create_all()
 # create_users(30)
-
-# Coach Required Decorator 
-def coach_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if current_user.coach_key == "000000":
-            flash(f'Insufficient permissions', 'error')
-            return redirect(url_for('index'))
-        return f(*args, **kwargs)
-    return decorated_function
-
-def convert_2k(seconds, form):
-    if form == "split":
-        time = seconds/4
-        time = strftime("%M:%S", gmtime(time))
-    else:
-        time = seconds
-        time = strftime("%M:%S", gmtime(time))
-    return time
 
 @app.route("/")
 def index():
