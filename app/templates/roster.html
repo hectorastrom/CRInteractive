@@ -5,6 +5,17 @@
 {% endblock %}
 
 {% block main%}
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function() {
+            $("#sortable").sortable();
+            $("#sortable").disableSelection()
+            
+            $(".box").each(function(index) {
+                console.log(index + ": " + $( this).text())
+        })
+        });
+    </script>
     <!-- If they're a coach -->
     {% if current_user.coach_key != "000000" %}
         {% if current_user.team != "none" %}
@@ -29,14 +40,6 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-            <script>
-                $(function() {
-                    $("#sortable").sortable();
-                    $("#sortable").disableSelection()
-                });
-            </script>
             <div class="container" id="item-container">
                 <h2 class="border-bottom border-dark mb-4 pb-2 responsive-border">Indicate Rankings</h2>
                 <ul id="sortable">
