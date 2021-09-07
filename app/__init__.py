@@ -3,11 +3,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_manager
 from flask_migrate import Migrate 
+from app import config
 
 app = Flask(__name__)
-with open('app/static/secretkey.txt', 'r') as f:
-    secretkey = f.readline()
-    app.config['SECRET_KEY'] = secretkey
+app.config['SECRET_KEY'] = config.secretkey
 
 # Coach keys
 valid_keys = ["ABC123"]
