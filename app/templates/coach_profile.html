@@ -92,14 +92,14 @@
         </div>
         <div class="form-check">
             <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                     <label class = "form-check-label" for="view_allowed">Allow {{ user.firstname }} to view this chart: </label>
                 </div>
-                <div class="col-6 justify-content-start">
+                <div class="col-1 justify-content-start">
                     {% if technique.view_allowed %}
-                    <input type="checkbox" id="view_allowed" name="view_allowed" class="form-check-input form-check-input-xl" checked>
+                    <input type="checkbox" id="view_allowed" name="view_allowed" class="form-check-input-xl" checked>
                 {% else %}
-                    <input type="checkbox" id="view_allowed" name="view_allowed" class="form-check-input form-check-input-xl">
+                    <input type="checkbox" id="view_allowed" name="view_allowed" class="form-check-input-xl">
                 {% endif %}
                 </div>
             </div>
