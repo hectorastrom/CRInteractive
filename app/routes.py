@@ -125,7 +125,6 @@ def settings():
 def profile(id):
     user = User.query.get(int(id))
     technique = Technique.query.filter_by(user_id=id).first()
-    print(technique)
     if not technique:
         technique = Technique(user_id=id)
         db.session.add(technique)
@@ -137,7 +136,6 @@ def profile(id):
         db.session.commit()
         technique.view_allowed = view_allowed
         db.session.commit()
-        print(technique)
         return redirect(url_for('index'))
     else:
         image_file = url_for('static', filename='profile_pics/' + user.image_file)
@@ -146,7 +144,10 @@ def profile(id):
             twok = convert_2k(twok.seconds, "time")
         else:
             twok = "No Data"
-        return render_template('profile.html', image_file = image_file, user=user, technique=technique, twok=twok)
+        if current_user.coach_key != "000000":
+            return render_template('coach_profile.html', image_file = image_file, user=user, technique=technique, twok=twok)
+        else:
+            return render_template('user_profile.html', image_file = image_file, user=user, technique=technique, twok=twok)
 
 @app.route('/rankings', methods=['GET'])
 @login_required
