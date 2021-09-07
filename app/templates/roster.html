@@ -37,11 +37,17 @@
                     $("#sortable").disableSelection()
                 });
             </script>
-            <ul class="sortable">
-                {% for athlete in athletes %}
-                    <li>{{ athlete.firstname }}</li>
-                {% endfor %}
-            </ul>
+            <div class="container" id="item-container">
+                <h2 class="border-bottom border-dark mb-4 pb-2 responsive-border">Indicate Rankings</h2>
+                <ul id="sortable">
+                    {% for athlete in athletes %}
+                        <li class="box">
+                            <img class ="rounded-circle-small" src="{{ url_for('static', filename='profile_pics/' + athlete.image_file) }}">
+                            {{ athlete.firstname }} {{ athlete.lastname }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
         {% else %}
             <h2>You have not selected a team yet. Head to <a href="{{ url_for('settings') }}">Settings</a> to do so.</h2>
         {% endif %}

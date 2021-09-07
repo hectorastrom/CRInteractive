@@ -135,7 +135,39 @@ body
   {
     border-style: solid;
     border-width: 2px;
-    border-color: grey;
+    border-color: rgba(150, 150, 150, 0.7);
+    user-select: none;
+    list-style-type: none;
+    text-align: center;
+    width:50%;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 2%;
+    background-color: white;
+  }
+
+  #item-container
+  {
+    border-style:solid; 
+    padding: 20px;
+    border-width: 3px;
+    border-color: rgba(177, 23, 49, .5);
+    border-radius: 20px;
+  }
+
+  .responsive-border
+  {
+      display: inline-block;
+      text-align: center;
+      width:auto;
+      margin:auto;
+  }
+
+  .rounded-circle-small
+  {
+      border-radius: 50%;
+      width:5vh;
+      height: 5vh;
   }
 
   .form-control-md
