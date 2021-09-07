@@ -34,9 +34,9 @@
         <!-- If viewing their own page as a non-coach -->
         {% if current_user.id == user.id and technique.view_allowed %}
         <legend class="border-bottom border-dark mt-3" style="font-weight: 600;">View Coach Ratings</legend>
-        <button type="button" class="btn btn-danger text-center" data-toggle="modal" data-target="#techniquemodal">
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#techniquemodal">
             View Coach's Technique Rating
-          </button>
+        </button>
           
           <!-- Modal -->
           <div class="modal fade" id="techniquemodal" tabindex="-1" role="dialog" aria-labelledby="techniquemodallabel" aria-hidden="true">
@@ -64,7 +64,7 @@
                             id="defs2">
                             <linearGradient id="Gradient1" x1="0" x2=".75" y1="0" y2="0">
                                 <stop offset="50%" stop-color="rgba(223,23,34,.7)"/>
-                                <stop offset="100%" stop-color="rgba(223,23,200,.7)"/>
+                                <stop offset="100%" stop-color="rgba(223,147,23,.7)"/>
                             </linearGradient>
                         </defs>
                         <g
@@ -95,8 +95,8 @@
                     </script>
 
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <div class="modal-footer" style="margin-top: 50px;">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Close</button>
                 </div>
               </div>
             </div>

@@ -29,6 +29,19 @@
                     {% endfor %}
                 </tbody>
             </table>
+            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+            <script>
+                $(function() {
+                    $("#sortable").sortable();
+                    $("#sortable").disableSelection()
+                });
+            </script>
+            <ul class="sortable">
+                {% for athlete in athletes %}
+                    <li>{{ athlete.firstname }}</li>
+                {% endfor %}
+            </ul>
         {% else %}
             <h2>You have not selected a team yet. Head to <a href="{{ url_for('settings') }}">Settings</a> to do so.</h2>
         {% endif %}
