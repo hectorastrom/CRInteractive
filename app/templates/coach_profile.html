@@ -43,11 +43,16 @@
             xmlns="http://www.w3.org/2000/svg"
             xmlns:svg="http://www.w3.org/2000/svg">
             <defs
-                id="defs2" />
+                id="defs2">
+                <linearGradient id="Gradient1" x1="0" x2=".75" y1="0" y2="0">
+                    <stop offset="50%" stop-color="rgba(223,23,34,1)"/>
+                    <stop offset="100%" stop-color="rgba(223,23,200,1)"/>
+                </linearGradient>
+            </defs>
             <g
                 id="layer2">
                 <path
-                style="fill:#df1722;fill-opacity:0.529138;stroke:#000000;stroke-width:2.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                style="fill: url(#Gradient1);fill-opacity:0.529138;stroke:rgba(0, 0, 0, .6);stroke-width:2.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
                 d="m 43.19351,92.098556 c 0,0 19.633412,1.07091 37.48197,-11.42308 17.848559,-12.49399 32.48437,-36.054082 32.48437,-36.054082 0,0 17.55469,-24.234497 20.41046,-27.528229 2.0916,-2.412365 10.16471,-12.6418523 21.58779,-12.2848823 11.42307,0.356971 18.32988,5.1869094 24.39839,12.6833043 6.06851,7.496392 28.11147,38.775991 28.11147,38.775991 0,0 19.6434,24.001346 27.35292,27.888368 7.66874,3.866459 10.50607,5.916948 30.90469,7.18536"
                 id="tech_coach_curve" />
             </g>
@@ -85,13 +90,20 @@
                 <input type="range" min="1" max="100" value="{{ technique.coach_rating }}" class="slider" id="tech_coach_slider" name="coach_rating">
             </div>
         </div>
-        <div class="form-group short">
-            <label class = "form-control-label" for="view_allowed">Allow {{ user.firstname }} to view this chart: </label>
-            {% if technique.view_allowed %}
-                <input type="checkbox" id="view_allowed" name="view_allowed" checked>
-            {% else %}
-                <input type="checkbox" id="view_allowed" name="view_allowed">
-            {% endif %}
+        <div class="form-check">
+            <div class="row">
+                <div class="col-6">
+                    <label class = "form-check-label" for="view_allowed">Allow {{ user.firstname }} to view this chart: </label>
+                </div>
+                <div class="col-6 justify-content-start">
+                    {% if technique.view_allowed %}
+                    <input type="checkbox" id="view_allowed" name="view_allowed" class="form-check-input form-check-input-xl" checked>
+                {% else %}
+                    <input type="checkbox" id="view_allowed" name="view_allowed" class="form-check-input form-check-input-xl">
+                {% endif %}
+                </div>
+            </div>
+           
         </div>
         <div class="row">
             <div class="form-group col text-center pt-3">
