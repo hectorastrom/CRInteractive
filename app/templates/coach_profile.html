@@ -90,20 +90,16 @@
                 <input type="range" min="1" max="100" value="{{ technique.coach_rating }}" class="slider" id="tech_coach_slider" name="coach_rating">
             </div>
         </div>
-        <div class="form-check">
+        <div class="form-check mt-4">
             <div class="row">
-                <div class="col-3">
-                    <label class = "form-check-label" for="view_allowed">Allow {{ user.firstname }} to view this chart: </label>
-                </div>
-                <div class="col-1 justify-content-start">
-                    {% if technique.view_allowed %}
+                <label class = "form-check-label" for="view_allowed">Allow {{ user.firstname }} to view this chart: </label>
+                {% if technique.view_allowed %}
                     <input type="checkbox" id="view_allowed" name="view_allowed" class="form-check-input-xl" checked>
                 {% else %}
                     <input type="checkbox" id="view_allowed" name="view_allowed" class="form-check-input-xl">
                 {% endif %}
-                </div>
             </div>
-           
+            
         </div>
         <div class="row">
             <div class="form-group col text-center pt-3">

@@ -33,6 +33,7 @@ rgb(42, 43, 44) */
 .navbar-custom
 {
     background-color: rgb(42, 43, 44);
+    height: 60px;
 }
 
 .nav-link
@@ -92,6 +93,14 @@ body
     height: 150px;
 }
 
+@media screen and (max-width: 770px){
+    .account-img
+    {
+        width: 100px;
+        height: 100px;
+    }
+}
+
 .slider {
     -webkit-appearance: none;
     width: 73%;
@@ -128,7 +137,8 @@ body
   .form-check-input-xl
   {
       width: 2.5vh;
-      height:2.5vh;
+      height: 2.5vh;
+      margin-left: 1vw;
   }
   @media screen and (min-width: 900px)
   {
@@ -143,13 +153,8 @@ body
         color:white !important;
         padding-left: 15px;
         padding-right: 15px;
-        transform: scale(1.3);
-        transition: transform .05s;
-    }
-    .nav-item
-    {
-        padding-top: 8px;
-        padding-bottom: 8px;
+        transform: scale(1.2);
+        transition: transform .15s;
     }
   }
 
