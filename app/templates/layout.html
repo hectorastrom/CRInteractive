@@ -33,7 +33,7 @@
               $('[data-toggle="tooltip"]').tooltip();
             });
         </script>
-        
+
         <title>CRInteractive: {% block title %}{% endblock %}</title>
 
     </head>
@@ -57,7 +57,7 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdown">
                                     <a class="dropdown-item" href="{{ url_for('upload_twok') }}">Upload 2k</a>
-                                    <a class="dropdown-item" href="#">Upload 5k</a>
+                                    <a class="dropdown-item" href="{{ url_for('upload_fivek') }}">Upload 5k</a>
                                 </li>
                                 <li class="nav-item"><a class="nav-link" href="{{ url_for('rankings') }}">Rankings</a></li>
                             </ul>

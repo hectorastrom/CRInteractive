@@ -22,6 +22,7 @@ class User(db.Model, UserMixin):
     weight = db.Column(db.Integer())
     grade = db.Column(db.Integer())
     twoks = db.relationship('Twok', backref='rower', lazy=True)
+    fiveks = db.relationship('Fivek', backref='rower', lazy=True)
     technique = db.relationship('Technique', backref='rower', lazy=True)
 
     def __repr__(self):
@@ -35,6 +36,15 @@ class Twok(db.Model):
 
     def __repr__(self):
         return f"2k(seconds: '{self.seconds}', date_completed: '{self.date_completed}', user_id: '{self.user_id}')"
+
+class Fivek(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    seconds = db.Column(db.Float, nullable=False)
+    date_completed = db.Column(db.Date, nullable=False, default=date.today)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return f"5k(seconds: '{self.seconds}', date_completed: '{self.date_completed}', user_id: '{self.user_id}')"
 
 class Technique(db.Model):
     id = db.Column(db.Integer, primary_key=True)

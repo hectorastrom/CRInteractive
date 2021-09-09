@@ -1,14 +1,15 @@
 {% extends 'layout.html' %}
 
-{% block title %}2k{% endblock title %}
+{% block title %}5k{% endblock title %}
 
 {% block main %}
 <div class='content-section'>
     <form method="POST" action="">
         {{ form.hidden_tag() }}
         <fieldset class="form-group">
-            <legend class="border-bottom border-dark mb-4" style="font-weight: 600;">Log 2k</legend>
+            <legend class="border-bottom border-dark mb-4" style="font-weight: 600;">Log 5k</legend>
             <div class="form-group short">
+            <!-- Reuses 2k form, fine since it's all the same information just in a different place -->
             {{ form.minutes.label(class="form-control-label") }}
             {% if form.minutes.errors %}
                 {{ form.minutes(class="form-control-md ml-2 is-invalid") }}

@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, redirect, request
 from flask.helpers import url_for
 from app import app, db, bcrypt, teams
 from app.forms import RegistrationForm, LoginForm, TwokForm, CoachRegistrationForm
-from app.models import User, Twok, Technique
+from app.models import User, Twok, Fivek, Technique
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import date
 from random import randint
@@ -212,9 +212,22 @@ def upload_twok():
         twok = Twok(seconds=total_seconds, date_completed=form.date.data, user_id = current_user.id)
         db.session.add(twok)
         db.session.commit()
-        flash(f'Logged 2K for {form.date.data}.', 'success')
+        flash(f'Logged 5k for {form.date.data}.', 'success')
         return redirect(url_for('index'))
     return render_template('2k.html', form=form)
+
+@app.route('/5k', methods=['GET', 'POST'])
+@login_required
+def upload_fivek():
+    form = TwokForm()
+    if form.validate_on_submit():
+        total_seconds = int(form.minutes.data)*60 + form.seconds.data
+        fivek = Fivek(seconds=total_seconds, date_completed=form.date.data, user_id = current_user.id)
+        db.session.add(fivek)
+        db.session.commit()
+        flash(f'Logged 5k for {form.date.data}.', 'success')
+        return redirect(url_for('index'))
+    return render_template('5k.html', form=form)
 
 @app.route('/register/coach', methods=['GET', 'POST'])
 def coach_register():

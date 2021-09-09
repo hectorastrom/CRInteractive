@@ -4,9 +4,10 @@ rgb(42, 43, 44) */
 
 .brand
 {
-    font-family: "Avenir Next";
-    color: rgb(223, 17, 51);
-    font-size: 32px;
+    font-family: "CRI";
+    color: rgb(177, 23, 49) !important;
+    font-size: 36px;
+    text-shadow: .5px .5px 1px rgb(235, 234, 234);
 }
 
 .brand:hover
@@ -38,7 +39,7 @@ rgb(42, 43, 44) */
 
 .nav-link
 {
-    font-size: 18px !important;
+    font-size: 19px !important;
     color: rgba(233, 233, 233, 0.849) !important;
 }
 
@@ -82,7 +83,7 @@ th
 
 body
 {
-    font-family: Urbanist;
+    font-family: Ubuntu;
     background-color: rgb(235, 234, 234);
 }
 
@@ -205,6 +206,6 @@ body
   }
 
   @font-face {
-    font-family: "Avenir Next";
-    src: url("AvenirNextLTPro-Bold.otf") format("opentype");
+    font-family: "CRI";
+    src: url("Egiziano_CG.otf") format("opentype");
 }
