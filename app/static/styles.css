@@ -131,6 +131,16 @@ body
       height:2.5vh;
   }
 
+  .nav-item:hover
+  {
+      background-color: rgba(177, 23, 49, 1);
+  }
+  .nav-item
+  {
+      padding-top: 8px;
+      padding-bottom: 8px;
+  }
+
   .box
   {
     border-style: solid;
