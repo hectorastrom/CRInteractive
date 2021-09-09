@@ -135,6 +135,11 @@ body
   {
       background-color: rgba(177, 23, 49, 1);
   }
+
+  .nav-item:hover .nav-link
+  {
+      color:white !important;
+  }
   .nav-item
   {
       padding-top: 8px;
