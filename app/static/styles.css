@@ -4,8 +4,8 @@ rgb(42, 43, 44) */
 
 .brand
 {
-    font-family: Ultra;
-    color: rgb(177, 23, 49);
+    font-family: "Avenir Next";
+    color: rgb(223, 17, 51);
     font-size: 32px;
 }
 
@@ -203,3 +203,8 @@ body
       border-color:rgba(160, 160, 160, .7);
       border-width: 1.5px;
   }
+
+  @font-face {
+    font-family: "Avenir Next";
+    src: url("AvenirNextLTPro-Bold.otf") format("opentype");
+}
