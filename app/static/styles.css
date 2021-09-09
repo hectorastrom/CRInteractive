@@ -5,7 +5,7 @@ rgb(42, 43, 44) */
 .brand
 {
     font-family: "CRI";
-    color: rgb(177, 23, 49) !important;
+    color: rgb(177, 23, 49);
     font-size: 36px;
     text-shadow: .5px .5px 1px rgb(235, 234, 234);
 }

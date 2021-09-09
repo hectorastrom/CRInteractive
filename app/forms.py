@@ -50,9 +50,9 @@ class LoginForm(FlaskForm):
 
 class TwokForm(FlaskForm):
     minutes = IntegerField('Minutes', 
-                          validators=[DataRequired()], render_kw={"placeholder": "6"})
+                          validators=[DataRequired()])
     seconds = FloatField('Seconds', 
-                          validators=[DataRequired()], render_kw={"placeholder": "42.5"})
+                          validators=[DataRequired()])
     date = DateField('Date Completed', format='%Y-%m-%d', 
                     validators=[DataRequired()])
     submit = SubmitField('Submit')

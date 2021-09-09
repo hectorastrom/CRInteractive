@@ -18,7 +18,7 @@
                     {% endfor %}
                 </div>
             {% else %}
-                {{ form.minutes(class="form-control-md ml-2") }}
+                {{ form.minutes(class="form-control-md ml-2", placeholder="6", autocomplete="off") }}
             {% endif %}
             
             {{ form.seconds.label(class="form-control-label ml-2") }}
@@ -30,7 +30,7 @@
                     {% endfor %}
                 </div>
             {% else %}
-                {{ form.seconds(class="form-control-md ml-2") }}
+                {{ form.seconds(class="form-control-md ml-2", placeholder="45", autocomplete="off") }}
             {% endif %}
             </div>
             <div class="form-group short">
