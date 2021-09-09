@@ -120,10 +120,13 @@ def settings():
     else:
         return render_template("settings.html", teams=teams, possible_feet=possible_feet, possible_inches=possible_inches, grades=grades, user_feet = user_feet, user_inches = user_inches)
 
-@app.route('/profile/<id>', methods=["GET", "POST"])
+@app.route('/profile/<firstname>:<id>', methods=["GET", "POST"])
 @login_required
-def profile(id):
-    user = User.query.get(int(id))
+def profile(firstname, id):
+    user = User.query.filter(User.firstname==firstname.capitalize(), User.id==id).first()
+    if not user:
+        flash("Profile not found", 'error')
+        return redirect(url_for('index'))
     technique = Technique.query.filter_by(user_id=id).first()
     if not technique:
         technique = Technique(user_id=id)
@@ -165,6 +168,7 @@ def rankings():
         for user in users:
             userTwok = dict()
             userTwok["name"] = user.firstname + " " + user.lastname
+            userTwok["firstname"] = user.firstname.lower()
             userTwok["twok"] = Twok.query.filter_by(user_id=user.id).order_by("seconds").first()
             userTwok["id"] = user.id
             if userTwok['twok']:

@@ -30,7 +30,7 @@
                 <tbody>
                     {% for athlete in athletes %}
                     <tr>
-                        <td><a href="{{ url_for('profile', id=athlete.id) }}">{{ athlete.firstname + " " + athlete.lastname }}</a></td>
+                        <td><a href="{{ url_for('profile', firstname=athlete.firstname.lower(), id=athlete.id) }}">{{ athlete.firstname + " " + athlete.lastname }}</a></td>
                         {% if athlete.grade %}
                             <td>{{ athlete.grade }}</td>
                         {% else %}

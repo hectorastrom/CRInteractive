@@ -11,9 +11,9 @@
                 </div>
                 <div class="col-sm-4">
                     <h2 class="account-heading">{{ user.firstname }} {{ user.lastname }}</h2>
-                    <p><strong>Grade: </strong>{% if user.grade != "none" %}{{ user.grade }}{% else %}"No grade"{% endif %}</p>
-                    <p><strong>Team: </strong>{% if user.team != "none" %}{{ user.team }}{% else %}"No team"{% endif %}</p>
-                    <p><strong>Side: </strong>{% if user.side != "none" %}{{ user.side }}{% else %}"No side"{% endif %}</p>
+                    <p><strong>Grade: </strong>{% if user.grade %}{{ user.grade }}{% else %}No grade{% endif %}</p>
+                    <p><strong>Team: </strong>{% if user.team != "none" %}{{ user.team }}{% else %}No team{% endif %}</p>
+                    <p><strong>Side: </strong>{% if user.side != "none" %}{{ user.side }}{% else %}No side{% endif %}</p>
                     {% if user.height %}
                     <p><strong>Height: </strong>{{ (user.height / 12) | int }}'{{ user.height % 12 }}"</p>
                     {% endif %}
@@ -63,8 +63,8 @@
                         <defs
                             id="defs2">
                             <linearGradient id="Gradient1" x1="0" x2=".75" y1="0" y2="0">
-                                <stop offset="50%" stop-color="rgba(223,23,34,.7)"/>
-                                <stop offset="100%" stop-color="rgba(223,147,23,.7)"/>
+                                <stop offset="50%" stop-color="rgba(223,23,34,.5)"/>
+                                <stop offset="100%" stop-color="rgba(223,23,200,.5)"/>
                             </linearGradient>
                         </defs>
                         <g

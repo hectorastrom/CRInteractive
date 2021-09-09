@@ -1,7 +1,6 @@
 from flask import url_for, flash, redirect
 from flask.helpers import url_for
 from flask_login import current_user
-from time import strftime, gmtime
 from functools import wraps
 
 # Coach Required Decorator 
@@ -14,11 +13,15 @@ def coach_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-def convert_2k(seconds, form):
+def convert_2k(total, form):
     if form == "split":
-        time = seconds/4
-        time = strftime("%M:%S", gmtime(time))
+        split_seconds = total/4
+        minutes = int(split_seconds/60)
+        seconds = round(split_seconds % 60, 1)
     else:
-        time = seconds
-        time = strftime("%M:%S", gmtime(time))
-    return time
+        minutes = int(total/60)
+        seconds = round(total % 60, 1)
+
+    if seconds < 10:
+            seconds = "0" + str(seconds)
+    return str(minutes) + ":" + str(seconds)
