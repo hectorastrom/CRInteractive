@@ -4,7 +4,7 @@ rgb(42, 43, 44) */
 
 .brand
 {
-    font-family: "Ultra";
+    font-family: Ultra;
     color: rgb(177, 23, 49);
     font-size: 32px;
 }
@@ -82,7 +82,7 @@ th
 
 body
 {
-    font-family: Ubuntu;
+    font-family: Urbanist;
     background-color: rgb(235, 234, 234);
 }
 

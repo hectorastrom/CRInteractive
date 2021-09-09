@@ -8,7 +8,7 @@
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
-                <legend class="border-bottom border-dark mb-4" style="font-weight: 600;">Create Coach Account</legend>
+                <legend class="border-bottom border-dark mb-4" style="font-weight: 600;" data-toggle="tooltip" title="test">Create Coach Account</legend>
                 <div class="form-group short">
                     {{ form.firstname.label(class="form-control-label") }}
 
@@ -76,7 +76,7 @@
                     {% endif %}
                 </div>
                 <div class="form-group short">
-                    {{ form.coach_key.label(class="form-control-label") }}
+                    {{ form.coach_key.label(class="form-control-label", data_toggle="tooltip", title="The key provided for all coaches") }}
                     {% if form.coach_key.errors %}
                         {{ form.coach_key(class="form-control form-control-lg is-invalid") }}
                         <div class="invalid-feedback">
