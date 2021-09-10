@@ -59,7 +59,7 @@
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.password(class="form-control form-control-lg") }}
+                        {{ form.password(class="form-control form-control-lg", autocomplete="off") }}
                     {% endif %}
                 </div>
                 <div class="form-group short">
@@ -72,7 +72,7 @@
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.confirm_password(class="form-control form-control-lg") }}
+                        {{ form.confirm_password(class="form-control form-control-lg", autocomplete="off") }}
                     {% endif %}
                 </div>
             </fieldset>

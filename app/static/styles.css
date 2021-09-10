@@ -81,10 +81,16 @@ th
     color: white !important;
 }
 
-body
+html, body
 {
+    height: 100%;
     font-family: Ubuntu;
     background-color: rgb(235, 234, 234);
+}
+
+#main-content
+{
+    min-height: 100%;
 }
 
 
@@ -102,7 +108,8 @@ body
     }
 }
 
-.slider {
+.slider 
+{
     -webkit-appearance: none;
     width: 73%;
     height: 15px;
@@ -114,98 +121,116 @@ body
     opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
-  }
+}
   
-  .slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%; 
-    background: rgb(177, 23, 49);
-    cursor: grab;
-  }
-  
-  .slider::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background: rgb(177, 23, 49);
-    cursor: grab;
-  }
+.slider::-webkit-slider-thumb 
+{
+-webkit-appearance: none;
+appearance: none;
+width: 25px;
+height: 25px;
+border-radius: 50%; 
+background: rgb(177, 23, 49);
+cursor: grab;
+}
+
+.slider::-moz-range-thumb 
+{
+width: 25px;
+height: 25px;
+border-radius: 50%;
+background: rgb(177, 23, 49);
+cursor: grab;
+}
 
 
-  .form-check-input-xl
-  {
-      width: 2.5vh;
-      height: 2.5vh;
-      margin-left: 1vw;
-  }
-  @media screen and (min-width: 900px)
-  {
-    .nav-item:hover
-    {
-        background-color: rgba(177, 23, 49, 1);
-        border-radius: 2px;
-    }
-  
-    .nav-item:hover .nav-link
-    {
-        color:white !important;
-        padding-left: 15px;
-        padding-right: 15px;
-        transform: scale(1.2);
-        transition: transform .15s;
-    }
-  }
+.form-check-input-xl
+{
+    width: 2.5vh;
+    height: 2.5vh;
+    margin-left: 1vw;
+}
+@media screen and (min-width: 900px)
+{
+.nav-item:hover
+{
+    background-color: rgba(177, 23, 49, 1);
+    border-radius: 2px;
+}
 
-  .box
-  {
-    border-style: solid;
-    border-width: 2px;
-    border-color: rgba(150, 150, 150, 0.7);
-    user-select: none;
-    list-style-type: none;
+.nav-item:hover .nav-link
+{
+    color:white !important;
+    padding-left: 15px;
+    padding-right: 15px;
+    transform: scale(1.2);
+    transition: transform .15s;
+}
+}
+
+.box
+{
+border-style: solid;
+border-width: 2px;
+border-color: rgba(150, 150, 150, 0.7);
+user-select: none;
+list-style-type: none;
+text-align: center;
+width:50%;
+border-radius: 10px;
+padding: 10px;
+margin-bottom: 2%;
+background-color: white;
+}
+
+#item-container
+{
+border-style:solid; 
+padding: 20px;
+border-width: 3px;
+border-color: rgba(177, 23, 49, .5);
+border-radius: 20px;
+}
+
+.responsive-border
+{
+    display: inline-block;
     text-align: center;
-    width:50%;
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 2%;
-    background-color: white;
-  }
+    width:auto;
+    margin:auto;
+}
 
-  #item-container
-  {
-    border-style:solid; 
-    padding: 20px;
-    border-width: 3px;
-    border-color: rgba(177, 23, 49, .5);
-    border-radius: 20px;
-  }
+.rounded-circle-small
+{
+    border-radius: 50%;
+    width:5vh;
+    height: 5vh;
+}
 
-  .responsive-border
-  {
-      display: inline-block;
-      text-align: center;
-      width:auto;
-      margin:auto;
-  }
+.form-control-md
+{
+    border-style: solid;
+    border-color:rgba(160, 160, 160, .7);
+    border-width: 1.5px;
+}
 
-  .rounded-circle-small
-  {
-      border-radius: 50%;
-      width:5vh;
-      height: 5vh;
-  }
 
-  .form-control-md
-  {
-      border-style: solid;
-      border-color:rgba(160, 160, 160, .7);
-      border-width: 1.5px;
-  }
+.footer-container
+{
+    padding: 30px;
+    background:#343a40;
+}
 
-  @font-face {
-    font-family: "CRI";
-    src: url("Egiziano_CG.otf") format("opentype");
+.footer
+{
+    color:#f8f9fa;
+    height:140px;
+    position: relative;
+}
+
+
+@font-face 
+{
+font-family: "CRI";
+src: url("Egiziano_CG.otf") format("opentype");
 }
