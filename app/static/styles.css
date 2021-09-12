@@ -96,8 +96,8 @@ html, body
 
 .account-img
 {
-    width: 150px;
-    height: 150px;
+    width: 147px;
+    height: 147px;
 }
 
 @media screen and (max-width: 770px){
@@ -105,6 +105,10 @@ html, body
     {
         width: 100px;
         height: 100px;
+    }
+    .navbar-custom
+    {
+        height: auto;
     }
 }
 
