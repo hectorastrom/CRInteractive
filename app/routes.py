@@ -159,7 +159,6 @@ def rankings(type):
         flash("Ranking type not found.", "error")
         return redirect(url_for('index'))
     userList = []
-    userStats = {}
 
     users = User.query.filter(User.team==current_user.team, User.coach_key=="000000").all()
 
@@ -170,7 +169,7 @@ def rankings(type):
     background_colors = []
 
     for user in users:
-        userStats.clear()
+        userStats = {}
         userStats["name"] = user.firstname + " " + user.lastname
         userStats["firstname"] = user.firstname.lower()
         if type == "2k":
@@ -183,6 +182,7 @@ def rankings(type):
             userList.append(userStats)
             print(userList)
 
+    print(userList)
     userList.sort(key=lambda x:x["type"].seconds)
     for user in userList:
         if user['type']:
@@ -201,11 +201,10 @@ def rankings(type):
             user["time"] = convert_from_seconds(time, "time")
 
     if not userList:
-        userStats.clear()
+        userStats = {}
         userStats["id"] = -1
         userList.append(userStats)
 
-    print(userList)
     return render_template("rankings.html", users = userList, labels = labels, values = values, border_colors = border_colors, background_colors = background_colors, type = type)
 
 @app.route('/2k', methods=['GET', 'POST'])
