@@ -13,7 +13,7 @@ def coach_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-def convert_2k(total, form):
+def convert_from_seconds(total, form):
     if form == "split":
         split_seconds = total/4
         minutes = int(split_seconds/60)

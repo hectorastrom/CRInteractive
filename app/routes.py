@@ -6,7 +6,7 @@ from app.models import User, Twok, Fivek, Technique
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import date
 from random import randint
-from app.helpers import convert_2k, coach_required
+from app.helpers import convert_from_seconds, coach_required
 
 # def create_users(amount):
 #     for i in range(amount):
@@ -144,7 +144,7 @@ def profile(firstname, id):
         image_file = url_for('static', filename='profile_pics/' + user.image_file)
         twok = Twok.query.filter_by(user_id=id).order_by("seconds").first()
         if twok:
-            twok = convert_2k(twok.seconds, "time")
+            twok = convert_from_seconds(twok.seconds, "time")
         else:
             twok = "No Data"
         if current_user.coach_key != "000000":
@@ -152,11 +152,16 @@ def profile(firstname, id):
         else:
             return render_template('user_profile.html', image_file = image_file, user=user, technique=technique, twok=twok)
 
-@app.route('/rankings', methods=['GET'])
+@app.route('/rankings/<type>', methods=['GET'])
 @login_required
-def rankings():
-    userList = list()
-    users = User.query.filter_by(team = current_user.team).all()
+def rankings(type):
+    if type != "2k" and type != "5k":
+        flash("Ranking type not found.", "error")
+        return redirect(url_for('index'))
+    userList = []
+    userStats = {}
+
+    users = User.query.filter(User.team==current_user.team, User.coach_key=="000000").all()
 
     labels = []
     values = []
@@ -164,44 +169,44 @@ def rankings():
     border_colors = []
     background_colors = []
 
-    if users:
-        for user in users:
-            userTwok = dict()
-            userTwok["name"] = user.firstname + " " + user.lastname
-            userTwok["firstname"] = user.firstname.lower()
-            userTwok["twok"] = Twok.query.filter_by(user_id=user.id).order_by("seconds").first()
-            userTwok["id"] = user.id
-            if userTwok['twok']:
-                userTwok['date'] = userTwok['twok'].date_completed
-                userTwok['twok'] = userTwok['twok'].seconds
-                
-                userList.append(userTwok)
-        userList.sort(key=lambda x:x["twok"])
-        for user in userList:
-            if user['twok']:
-                # This adds the name and 2k (in seconds!) of the user to labels and vlaues to be used in the chart
-                labels.append(user["name"])
-                # If the user is in the userList database, set that color value to be purple
-                if user["id"] == current_user.id:
-                    border_colors.append('rgb(144, 15, 209)')
-                    background_colors.append('rgba(144, 15, 209, 0.25)')
-                else:
-                    border_colors.append('rgb(177, 23, 49)')
-                    background_colors.append('rgba(177, 23, 49, 0.25)')
+    for user in users:
+        userStats.clear()
+        userStats["name"] = user.firstname + " " + user.lastname
+        userStats["firstname"] = user.firstname.lower()
+        if type == "2k":
+            userStats["type"] = Twok.query.filter_by(user_id=user.id).order_by("seconds").first()
+        elif type == "5k":
+            userStats["type"] = Fivek.query.filter_by(user_id=user.id).order_by("seconds").first()
+        userStats["id"] = user.id
+        print(userStats)
+        if userStats["type"]:  
+            userList.append(userStats)
+            print(userList)
 
-                values.append(user["twok"])
+    userList.sort(key=lambda x:x["type"].seconds)
+    for user in userList:
+        if user['type']:
+            # This adds the name and 2k (in seconds!) of the user to labels and vlaues to be used in the chart
+            labels.append(user["name"])
+            # If the user is in the userList database, set that color value to be purple
+            if user["id"] == current_user.id:
+                border_colors.append('rgb(144, 15, 209)')
+                background_colors.append('rgba(144, 15, 209, 0.25)')
+            else:
+                border_colors.append('rgb(177, 23, 49)')
+                background_colors.append('rgba(177, 23, 49, 0.25)')
 
-                time = user['twok']
-                user['twok'] = convert_2k(time, "time")
-    else:
-        userTwok = dict()
-        userTwok["name"] = "No user data found"
-        userTwok["twok"] = " "
-        userList.append(userTwok)
+            time = user["type"].seconds
+            values.append(user["type"].seconds)
+            user["time"] = convert_from_seconds(time, "time")
 
+    if not userList:
+        userStats.clear()
+        userStats["id"] = -1
+        userList.append(userStats)
 
-
-    return render_template("rankings.html", users = userList, labels = labels, values = values, border_colors = border_colors, background_colors = background_colors)
+    print(userList)
+    return render_template("rankings.html", users = userList, labels = labels, values = values, border_colors = border_colors, background_colors = background_colors, type = type)
 
 @app.route('/2k', methods=['GET', 'POST'])
 @login_required
