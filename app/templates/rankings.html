@@ -6,77 +6,92 @@
 
 {% block main%}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    {% if current_user.team != "none" %}
-    <div class="row">
-        <div class="col-6">
-             <h2>{{ type }} Rankings for <strong>{{ current_user.team }}</strong></h2> 
+
+    {% if type %}
+        {% if current_user.team != "none" %}
+        <div class="row">
+            <div class="col-6">
+                <h2>{{ type }} Rankings for <strong>{{ current_user.team }}</strong></h2> 
+            </div>
+            <div class="col-4"></div>
+            <div class="col-1">
+                <div class="dropdown">
+                    <button class="btn btn-danger dropdown-toggle" type="button" id="ChangeMetricButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Change Metric
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="{{ url_for('rankings', type='2k') }}">2k</a>
+                    <a class="dropdown-item" href="{{ url_for('rankings', type='5k') }}">5k</a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    
-    <table class="table table-striped mt-3">
-        <thead>
-            <tr>
-                <th>Rank</th>
-                <th>Name</th>
-                <th>{{ type }} Time</th>
-                <th>Date Completed</th> 
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-            <tr>
-                {% if user["id"] != -1 %}
-                <td>{{ loop.index }}</td>
-                <td><a href="{{ url_for('profile', firstname=user['firstname'], id=user['id']) }}">{{ user["name"] }}</a></td>
-                <td>{{ user["time"]}}</td>
-                <td>{{ user["type"].date_completed }}</td>
-                {% else %}
-                <td colspan="4" class="text-center" style="font-size: x-large;"><strong>No user data found</strong></td>
-                {% endif %}
-            </tr>
-            {% endfor %}
-        </tbody>
+        
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>{{ type }} Time</th>
+                    <th>Date Completed</th> 
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    {% if user["id"] != -1 %}
+                    <td>{{ loop.index }}</td>
+                    <td><a href="{{ url_for('profile', firstname=user['firstname'], id=user['id']) }}">{{ user["name"] }}</a></td>
+                    <td>{{ user["time"]}}</td>
+                    <td>{{ user["type"].date_completed }}</td>
+                    {% else %}
+                    <td colspan="4" class="text-center" style="font-size: x-large;"><strong>No user data found</strong></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
 
-    </table>
+        </table>
 
-    {% if users|length > 1 %}
-    <div>
-        <canvas id="TypeChart" width="900" height="400">
-            <script>
-                var ctx = document.getElementById("TypeChart").getContext("2d")
-                var barGraph = new Chart(ctx, {
-                    type: "bar",
-                    data: {
-                        labels: {{ labels | safe }},
-                        datasets: [
-                            {
-                                label: "{{ type }} Time",
-                                data: {{ values | safe }},
-                                fill: false,
-                                borderWidth: 3,
-                                borderColor: {{ border_colors | safe }},
-                                backgroundColor: {{ background_colors | safe }}
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            yAxes: [ {
-                                display: true,
-                                scaleLabel: {
-                                    display: true,
-                                    text: 'Time'
+        {% if users|length > 1 %}
+        <div>
+            <canvas id="TypeChart" width="900" height="400">
+                <script>
+                    var ctx = document.getElementById("TypeChart").getContext("2d")
+                    var barGraph = new Chart(ctx, {
+                        type: "bar",
+                        data: {
+                            labels: {{ labels | safe }},
+                            datasets: [
+                                {
+                                    label: "{{ type }} Time",
+                                    data: {{ values | safe }},
+                                    fill: false,
+                                    borderWidth: 3,
+                                    borderColor: {{ border_colors | safe }},
+                                    backgroundColor: {{ background_colors | safe }}
                                 }
-                            } ]
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                yAxes: [ {
+                                    display: true,
+                                    scaleLabel: {
+                                        display: true,
+                                        text: 'Time'
+                                    }
+                                } ]
+                            }
                         }
-                    }
-                });
-            </script>
-        </canvas>
-    </div>
-    {% endif %}
-    {% else %}
-    <h2>Looks like you haven't specified your team just yet. Head to <a href="{{ url_for('settings') }}">Settings</a> to do so.</h2>
+                    });
+                </script>
+            </canvas>
+        </div>
+        {% endif %}
+        {% else %}
+        <h2>Looks like you haven't specified your team just yet. Head to <a href="{{ url_for('settings') }}">Settings</a> to do so.</h2>
+        {% endif %}
     {% endif %}
 {% endblock%}
