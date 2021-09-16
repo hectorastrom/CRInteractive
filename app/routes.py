@@ -147,10 +147,15 @@ def profile(firstname, id):
             twok = convert_from_seconds(twok.seconds, "time")
         else:
             twok = "No Data"
-        if current_user.coach_key != "000000":
-            return render_template('coach_profile.html', image_file = image_file, user=user, technique=technique, twok=twok)
+        fivek = Fivek.query.filter_by(user_id=id).order_by("seconds").first()
+        if fivek:
+            fivek = convert_from_seconds(fivek.seconds, "time")
         else:
-            return render_template('user_profile.html', image_file = image_file, user=user, technique=technique, twok=twok)
+            fivek = "No Data"
+        if current_user.coach_key != "000000":
+            return render_template('coach_profile.html', image_file = image_file, user=user, technique=technique, twok=twok, fivek=fivek)
+        else:
+            return render_template('user_profile.html', image_file = image_file, user=user, technique=technique, twok=twok, fivek=fivek)
 
 @app.route('/rankings/<type>', methods=['GET'])
 @login_required
