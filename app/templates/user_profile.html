@@ -89,7 +89,7 @@
                             let totalLength = curve.getTotalLength();
                             let displacement = 0
 
-                            var portion = {{ technique.coach_rating }}/100.0 + displacement;
+                            var portion = parseInt("{{ technique.coach_rating }}")/100.0 + displacement;
                             var coordinates = curve.getPointAtLength(portion * totalLength);
                             dot.setAttribute("transform", `translate(${coordinates.x}, ${coordinates.y})`);
                         }

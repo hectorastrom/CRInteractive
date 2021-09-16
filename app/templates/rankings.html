@@ -10,10 +10,10 @@
     {% if type %}
         {% if current_user.team != "none" %}
         <div class="row">
-            <div class="col-6">
+            <div class="col-sm-10 col-md-8">
                 <h2>{{ type }} Rankings for <strong>{{ current_user.team }}</strong></h2> 
             </div>
-            <div class="col-4"></div>
+            <div class="col-sm-0 col-md-2"></div>
             <div class="col-1">
                 <div class="dropdown">
                     <button class="btn btn-danger dropdown-toggle" type="button" id="ChangeMetricButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -89,6 +89,7 @@
                 </script>
             </canvas>
         </div>
+        <p class="text-muted small mt-4 text-center">Ranking go from lowest times to greatest times. The fastest score appears on the left.</p>
         {% endif %}
         {% else %}
         <h2>Looks like you haven't specified your team just yet. Head to <a href="{{ url_for('settings') }}">Settings</a> to do so.</h2>
