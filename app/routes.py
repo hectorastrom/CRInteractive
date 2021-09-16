@@ -177,12 +177,9 @@ def rankings(type):
         elif type == "5k":
             userStats["type"] = Fivek.query.filter_by(user_id=user.id).order_by("seconds").first()
         userStats["id"] = user.id
-        print(userStats)
         if userStats["type"]:  
             userList.append(userStats)
-            print(userList)
 
-    print(userList)
     userList.sort(key=lambda x:x["type"].seconds)
     for user in userList:
         if user['type']:
@@ -256,3 +253,10 @@ def roster():
     else:
         flash("You do not have permissions to access that page.", "error")
         return redirect(url_for('index'))
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html", url = request.url), 404
+    
+app.register_error_handler(404, page_not_found)
+

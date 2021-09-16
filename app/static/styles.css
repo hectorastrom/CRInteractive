@@ -232,6 +232,28 @@ border-radius: 20px;
     position: relative;
 }
 
+#not-found
+{
+    color: red;
+    font-weight: bold;
+    padding-left: 0;
+}
+
+#url
+{
+    color: #007bff;
+}
+
+.tooltip-inner
+{
+    max-width: auto !important;
+    height: auto;
+    font-size: 15px;
+    background: #FFFFFF;
+    color: rgba(0, 0, 0, .7);
+    border: 1px solid #737373;
+    text-align: left;
+}
 
 
 @font-face 
