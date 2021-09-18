@@ -70,6 +70,22 @@ def register():
         return redirect(url_for('index'))
     return render_template('register.html', form=form)
 
+
+@app.route('/register/coach', methods=['GET', 'POST'])
+def coach_register():
+    form = CoachRegistrationForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        # Adds user to database
+        user = User(firstname=form.firstname.data.strip(), lastname=form.lastname.data.strip(), email=form.email.data.strip(), password=hashed_password, coach_key=form.coach_key.data)
+        db.session.add(user)
+        db.session.commit()
+        login_user(user, remember=True)
+        flash(f'Your account has been created!', 'success')
+        return redirect(url_for('index'))
+    return render_template('registercoach.html', form=form)
+
+
 @app.route('/settings', methods=["GET", "POST"])
 @login_required
 def settings():
@@ -120,6 +136,7 @@ def settings():
     else:
         return render_template("settings.html", teams=teams, possible_feet=possible_feet, possible_inches=possible_inches, grades=grades, user_feet = user_feet, user_inches = user_inches)
 
+
 @app.route('/profile/<firstname>:<id>', methods=["GET", "POST"])
 @login_required
 def profile(firstname, id):
@@ -156,6 +173,7 @@ def profile(firstname, id):
             return render_template('coach_profile.html', image_file = image_file, user=user, technique=technique, twok=twok, fivek=fivek)
         else:
             return render_template('user_profile.html', image_file = image_file, user=user, technique=technique, twok=twok, fivek=fivek)
+
 
 @app.route('/rankings/<type>', methods=['GET'])
 @login_required
@@ -209,6 +227,7 @@ def rankings(type):
 
     return render_template("rankings.html", users = userList, labels = labels, values = values, border_colors = border_colors, background_colors = background_colors, type = type)
 
+
 @app.route('/2k', methods=['GET', 'POST'])
 @login_required
 def upload_twok():
@@ -221,6 +240,7 @@ def upload_twok():
         flash(f'Logged 5k for {form.date.data}.', 'success')
         return redirect(url_for('index'))
     return render_template('2k.html', form=form)
+
 
 @app.route('/5k', methods=['GET', 'POST'])
 @login_required
@@ -235,19 +255,6 @@ def upload_fivek():
         return redirect(url_for('index'))
     return render_template('5k.html', form=form)
 
-@app.route('/register/coach', methods=['GET', 'POST'])
-def coach_register():
-    form = CoachRegistrationForm()
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        # Adds user to database
-        user = User(firstname=form.firstname.data.strip(), lastname=form.lastname.data.strip(), email=form.email.data.strip(), password=hashed_password, coach_key=form.coach_key.data)
-        db.session.add(user)
-        db.session.commit()
-        login_user(user, remember=True)
-        flash(f'Your account has been created!', 'success')
-        return redirect(url_for('index'))
-    return render_template('registercoach.html', form=form)
 
 @app.route('/roster')
 @login_required
@@ -258,6 +265,12 @@ def roster():
     else:
         flash("You do not have permissions to access that page.", "error")
         return redirect(url_for('index'))
+
+@app.route('/aboutus')
+def about_us():
+    hector_image = url_for('static', filename='profile_pics/' + 'default.jpg') # Replace with photo for hector 
+    albert_image = url_for('static', filename='profile_pics/' + 'default.jpg') # Replace with photo for albert 
+    return render_template("about_us.html", hector_image = hector_image, albert_image = albert_image)        
 
 @app.errorhandler(404)
 def page_not_found(e):

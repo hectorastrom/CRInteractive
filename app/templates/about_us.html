@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block title %}About Us{% endblock %}
+{% block main %}
+    <div class="row pb-3 border-bottom border-dark">
+        <div class="col-2">
+            <img src="{{ hector_image }}" alt="Photo of Hector Astrom" class="rounded-circle account-img">
+        </div>
+        <div class="col-6">
+            <h3><a href="https://github.com/hectorastrom" style="color:purple;">Hector Astrom</a></h3>
+            <p>I am a junior at <strong>Lexington High School</strong> in Massachusetts. I also row at <strong>CRI</strong> and created this website so each person on our team could know where they stand and what they need to do to improve.</p>
+        </div>
+
+    </div>
+    <div class="row" style="margin-top: 4vh;">
+        <div class="col-2">
+            <img src="{{ albert_image }}" alt="Photo of Albert Astrom" class="rounded-circle account-img">
+        </div>
+        <div class="col-6">
+            <h3>Albert Astrom</h3>
+            <p>I am a senior at Lexington High School in Massachusetts.</p>
+        </div>
+    </div>
+{% endblock %}

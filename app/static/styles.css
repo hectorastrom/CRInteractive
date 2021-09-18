@@ -256,6 +256,13 @@ border-radius: 20px;
     text-align: left;
 }
 
+#creator-desc
+{
+    padding-bottom: 40px;
+    border-bottom: rgba(0, 0, 0, .7);
+
+}
+
 
 @font-face 
 {
