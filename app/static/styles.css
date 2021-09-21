@@ -221,16 +221,20 @@ border-radius: 20px;
 
 .footer-container
 {
-    padding: 30px;
+    padding: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
     background:#343a40;
 }
 
 .footer
 {
     color:#f8f9fa;
-    height:140px;
+    height:110px;
     position: relative;
 }
+
+
 
 #not-found
 {

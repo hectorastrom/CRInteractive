@@ -49,9 +49,11 @@ class Fivek(db.Model):
 class Technique(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     coach_rating = db.Column(db.Integer, default=50)
+    coach_importance = db.Column(db.Integer, default=5)
     user_rating = db.Column(db.Integer, default=50)
-    user_importance = db.Column(db.Integer, default=50)
+    user_importance = db.Column(db.Integer, default=5)
     view_allowed = db.Column(db.Boolean, default=False)
+    has_set = db.Column(db.Boolean, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     
     def __repr__(self):

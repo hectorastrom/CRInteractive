@@ -123,6 +123,7 @@ def settings():
             current_user.side = side
             current_user.team = team
             current_user.grade = int(grade)
+            flash('Settings Updated.', 'success')
         
         else:
             team = request.form.get("team")
@@ -144,19 +145,29 @@ def profile(firstname, id):
     if not user:
         flash("Profile not found", 'error')
         return redirect(url_for('index'))
+
     technique = Technique.query.filter_by(user_id=id).first()
     if not technique:
         technique = Technique(user_id=id)
         db.session.add(technique)
         db.session.commit()
+
     if request.method == "POST":
-        coach_rating = request.form.get("coach_rating")
+        # For now this will work just like this since the only metric we have is technique,
+        # but when we add more we will need a way to differentiate the forms and set 
+        # the has_set for each metric to be different since we don't want to update
+        # the technique has_set if only the athletic intelligence metric is changed
+        if not technique.has_set:
+            technique.has_set = True
+        technique_coach_rating = request.form.get("technique_coach_rating")
+        technique_coach_importance = request.form.get("technique_coach_importance")
         view_allowed = bool(request.form.get("view_allowed"))
-        technique.coach_rating = coach_rating
-        db.session.commit()
+        technique.coach_rating = technique_coach_rating
+        technique.coach_importance = technique_coach_importance
         technique.view_allowed = view_allowed
         db.session.commit()
-        return redirect(url_for('index'))
+        flash(f"Updated Technique for {user.firstname}", "success")
+        return redirect('#')
     else:
         image_file = url_for('static', filename='profile_pics/' + user.image_file)
         twok = Twok.query.filter_by(user_id=id).order_by("seconds").first()
