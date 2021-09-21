@@ -267,6 +267,21 @@ border-radius: 20px;
 
 }
 
+.preview
+{
+    display:none;
+    width:100%;
+    border-width: 10px;
+    border-color: black;
+}
+
+.live_link:hover + .preview, .preview:hover
+{
+    display: block;
+    position: relative;
+    z-index: 10;
+}
+
 
 @font-face 
 {

@@ -41,7 +41,12 @@
                 <tr>
                     {% if user["id"] != -1 %}
                     <td>{{ loop.index }}</td>
-                    <td><a href="{{ url_for('profile', firstname=user['firstname'], id=user['id']) }}">{{ user["name"] }}</a></td>
+                    <td>
+                        <a class="live_link" href="{{ url_for('profile', firstname=user['firstname'], id=user['id']) }}">{{ user["name"] }}</a>
+                        <div class="preview">
+                            <iframe src="{{ url_for('profile', firstname=user['firstname'], id=user['id']) }}" width="600px" height="400px"></iframe>
+                        </div>
+                    </td>
                     <td>{{ user["time"]}}</td>
                     <td>{{ user["type"].date_completed }}</td>
                     {% else %}
