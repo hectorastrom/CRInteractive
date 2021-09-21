@@ -270,15 +270,14 @@ border-radius: 20px;
 .preview
 {
     display:none;
-    width:100%;
-    border-width: 10px;
-    border-color: black;
+    width:50%;
+    height:50%;
 }
 
 .live_link:hover + .preview, .preview:hover
 {
     display: block;
-    position: relative;
+    position: absolute;
     z-index: 10;
 }
 

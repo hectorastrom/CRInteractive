@@ -6,6 +6,11 @@
 
 {% block main%}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        $(".preview").hover(function(e){
+            this.show()
+        })
+    </script>
 
     {% if type %}
         {% if current_user.team != "none" %}
@@ -44,7 +49,7 @@
                     <td>
                         <a class="live_link" href="{{ url_for('profile', firstname=user['firstname'], id=user['id']) }}">{{ user["name"] }}</a>
                         <div class="preview">
-                            <iframe src="{{ url_for('profile', firstname=user['firstname'], id=user['id']) }}" width="600px" height="400px"></iframe>
+                            <iframe width="100%" height="100%" src="{{ url_for('profile', firstname=user['firstname'], id=user['id']) }}"></iframe>
                         </div>
                     </td>
                     <td>{{ user["time"]}}</td>
