@@ -27,12 +27,17 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Urbanist">
 
-        <!-- Enable Tooltips -->
         <script>
+            // Enable Tooltips
             $(document).ready(function(){
               $('[data-toggle="tooltip"]').tooltip();
             });
+            // Fade Flashes
+            setTimeout(function() {
+                $('.alert').fadeOut('slow');
+            }, 2000);
         </script>
+
 
         <title>CRInteractive: {% block title %}{% endblock %}</title>
 
