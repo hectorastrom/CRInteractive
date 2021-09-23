@@ -35,12 +35,15 @@
         <!-- If viewing their own page as a non-coach -->
         {% if current_user.id == user.id and technique.view_allowed %}
         <legend class="border-bottom border-dark mt-3" style="font-weight: 600;">View Coach Ratings</legend>
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#techniquemodal">
+        <!-- <button id="techniqueButton" type="button" class="btn btn-danger" data-toggle="modal" data-target="#techniquemodal">
             View Coach's Technique Rating
-        </button>
+        </button> -->
+        <script>
+            drawBellCurve("{{ user.firstname }}", "Technique", {{ technique.coach_rating }})
+        </script>
           
           <!-- Modal -->
-          <div class="modal fade" id="techniquemodal" tabindex="-1" role="dialog" aria-labelledby="techniquemodallabel" aria-hidden="true">
+          <!-- <div class="modal fade" id="techniquemodal" tabindex="-1" role="dialog" aria-labelledby="techniquemodallabel" aria-hidden="true">
             <div class="modal-dialog modal-xl" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -83,7 +86,7 @@
                             style="fill: rgba(177, 23, 49, .8)" />
                     </svg>
                     <script>
-                        window.onload = () => {
+                        document.getElementById(`techniqueButton`).onclick = function() {
                             let dot = document.getElementById('tech_coach_dot');
                             let curve = document.getElementById('tech_coach_curve');
                             let totalLength = curve.getTotalLength();
@@ -100,7 +103,7 @@
                   <button type="button" class="btn btn-secondary close" data-dismiss="modal" aria-label="Close">Close</button>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         {% endif %}
 
