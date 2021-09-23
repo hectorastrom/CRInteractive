@@ -57,6 +57,6 @@ class Technique(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     
     def __repr__(self):
-        return f"Technique(Coach Rating: '{self.coach_rating}', User Rating: '{self.user_rating}', User Importance: '{self.user_importance}', View Allowed: '{self.view_allowed}', user_id: '{self.user_id}')"
+        return f"Technique(Coach Rating: '{self.coach_rating}', User Rating: '{self.user_rating}', User Importance: '{self.user_importance}', View Allowed: '{self.view_allowed}', Has Set: '{self.has_set}', user_id: '{self.user_id}')"
 
         

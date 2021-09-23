@@ -33,7 +33,22 @@
     {% if current_user.team == user.team %}
     <legend class="border-bottom border-dark mb-4" style="font-weight: 600;">Set Ratings</legend>
     <p><span style="color:#007bff;">Blue</span> means you have set that metric, <span style="color:#dc3545;">Red</span> means you still need to.</p>
-    <button type="button" class="btn {% if technique.has_set %}btn-primary{% else %}btn-danger{% endif %}" data-toggle="modal" data-target="#techniquemodal">
+    <script>
+        {% if technique.has_set %}
+            let button_class = "btn-primary";
+        {% else %}
+            let button_class = "btn-danger";
+        {% endif %}
+
+        {% if technique.view_allowed %}
+            let is_checked = "checked";
+        {% else %}
+            let is_checked = "";
+        {% endif %}
+
+        drawCoachBellCurve("Technique", {{ technique.coach_rating }}, {{ technique.coach_importance }}, button_class, is_checked, "{{ user.firstname }}");
+    </script>
+    <!-- <button type="button" class="btn {% if technique.has_set %}btn-primary{% else %}btn-danger{% endif %}" data-toggle="modal" data-target="#techniquemodal">
         Indicate Technique Rating
     </button>
     <div class="modal fade" id="techniquemodal" tabindex="-1" role="dialog" aria-labelledby="techniquemodallabel" aria-hidden="true">
@@ -128,7 +143,7 @@
             </form>
           </div>
         </div>
-      </div>
+      </div> -->
     {% endif %}
     {% else %}
     <p><strong>Coaches for: </strong>{{ current_user.team }}</p>

@@ -39,7 +39,7 @@
             View Coach's Technique Rating
         </button> -->
         <script>
-            drawBellCurve("{{ user.firstname }}", "Technique", {{ technique.coach_rating }})
+            drawUserBellCurve("Technique", {{ technique.coach_rating }}, "{{ user.firstname }}")
         </script>
           
           <!-- Modal -->

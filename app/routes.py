@@ -147,6 +147,7 @@ def profile(firstname, id):
         return redirect(url_for('index'))
 
     technique = Technique.query.filter_by(user_id=id).first()
+    print(technique)
     if not technique:
         technique = Technique(user_id=id)
         db.session.add(technique)
@@ -159,12 +160,10 @@ def profile(firstname, id):
         # the technique has_set if only the athletic intelligence metric is changed
         if not technique.has_set:
             technique.has_set = True
-        technique_coach_rating = request.form.get("technique_coach_rating")
-        technique_coach_importance = request.form.get("technique_coach_importance")
-        view_allowed = bool(request.form.get("view_allowed"))
-        technique.coach_rating = technique_coach_rating
-        technique.coach_importance = technique_coach_importance
-        technique.view_allowed = view_allowed
+        # Technique is the metric name which we will store in a list here with metric objects that have names, values and importances
+        technique.coach_rating = request.form.get("Technique_coach_rating")
+        technique.coach_importance = request.form.get("Technique_coach_importance")
+        technique.view_allowed = bool(request.form.get("Technique_view_allowed"))
         db.session.commit()
         flash(f"Updated Technique for {user.firstname}", "success")
         return redirect('#')
