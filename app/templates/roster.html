@@ -4,18 +4,13 @@
     Rankings
 {% endblock %}
 
-{% block main%}
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+{% block main %}
     <script>
         $(function() {
-            $("#sortable").sortable();
-            $("#sortable").disableSelection()
-            
-            $(".box").each(function(index) {
-                console.log(index + ": " + $( this).text())
-        })
+            enableSorting()
         });
     </script>
+    
     <!-- If they're a coach -->
     {% if current_user.coach_key != "000000" %}
         {% if current_user.team != "none" %}

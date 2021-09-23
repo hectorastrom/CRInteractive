@@ -174,17 +174,18 @@ cursor: grab;
 
 .box
 {
-border-style: solid;
-border-width: 2px;
-border-color: rgba(150, 150, 150, 0.7);
-user-select: none;
-list-style-type: none;
-text-align: center;
-width:50%;
-border-radius: 10px;
-padding: 10px;
-margin-bottom: 2%;
-background-color: white;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgba(150, 150, 150, 0.7);
+    user-select: none;
+    list-style-type: none;
+    text-align: center;
+    width:50%;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 2%;
+    background-color: white;
+    position: relative;
 }
 
 #item-container
