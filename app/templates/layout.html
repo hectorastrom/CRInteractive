@@ -27,16 +27,9 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Urbanist">
 
-        <script>
-            // Enable Tooltips
-            $(document).ready(function(){
-              $('[data-toggle="tooltip"]').tooltip();
-            });
-            // Fade Flashes
-            setTimeout(function() {
-                $('.alert').fadeOut('slow');
-            }, 2000);
-        </script>
+
+        <!-- Scripts file -->
+        <script src="{{ url_for('static', filename='scripts.js') }}"></script>
 
 
         <title>CRInteractive: {% block title %}{% endblock %}</title>
