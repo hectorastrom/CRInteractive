@@ -165,8 +165,10 @@ function drawCoachBellCurve(metric_name, metric_value, metric_importance, button
         let curve = document.getElementById(`${metric_name}_curve`);
         let totalLength = curve.getTotalLength();
         let slider = document.getElementById(`${metric_name}_slider`);
-
-        var portion = parseInt(metric_value)/100.0;
+        
+        
+        console.log("slider value: " + metric_value);
+        var portion = parseInt(slider.value)/100.0;
         var coordinates = curve.getPointAtLength(portion * totalLength);
         dot.setAttribute("transform", `translate(${coordinates.x}, ${coordinates.y})`);
 
