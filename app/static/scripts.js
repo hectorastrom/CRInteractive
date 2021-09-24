@@ -8,7 +8,7 @@ setTimeout(function() {
 }, 2000);
 
 
-function drawUserBellCurve(metric_name, metric_value, firstname)
+function drawUserBellCurve(metric_name, metric_value, metric_importance, firstname)
 {
     let html = `
     <button id="${metric_name}Button" type="button" class="btn btn-danger" data-toggle="modal" data-target="#${metric_name}modal">
@@ -54,6 +54,10 @@ function drawUserBellCurve(metric_name, metric_value, firstname)
                     id="${metric_name}_dot"
                     style="fill: rgba(177, 23, 49, .8)" />
             </svg>
+
+            <div class="slidecontainer mt-4">
+                <input type="range" min="0" max="10" step="1" value="${metric_importance}" class="slider slider-yellow" disabled>
+            </div>
 
         </div>
         <div class="modal-footer" style="margin-top: 50px;">
@@ -136,7 +140,7 @@ function drawCoachBellCurve(metric_name, metric_value, metric_importance, button
                         </div>
                         <div class="form-group short mt-3">
                             <div class="slidecontainer">
-                                <input type="range" min="0" max="10" step="1" value="${metric_importance}" class="slider" name="${metric_name}_coach_importance">
+                                <input type="range" min="0" max="10" step="1" value="${metric_importance}" class="slider slider-yellow" name="${metric_name}_coach_importance">
                             </div>
                         </div>
                     </div>

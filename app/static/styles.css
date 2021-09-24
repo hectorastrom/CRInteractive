@@ -147,6 +147,12 @@ background: rgb(177, 23, 49);
 cursor: grab;
 }
 
+.slider .slider-yellow
+/* NOT WORKING */
+{
+    background: rgb(177, 133, 11);
+}
+
 
 .form-check-input-xl
 {
