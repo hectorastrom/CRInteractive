@@ -147,7 +147,6 @@ def profile(firstname, id):
         return redirect(url_for('index'))
 
     technique = Technique.query.filter_by(user_id=id).first()
-    print(technique)
     if not technique:
         technique = Technique(user_id=id)
         db.session.add(technique)
@@ -158,12 +157,16 @@ def profile(firstname, id):
         # but when we add more we will need a way to differentiate the forms and set 
         # the has_set for each metric to be different since we don't want to update
         # the technique has_set if only the athletic intelligence metric is changed
-        if not technique.has_set:
-            technique.has_set = True
-        # Technique is the metric name which we will store in a list here with metric objects that have names, values and importances
-        technique.coach_rating = request.form.get("Technique_coach_rating")
-        technique.coach_importance = request.form.get("Technique_coach_importance")
-        technique.view_allowed = bool(request.form.get("Technique_view_allowed"))
+        if request.form.get("form_identifier") == "Technique":
+            if not technique.has_set:
+                technique.has_set = True
+            # Technique is the metric name which we will store in a list here with metric objects that have names, values and importances
+            technique.coach_rating = request.form.get("Technique_coach_rating")
+            technique.coach_importance = request.form.get("Technique_coach_importance")
+            technique.view_allowed = bool(request.form.get("Technique_view_allowed"))
+        else:
+            flash("Problem submitting form. Please try again.", "error")
+            return redirect(request.url)
         db.session.commit()
         flash(f"Updated Technique for {user.firstname}", "success")
         return redirect('#')

@@ -146,6 +146,7 @@ function drawCoachBellCurve(metric_name, metric_value, metric_importance, button
                         <button type="submit" class="btn btn-outline-danger rounded-pill">Update</button>
                     </div>
                 </div>
+                <input type="hidden" value="${metric_name}" name="form_identifier" />
             </form>
           </div>
         </div>
