@@ -134,6 +134,10 @@ def settings():
         return render_template("settings.html", teams=teams, possible_feet=possible_feet, possible_inches=possible_inches, grades=grades, user_feet = user_feet, user_inches = user_inches)
     
 
+metric_name_list = [
+    "Technique",
+    "Power",
+]
 @app.route('/profile/<firstname>:<id>', methods=["GET", "POST"])
 @login_required
 def profile(firstname, id):
@@ -142,31 +146,33 @@ def profile(firstname, id):
         flash("Profile not found", 'error')
         return redirect(url_for('index'))
 
-    technique = Technique.query.filter_by(user_id=id).first()
-    if not technique:
-        technique = Technique(user_id=id)
-        db.session.add(technique)
-        db.session.commit()
-
     if request.method == "POST":
-        # For now this will work just like this since the only metric we have is technique,
-        # but when we add more we will need a way to differentiate the forms and set 
-        # the has_set for each metric to be different since we don't want to update
-        # the technique has_set if only the athletic intelligence metric is changed
-        if request.form.get("form_identifier") == "Technique":
-            if not technique.has_set:
-                technique.has_set = True
-            # Technique is the metric name which we will store in a list here with metric objects that have names, values and importances
-            technique.coach_rating = request.form.get("Technique_coach_rating")
-            technique.coach_importance = request.form.get("Technique_coach_importance")
-            technique.view_allowed = bool(request.form.get("Technique_view_allowed"))
-        else:
+        # Get the metric with the name of the form identifier that was submitted
+        updated_metric = Metric.query.filter(Metric.user_id == id, Metric.metric_name == request.form.get("form_identifier")).first()
+        # If nothing was found, which could happen if the user inspects element, then it won't continue
+        if not updated_metric:
             flash("Problem submitting form. Please try again.", "error")
             return redirect(request.url)
+
+        if not updated_metric.has_set:
+            updated_metric.has_set = True
+        updated_metric.coach_rating = request.form.get(f"{updated_metric.metric_name}_coach_rating")
+        updated_metric.coach_importance = request.form.get(f"{updated_metric.metric_name}_coach_importance")
+        updated_metric.view_allowed = bool(request.form.get(f"{updated_metric.metric_name}_view_allowed"))
         db.session.commit()
-        flash(f"Updated Technique for {user.firstname}", "success")
+        flash(f"Updated {updated_metric.metric_name} for {user.firstname}", "success")
         return redirect('#')
     else:
+        # Goes through and adds all important metrics for a user if they don't exist
+        for metric_name in metric_name_list:
+            metric = Metric.query.filter(Metric.user_id==id, Metric.metric_name==metric_name).first()
+            if not metric:
+                metric = Metric(user_id=id, metric_name=metric_name)
+                db.session.add(metric)
+                db.session.commit()
+        # All metrics is to be sent to profiles to be displayed
+        all_metrics = Metric.query.filter_by(user_id=id).all()
+        all_user_metrics = Metric.query.filter(Metric.user_id==id, Metric.view_allowed==True).all()
         image_file = url_for('static', filename='profile_pics/' + user.image_file)
         twok = Twok.query.filter_by(user_id=id).order_by("seconds").first()
         if twok:
@@ -179,9 +185,9 @@ def profile(firstname, id):
         else:
             fivek = "No Data"
         if current_user.coach_key != "000000":
-            return render_template('coach_profile.html', image_file = image_file, user=user, technique=technique, twok=twok, fivek=fivek)
+            return render_template('coach_profile.html', image_file = image_file, user=user, all_metrics=all_metrics, twok=twok, fivek=fivek)
         else:
-            return render_template('user_profile.html', image_file = image_file, user=user, technique=technique, twok=twok, fivek=fivek)
+            return render_template('user_profile.html', image_file = image_file, user=user, all_metrics=all_user_metrics, twok=twok, fivek=fivek)
 
 
 @app.route('/rankings/<type>', methods=['GET'])
