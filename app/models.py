@@ -17,13 +17,14 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     coach_key = db.Column(db.String(6), nullable=False, default="000000")
+    pinged = db.Column(db.Boolean, default=False)
     # Height is in inches
     height = db.Column(db.Integer())
     weight = db.Column(db.Integer())
     grade = db.Column(db.Integer())
     twoks = db.relationship('Twok', backref='rower', lazy=True)
     fiveks = db.relationship('Fivek', backref='rower', lazy=True)
-    technique = db.relationship('Technique', backref='rower', lazy=True)
+    metric = db.relationship('Metric', backref='rower', lazy=True)
 
     def __repr__(self):
         return f"User(Firstname: '{self.firstname}', Lastname: '{self.lastname}', Email: '{self.email}', Team: '{self.team}', Side: '{self.side}', Imagefile: '{self.image_file}')"
@@ -46,17 +47,19 @@ class Fivek(db.Model):
     def __repr__(self):
         return f"5k(seconds: '{self.seconds}', date_completed: '{self.date_completed}', user_id: '{self.user_id}')"
 
-class Technique(db.Model):
+class Metric(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    metric_name = db.Column(db.String(50), nullable=False)
     coach_rating = db.Column(db.Integer, default=50)
     coach_importance = db.Column(db.Integer, default=5)
     user_rating = db.Column(db.Integer, default=50)
     user_importance = db.Column(db.Integer, default=5)
     view_allowed = db.Column(db.Boolean, default=False)
     has_set = db.Column(db.Boolean, default=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    note = db.Column(db.Text)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     
     def __repr__(self):
-        return f"Technique(Coach Rating: '{self.coach_rating}', User Rating: '{self.user_rating}', User Importance: '{self.user_importance}', View Allowed: '{self.view_allowed}', Has Set: '{self.has_set}', user_id: '{self.user_id}')"
+        return f"Metric(Metric Name: 'f{self.metric_name}', Coach Rating: '{self.coach_rating}', User Rating: '{self.user_rating}', User Importance: '{self.user_importance}', View Allowed: '{self.view_allowed}', Has Set: '{self.has_set}', user_id: '{self.user_id}', Note: '{self.note}')"
 
         

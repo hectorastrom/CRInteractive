@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, redirect, request
 from flask.helpers import url_for
 from app import app, db, bcrypt, teams
 from app.forms import RegistrationForm, LoginForm, TwokForm, CoachRegistrationForm
-from app.models import User, Twok, Fivek, Technique
+from app.models import User, Twok, Fivek, Metric
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import date
 from random import randint
@@ -27,10 +27,6 @@ from app.helpers import convert_from_seconds, coach_required
 
 @app.route("/")
 def index():
-    # if current_user.coach_key != "000000":
-    #     pass
-    # else:
-    #     return render_template('index.html')
     return render_template('index.html')
 
 @app.route('/login', methods=["GET", "POST"])
@@ -136,7 +132,7 @@ def settings():
         return redirect(url_for('index'))
     else:
         return render_template("settings.html", teams=teams, possible_feet=possible_feet, possible_inches=possible_inches, grades=grades, user_feet = user_feet, user_inches = user_inches)
-
+    
 
 @app.route('/profile/<firstname>:<id>', methods=["GET", "POST"])
 @login_required
