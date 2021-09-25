@@ -297,15 +297,37 @@ border-radius: 20px;
 .eyeball
 {
     font-size: x-large;
-    padding-left: 3vh;
-    padding-top: .2vh;
+    width:auto;
+    display: inline;
+    position: absolute;
+    margin-top: .2vh;
+    margin-left: 1vh;
 }
 
 .metric-button
 {
     padding: 10px;
     margin-bottom: 20px;
-    width: 30vh;
+    width: 28vh;
+}
+
+@media screen and (max-width: 400px)
+{
+    .metric-button
+    {
+        font-size: smaller;
+        width:26vh;
+    }
+    .eyeball
+    {
+        font-size: large;
+    }
+}
+
+.metric-eye
+{
+    text-align: center;
+    position: relative;
 }
 
 
