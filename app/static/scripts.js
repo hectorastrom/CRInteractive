@@ -81,11 +81,20 @@ function drawUserBellCurve(metric_tag, metric_name, metric_desc, metric_value, m
 
 function drawCoachBellCurve(metric_tag, metric_name, metric_desc, metric_value, metric_importance, button_class, is_checked, firstname)
 {
+    let eyeball = ""
+    if (is_checked)
+    {
+        eyeball="&#128064;"
+    }
     let html = `
-    <div class="row justify-content-center" >
-        <button id="${metric_tag}Button" type="button" class="btn ${button_class} metric-button" data-toggle="modal" data-target="#${metric_tag}modal">
-        ${metric_name} Rating
-        </button> 
+    <div class="row justify-content-center">
+        <div class="col-4"></div>
+        <div class="col-3">
+        <button id="${metric_tag}Button" type="button" class="btn ${button_class} metric-button" data-toggle="modal" data-target="#${metric_tag}modal">${metric_name} Rating</button> 
+        </div>
+        <div class="col-5 justify-content-start">
+        <p class="eyeball">${eyeball}</p>
+        </div>
     </div>
 
     <div class="modal fade" id="${metric_tag}modal" tabindex="-1" role="dialog" aria-labelledby="${metric_tag}modallabel" aria-hidden="true">

@@ -154,6 +154,7 @@ html, body
 }
 
 
+
 .form-check-input-xl
 {
     width: 2.5vh;
@@ -288,6 +289,17 @@ border-radius: 20px;
     z-index: 10;
 }
 
+.row
+{
+    position: relative !important;
+}
+
+.eyeball
+{
+    font-size: x-large;
+    padding-left: 3vh;
+    padding-top: .2vh;
+}
 
 .metric-button
 {
@@ -295,6 +307,7 @@ border-radius: 20px;
     margin-bottom: 20px;
     width: 30vh;
 }
+
 
 @font-face 
 {
