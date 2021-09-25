@@ -58,7 +58,7 @@
             {% endif %}
 
 
-            drawCoachBellCurve("{{ metric.metric_tag }}", "{{ metric.metric_name }}", {{ metric.coach_rating }}, {{ metric.coach_importance }}, button_class, is_checked, "{{ user.firstname }}");
+            drawCoachBellCurve("{{ metric.tag }}", "{{ metric.name }}", "{{ metric.desc }}", {{ metric.coach_rating }}, {{ metric.coach_importance }}, button_class, is_checked, "{{ user.firstname }}");
         {% endfor %}
     </script>
     {% endif %}

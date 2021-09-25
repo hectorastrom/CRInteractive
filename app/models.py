@@ -49,8 +49,9 @@ class Fivek(db.Model):
 
 class Metric(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    metric_tag = db.Column(db.String(50), default="")
-    metric_name = db.Column(db.String(50), default="")
+    tag = db.Column(db.String(50), default="")
+    name = db.Column(db.String(50), default="")
+    desc = db.Column(db.Text)
     coach_rating = db.Column(db.Integer, default=50)
     coach_importance = db.Column(db.Integer, default=5)
     user_rating = db.Column(db.Integer, default=50)

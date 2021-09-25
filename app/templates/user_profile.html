@@ -34,7 +34,7 @@
         
         <!-- If viewing their own page as a non-coach -->
         {% if current_user.id == user.id and all_metrics %}
-        <legend class="border-bottom border-dark mt-3" style="font-weight: 600;">View Coach Ratings</legend>
+        <legend class="border-bottom border-dark mt-3" style="font-weight: 600;">Ratings Shared by Coaches</legend>
         <svg width="0" height="0">
             <defs>
                 <linearGradient id="CurveGradient" x1="0" x2=".75" y1="0" y2="0">
@@ -45,7 +45,7 @@
         </svg>
         <script>
             {% for metric in all_metrics %}
-                drawUserBellCurve("{{ metric.metric_tag }}", "{{ metric.metric_name }}", {{ metric.coach_rating }}, {{ metric.coach_importance }}, "{{ user.firstname }}")
+                drawUserBellCurve("{{ metric.tag }}", "{{ metric.name }}", "{{ metric.desc }}", {{ metric.coach_rating }}, {{ metric.coach_importance }}, "{{ user.firstname }}")
             {% endfor %}
         </script>
         {% endif %}

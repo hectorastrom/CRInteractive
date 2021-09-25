@@ -25,3 +25,11 @@ def convert_from_seconds(total, form):
     if seconds < 10:
             seconds = "0" + str(seconds)
     return str(minutes) + ":" + str(seconds)
+
+class MetricObj():
+    def __init__(self, tag, name, desc=""):
+        self.tag = tag
+        self.name = name
+        self.desc = desc
+    def __repr__(self) -> str:
+        return f'*Tag: {self.tag}, Name: {self.name}, Description: {self.desc}*'

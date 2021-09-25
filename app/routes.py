@@ -6,7 +6,7 @@ from app.models import User, Twok, Fivek, Metric
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import date
 from random import randint
-from app.helpers import convert_from_seconds, coach_required
+from app.helpers import convert_from_seconds, coach_required, MetricObj
 
 # def create_users(amount):
 #     for i in range(amount):
@@ -134,7 +134,7 @@ def settings():
         return render_template("settings.html", teams=teams, possible_feet=possible_feet, possible_inches=possible_inches, grades=grades, user_feet = user_feet, user_inches = user_inches)
     
 
-metric_tag_list = {
+tag_list = {
     "gt":"General Technique",
     "bp":"Body Preperation",
     "rhythm":"Rhythm",
@@ -150,6 +150,23 @@ metric_tag_list = {
     "mob":"Mobility",
     "bm":"Breath Mechanics",
 }
+# MetricObjs have format tag, name, description. Descriptions are default "" so they can be omitted.
+metric_list = [
+    MetricObj("gt", "General Technique", "Why doersn't this work"),
+    MetricObj("bp", "Body Preparation"),
+    MetricObj("rhythm", "Rhythm"),
+    MetricObj("sync", "Synchronicity"),
+    MetricObj("enspd", "Entry Speed"),
+    MetricObj("drvmech", "Drive Mechanics"),
+    MetricObj("catch", "Catch"),
+    MetricObj("release", "Release"),
+    MetricObj("hands", "Hands"),
+    MetricObj("gp", "General Physiology"),
+    MetricObj("pe", "Power Endurance", "Box jumps, bat mans, KB swings, pull-ups, truck pushes, 2k erg etc."),
+    MetricObj("ae", "Aerobic Endurance", "Stadium times, consistency in long rows, bi- or tri-athlons: anything longer than 20 minutes."),
+    MetricObj("mob", "Mobility"),
+    MetricObj("bm", "Breath Mechanics")
+]
 @app.route('/profile/<firstname>:<id>', methods=["GET", "POST"])
 @login_required
 def profile(firstname, id):
@@ -160,7 +177,7 @@ def profile(firstname, id):
 
     if request.method == "POST":
         # Get the metric with the name of the form identifier that was submitted
-        updated_metric = Metric.query.filter(Metric.user_id == id, Metric.metric_tag == request.form.get("form_identifier")).first()
+        updated_metric = Metric.query.filter(Metric.user_id == id, Metric.tag == request.form.get("form_identifier")).first()
         # If nothing was found, which could happen if the user inspects element, then it won't continue
         if not updated_metric:
             flash("Problem submitting form. Please try again.", "error")
@@ -168,30 +185,30 @@ def profile(firstname, id):
 
         if not updated_metric.has_set:
             updated_metric.has_set = True
-        updated_metric.coach_rating = request.form.get(f"{updated_metric.metric_tag}_coach_rating")
-        updated_metric.coach_importance = request.form.get(f"{updated_metric.metric_tag}_coach_importance")
-        updated_metric.view_allowed = bool(request.form.get(f"{updated_metric.metric_tag}_view_allowed"))
+        updated_metric.coach_rating = request.form.get(f"{updated_metric.tag}_coach_rating")
+        updated_metric.coach_importance = request.form.get(f"{updated_metric.tag}_coach_importance")
+        updated_metric.view_allowed = bool(request.form.get(f"{updated_metric.tag}_view_allowed"))
         db.session.commit()
-        flash(f"Updated {updated_metric.metric_tag} for {user.firstname}.", "success")
+        flash(f"Updated {updated_metric.tag} for {user.firstname}.", "success")
         return redirect('#')
     else:
         # Goes through and adds all important metrics for a user if they don't exist
-        for tag, name in metric_tag_list.items():
-            metric = Metric.query.filter(Metric.user_id==id, Metric.metric_tag==tag, Metric.metric_name==name).first()
+        for defMetric in metric_list:
+            metric = Metric.query.filter(Metric.user_id==id, Metric.tag==defMetric.tag, Metric.name==defMetric.name).first()
             if not metric:
-                metric = Metric(user_id=id, metric_tag=tag, metric_name=name)
+                metric = Metric(user_id=id, tag=defMetric.tag, name=defMetric.name, desc=defMetric.desc)
                 db.session.add(metric)
                 db.session.commit()
         # All metrics is to be sent to profiles to be displayed
         # The purpose of a for loop instead of querying Metrics with user_id.all() is that metrics that have had their name changed or removed will not longer appear as metrics to view.
         all_metrics = []
-        for tag, name in metric_tag_list.items():
-            new_metric = Metric.query.filter(Metric.user_id==id, Metric.metric_tag==tag).first()
+        for metric in metric_list:
+            new_metric = Metric.query.filter(Metric.user_id==id, Metric.tag==metric.tag).first()
             if new_metric is not None:
                 all_metrics.append(new_metric)
         all_user_metrics = []
-        for tag, name in metric_tag_list.items():
-            new_metric = Metric.query.filter(Metric.user_id==id, Metric.metric_tag==tag, Metric.metric_name==name, Metric.view_allowed==True).first()
+        for metric in metric_list:
+            new_metric = Metric.query.filter(Metric.user_id==id, Metric.tag==metric.tag, Metric.name==metric.name, Metric.view_allowed==True).first()
             if new_metric is not None:
                 all_user_metrics.append(new_metric)
         image_file = url_for('static', filename='profile_pics/' + user.image_file)
@@ -208,7 +225,6 @@ def profile(firstname, id):
         if current_user.coach_key != "000000":
             return render_template('coach_profile.html', image_file = image_file, user=user, all_metrics=all_metrics, twok=twok, fivek=fivek)
         else:
-            print(all_user_metrics)
             return render_template('user_profile.html', image_file = image_file, user=user, all_metrics=all_user_metrics, twok=twok, fivek=fivek)
 
 

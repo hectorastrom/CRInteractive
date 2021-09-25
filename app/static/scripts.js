@@ -8,7 +8,7 @@ setTimeout(function() {
 }, 4500);
 
 
-function drawUserBellCurve(metric_tag, metric_name, metric_value, metric_importance, firstname)
+function drawUserBellCurve(metric_tag, metric_name, metric_desc, metric_value, metric_importance, firstname)
 {
     let html = `
     <div class="row justify-content-center">
@@ -27,7 +27,7 @@ function drawUserBellCurve(metric_tag, metric_name, metric_value, metric_importa
             </button>
         </div>
         <div class="modal-body">
-            <p class="form-text text-muted text-center">${metric_name}</p>
+            <h5><strong>Description:</strong> ${metric_desc}</h5>
             <svg
                 width="100%"
                 height="100%"
@@ -50,7 +50,8 @@ function drawUserBellCurve(metric_tag, metric_name, metric_value, metric_importa
                     id="${metric_tag}_dot"
                     style="fill: rgba(177, 23, 49, .8)" />
             </svg>
-
+            <p class="form-text text-muted text-center">${metric_name}</p>
+            
             <div class="slidecontainer mt-4">
                 <input type="range" min="0" max="10" step="1" value="${metric_importance}" class="slider slider-yellow" disabled>
             </div>
@@ -78,7 +79,7 @@ function drawUserBellCurve(metric_tag, metric_name, metric_value, metric_importa
 }
 
 
-function drawCoachBellCurve(metric_tag, metric_name, metric_value, metric_importance, button_class, is_checked, firstname)
+function drawCoachBellCurve(metric_tag, metric_name, metric_desc, metric_value, metric_importance, button_class, is_checked, firstname)
 {
     let html = `
     <div class="row justify-content-center" >
@@ -97,6 +98,7 @@ function drawCoachBellCurve(metric_tag, metric_name, metric_value, metric_import
               </button>
             </div>
             <div class="modal-body">
+                <h5><strong>Description:</strong> ${metric_desc}</h5>
                 <form action="" method="POST" class="mt-3">
                     <svg
                     width="100%"
