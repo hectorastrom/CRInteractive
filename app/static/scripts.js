@@ -51,7 +51,7 @@ function drawUserBellCurve(metric_tag, metric_name, metric_desc, metric_value, m
                     style="fill: rgba(177, 23, 49, .8)" />
             </svg>
             <p class="form-text text-muted text-center">${metric_name}</p>
-            
+
             <div class="slidecontainer mt-4">
                 <input type="range" min="0" max="10" step="1" value="${metric_importance}" class="slider slider-yellow" disabled>
             </div>
@@ -125,7 +125,7 @@ function drawCoachBellCurve(metric_tag, metric_name, metric_desc, metric_value, 
                     <p class="form-text text-muted text-center">${metric_name}</p>
                     <div class="form-group short">
                         <div class="slidecontainer">
-                            <input type="range" min="0" max="100" value="${metric_value}" class="slider" id="${metric_tag}_slider" name="${metric_tag}_coach_rating">
+                            <input type="range" min="1" max="100" value="${metric_value}" class="slider" id="${metric_tag}_slider" name="${metric_tag}_coach_rating">
                         </div>
                     </div>
                     <div class="form-check mt-4">

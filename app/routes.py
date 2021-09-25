@@ -134,38 +134,22 @@ def settings():
         return render_template("settings.html", teams=teams, possible_feet=possible_feet, possible_inches=possible_inches, grades=grades, user_feet = user_feet, user_inches = user_inches)
     
 
-tag_list = {
-    "gt":"General Technique",
-    "bp":"Body Preperation",
-    "rhythm":"Rhythm",
-    "sync":"Synchronicity",
-    "entspd":"Entry Speed",
-    "drvmech":"Drive Mechanics",
-    "catch":"Catch",
-    "release":"Release",
-    "hands":"Hands",
-    "gp":"General Physiology",
-    "pe":"Power Endurance",
-    "ae":"Aerobic Endurance",
-    "mob":"Mobility",
-    "bm":"Breath Mechanics",
-}
 # MetricObjs have format tag, name, description. Descriptions are default "" so they can be omitted.
 metric_list = [
-    MetricObj("gt", "General Technique", "Why doersn't this work"),
-    MetricObj("bp", "Body Preparation"),
-    MetricObj("rhythm", "Rhythm"),
-    MetricObj("sync", "Synchronicity"),
-    MetricObj("enspd", "Entry Speed"),
-    MetricObj("drvmech", "Drive Mechanics"),
-    MetricObj("catch", "Catch"),
-    MetricObj("release", "Release"),
-    MetricObj("hands", "Hands"),
-    MetricObj("gp", "General Physiology"),
+    MetricObj("gt", "General Technique", "Overall, less precise rating of technique."),
+    MetricObj("bp", "Body Preparation", "Are arms fully extended, lats slightly engaged, spine supported, and shoulders forward of hips prior to quarter slide?"),
+    MetricObj("rhythm", "Rhythm", "Distance Over Time = Speed. Distance = Connected Length. Power * Connected Length = Distance Over Time."),
+    MetricObj("sync", "Synchronicity", "Doing the same thing as everyone else at the same time."),
+    MetricObj("enspd", "Entry Speed", "The time it takes for your blade to go from piercing the water’s surface to being at the optimal depth (top edge just under surface). Theoretically, perfect entry occurs at full arc, a.k.a. the point of farthest reach."),
+    MetricObj("drvmech", "Drive Mechanics", "Does the force you apply to the footboard move the boat and the rowers in it forwards or backwards?"),
+    MetricObj("bldlock", "Blade Lock", "Does your blade stay at the same depth throughout the whole drive?"),
+    MetricObj("release", "Release", "Do you complete the drive before feathering or applying downward pressure on the handle? Is the pressure off the blade before you remove it from the water?"),
+    MetricObj("hands", "Hands", "Do you use your inside wrist for the feather completely, or do you let the oarlock take over? Is your inside hand and arm relaxed when you square the blade and take the catch?"),
+    MetricObj("gp", "General Physiology", "Overall, less precise measure of physiology."),
     MetricObj("pe", "Power Endurance", "Box jumps, bat mans, KB swings, pull-ups, truck pushes, 2k erg etc."),
     MetricObj("ae", "Aerobic Endurance", "Stadium times, consistency in long rows, bi- or tri-athlons: anything longer than 20 minutes."),
-    MetricObj("mob", "Mobility"),
-    MetricObj("bm", "Breath Mechanics")
+    MetricObj("mob", "Mobility", "Full range of motion at the ankle, knee, hip, shoulder without compensatory movement anywhere else in your body, especially in your spine."),
+    MetricObj("bm", "Breath Mechanics", "Do you maintain core stability when you’re breathing hard, or not? Are you able to remain un-shrugged all throughout long rows?")
 ]
 @app.route('/profile/<firstname>:<id>', methods=["GET", "POST"])
 @login_required
