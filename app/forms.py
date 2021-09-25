@@ -100,5 +100,5 @@ class CoachRegistrationForm(FlaskForm):
         if not coach_key.data.isalnum():
             raise ValidationError('Coach key contains characters which aren\'t alphanumeric. Please try another key.')
         if coach_key.data not in valid_keys:
-            raise ValidationError('This is not a valid coach key. Please try another key.')
+            raise ValidationError('This is not a valid coach key. Contact an administrator for a valid key.')
 

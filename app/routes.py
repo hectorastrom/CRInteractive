@@ -135,8 +135,21 @@ def settings():
     
 
 metric_name_list = [
-    "Technique",
-    "Power",
+    "General Technique",
+    "Body Preperation",
+    "Rhythm",
+    "Synchronicity",
+    "Entry Speed",
+    "Drive Mechanics",
+    "Catch",
+    "Release",
+    "Hands",
+    "General Physiology",
+    "Power Endurance",
+    "Aerobic Endurance",
+    "Mobility",
+    "Breath Mechanics",
+    
 ]
 @app.route('/profile/<firstname>:<id>', methods=["GET", "POST"])
 @login_required
@@ -160,7 +173,7 @@ def profile(firstname, id):
         updated_metric.coach_importance = request.form.get(f"{updated_metric.metric_name}_coach_importance")
         updated_metric.view_allowed = bool(request.form.get(f"{updated_metric.metric_name}_view_allowed"))
         db.session.commit()
-        flash(f"Updated {updated_metric.metric_name} for {user.firstname}", "success")
+        flash(f"Updated {updated_metric.metric_name} for {user.firstname}.", "success")
         return redirect('#')
     else:
         # Goes through and adds all important metrics for a user if they don't exist

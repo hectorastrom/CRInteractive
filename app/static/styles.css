@@ -289,6 +289,12 @@ border-radius: 20px;
 }
 
 
+.metric-button
+{
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
 @font-face 
 {
 font-family: "CRI";

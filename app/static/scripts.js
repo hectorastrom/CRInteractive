@@ -11,7 +11,7 @@ setTimeout(function() {
 function drawUserBellCurve(metric_name, metric_value, metric_importance, firstname)
 {
     let html = `
-    <button id="${metric_name}Button" type="button" class="btn btn-danger" data-toggle="modal" data-target="#${metric_name}modal">
+    <button id="${metric_name}Button" type="button" class="btn btn-danger metric-button" data-toggle="modal" data-target="#${metric_name}modal">
             View Coach's ${metric_name} Rating
     </button> 
     <!-- Modal -->
@@ -79,9 +79,12 @@ function drawUserBellCurve(metric_name, metric_value, metric_importance, firstna
 function drawCoachBellCurve(metric_name, metric_value, metric_importance, button_class, is_checked, firstname)
 {
     let html = `
-    <button id="${metric_name}Button" type="button" class="btn ${button_class}" data-toggle="modal" data-target="#${metric_name}modal">
-            Indicate ${metric_name} Rating
-    </button> 
+    <div class="row" >
+        <button id="${metric_name}Button" type="button" class="btn ${button_class} metric-button text-center" data-toggle="modal" data-target="#${metric_name}modal">
+        Indicate ${metric_name} Rating
+        </button> 
+    </div>
+
     <div class="modal fade" id="${metric_name}modal" tabindex="-1" role="dialog" aria-labelledby="${metric_name}modallabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
           <div class="modal-content">
