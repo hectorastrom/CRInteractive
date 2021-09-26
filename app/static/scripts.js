@@ -141,10 +141,10 @@ function drawCoachBellCurve(metric_tag, metric_name, metric_desc, metric_value, 
                     </div>
                     <div class="form-check mt-4">
                         <input type="hidden" value="${active}" id="${metric_tag}_view_allowed" name="${metric_tag}_view_allowed" />
-                        <div class="form-group short mt-3">
-                            <div class="slidecontainer">
-                                <input type="range" min="0" max="10" step="1" value="${metric_importance}" class="slider slider-yellow" name="${metric_tag}_coach_importance">
-                            </div>
+                    </div>
+                    <div class="form-group short mt-3">
+                        <div class="slidecontainer">
+                            <input type="range" min="0" max="10" step="1" value="${metric_importance}" class="slider slider-yellow" name="${metric_tag}_coach_importance">
                         </div>
                     </div>
                 </div>
@@ -184,13 +184,11 @@ function drawCoachBellCurve(metric_tag, metric_name, metric_desc, metric_value, 
         if (this.classList.contains("active"))
         {
             this.classList.remove("active");
-            this.style.fill = "rgba(0, 0, 0, .3)";
             hidden_view_input.value = "";
         }
         else
         {
             this.classList.add("active");
-            this.style.fill = "rgba(0, 0, 0, .7)";
             hidden_view_input.value = "active";
         }
     }

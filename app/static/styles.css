@@ -326,6 +326,11 @@ border-radius: 20px;
     fill:rgba(0, 0, 0, .7);
 }
 
+.allow-eye:hover
+{
+    fill:rgba(0, 0, 0, 1);
+}
+
 
 @media screen and (max-width: 400px)
 {
