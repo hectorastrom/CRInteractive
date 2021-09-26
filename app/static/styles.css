@@ -366,7 +366,6 @@ border-radius: 20px;
     transition: border-radius 0.05s linear;
 }
 
-.metric-button
 
 .allow-eye
 {
@@ -381,7 +380,7 @@ border-radius: 20px;
 
 .allow-eye:hover
 {
-    fill:rgba(0, 0, 0, 1);
+    fill:rgb(94, 94, 94);
 }
 
 .modal-body h5
