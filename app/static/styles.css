@@ -354,7 +354,19 @@ border-radius: 20px;
     padding: 10px;
     margin-bottom: 20px;
     width: 28vh;
+    color: white;
+    border-radius: 5px;
+    transition: border-radius 0.1s linear;
 }
+
+.metric-button:hover
+{
+    color:white;
+    border-radius: 15px;
+    transition: border-radius 0.05s linear;
+}
+
+.metric-button
 
 .allow-eye
 {

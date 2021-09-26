@@ -12,7 +12,7 @@ function drawUserBellCurve(metric_tag, metric_name, metric_desc, metric_value, m
 {
     let html = `
     <div class="row justify-content-center">
-        <button id="${metric_tag}Button" type="button" class="btn btn-danger metric-button" data-toggle="modal" data-target="#${metric_tag}modal">
+        <button id="${metric_tag}Button" type="button" class="btn metric-button" data-toggle="modal" data-target="#${metric_tag}modal">
                 Coach's ${metric_name} Rating
         </button> 
     </div>
@@ -77,8 +77,28 @@ function drawUserBellCurve(metric_tag, metric_name, metric_desc, metric_value, m
         var coordinates = curve.getPointAtLength(portion * totalLength);
         dot.setAttribute("transform", `translate(${coordinates.x}, ${coordinates.y})`);
     }
+    let mod_button = document.getElementById(`${metric_tag}Button`)
 
-    document.getElementById(`${metric_tag}Button`).style.opacity = metric_value/100;
+    if (metric_value <= 25)
+    {
+        // Firebrick
+        mod_button.style.backgroundColor = "rgb(178,34,34)"
+    }
+    else if (metric_value <= 50)
+    {
+        // Orangered
+        mod_button.style.backgroundColor = "rgb(255,69,0)"
+    }
+    else if (metric_value <= 85)
+    {
+        // Green
+        mod_button.style.backgroundColor = "rgb(34,139,34)"
+    }
+    else
+    {
+        // Golden rod
+        mod_button.style.backgroundColor = "rgb(218,165,32)"
+    }
 }
 
 
