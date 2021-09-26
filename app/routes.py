@@ -138,7 +138,7 @@ def settings():
 
 # MetricObjs have format tag, name, description. Descriptions are default "" so they can be omitted.
 metric_list = [
-    MetricObj("gt", "General Technique", "Overall, less precise rating of technique."),
+    MetricObj("gt", "General Technique", "Coaches' subjective estimate of your technique."),
     MetricObj("bp", "Body Preparation", "Are arms fully extended, lats slightly engaged, spine supported, and shoulders forward of hips prior to quarter slide?"),
     MetricObj("rhythm", "Rhythm", "Distance Over Time = Speed. Distance = Connected Length. Power * Connected Length = Distance Over Time."),
     MetricObj("sync", "Synchronicity", "Doing the same thing as everyone else at the same time."),
