@@ -57,6 +57,7 @@
         <!-- If viewing their own page as a non-coach -->
         {% if current_user.id == user.id and all_metrics %}
         <legend class="border-bottom border-dark mt-3" style="font-weight: 600;">Ratings Shared by Coaches</legend>
+        <p><span style="color:rgb(178,34,34); font-weight: bold;">Red</span> means that you up to the 25th percentile for that metric. <span style="color:rgb(255,69,0); font-weight: bold;">Orange</span> means you are up to the 50th percentile for that metric. <span style="color:rgb(34,139,34); font-weight: bold;">Green</span> means up to 85 percentile, and <span style="color:rgb(218,165,32); font-weight: bold;">Gold</span> means you are top 15 percentile for that metric.</p>
         <svg width="0" height="0">
             <defs>
                 <linearGradient id="CurveGradient" x1="0" x2=".75" y1="0" y2="0">
