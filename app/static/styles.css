@@ -147,10 +147,14 @@ html, body
     cursor: grab;
 }
 
-.slider .slider-yellow
-/* NOT WORKING */
+.slider.slider-yellow::-webkit-slider-thumb
 {
-    background: rgb(177, 133, 11);
+    background: rgb(177, 133, 11) !important;
+}
+
+.slider.slider-yellow::-moz-range-thumb 
+{
+    background: rgb(177, 133, 11) !important;
 }
 
 
@@ -310,6 +314,18 @@ border-radius: 20px;
     margin-bottom: 20px;
     width: 28vh;
 }
+
+.allow-eye
+{
+    margin-left:2%;
+    fill:rgba(0, 0, 0, .3);
+}
+
+.allow-eye.active
+{
+    fill:rgba(0, 0, 0, .7);
+}
+
 
 @media screen and (max-width: 400px)
 {
