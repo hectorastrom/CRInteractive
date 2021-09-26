@@ -27,7 +27,7 @@
                     <tr>
                         <td>
                             {%if athlete.pinged%}
-                            &#128308;
+                            <img src="{{ url_for('static', filename='bluedot.png') }}" width="15px" height="15px" style="margin-bottom: 1%;">
                             {% endif %}
                             <a href="{{ url_for('profile', firstname=athlete.firstname.lower(), id=athlete.id) }}">
                             

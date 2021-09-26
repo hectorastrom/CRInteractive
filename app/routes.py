@@ -169,13 +169,13 @@ def profile(firstname, id):
                 flash("Review has been requested.", "success")
             return redirect('#')
         else:
-            # Get the metric with the name of the form identifier that was submitted
             if request.form.get("form_identifier") == "silence":
                 user.pinged = False
                 db.session.commit()
                 flash("Request has been silenced.", "success")
                 return redirect('#')
             else:
+                # Get the metric with the name of the form identifier that was submitted
                 updated_metric = Metric.query.filter(Metric.user_id == id, Metric.tag == request.form.get("form_identifier")).first()
                 # If nothing was found, which could happen if the user inspects element, then it won't continue
                 if not updated_metric:
@@ -316,7 +316,8 @@ def upload_fivek():
 @login_required
 def roster():
     if current_user.coach_key != "000000":
-        athletes = User.query.filter(User.team==current_user.team, User.coach_key == "000000").order_by(User.lastname).all()
+        athletes = User.query.filter(User.team==current_user.team, User.coach_key == "000000").order_by(User.pinged.desc(), User.lastname).all()
+
         return render_template('roster.html', athletes=athletes)
     else:
         flash("You do not have permissions to access that page.", "error")
