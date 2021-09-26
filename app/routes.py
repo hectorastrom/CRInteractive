@@ -162,21 +162,34 @@ def profile(firstname, id):
         return redirect(url_for('index'))
 
     if request.method == "POST":
-        # Get the metric with the name of the form identifier that was submitted
-        updated_metric = Metric.query.filter(Metric.user_id == id, Metric.tag == request.form.get("form_identifier")).first()
-        # If nothing was found, which could happen if the user inspects element, then it won't continue
-        if not updated_metric:
-            flash("Problem submitting form. Please try again.", "error")
-            return redirect(request.url)
+        if current_user.coach_key == "000000":
+            if not current_user.pinged:
+                current_user.pinged = True
+                db.session.commit()
+                flash("Review has been requested.", "success")
+            return redirect('#')
+        else:
+            # Get the metric with the name of the form identifier that was submitted
+            if request.form.get("form_identifier") == "silence":
+                user.pinged = False
+                db.session.commit()
+                flash("Request has been silenced.", "success")
+                return redirect('#')
+            else:
+                updated_metric = Metric.query.filter(Metric.user_id == id, Metric.tag == request.form.get("form_identifier")).first()
+                # If nothing was found, which could happen if the user inspects element, then it won't continue
+                if not updated_metric:
+                    flash("Problem submitting form. Please try again.", "error")
+                    return redirect(request.url)
 
-        if not updated_metric.has_set:
-            updated_metric.has_set = True
-        updated_metric.coach_rating = request.form.get(f"{updated_metric.tag}_coach_rating")
-        updated_metric.coach_importance = request.form.get(f"{updated_metric.tag}_coach_importance")
-        updated_metric.view_allowed = bool(request.form.get(f"{updated_metric.tag}_view_allowed"))
-        db.session.commit()
-        flash(f"Updated {updated_metric.tag} for {user.firstname}.", "success")
-        return redirect('#')
+                if not updated_metric.has_set:
+                    updated_metric.has_set = True
+                updated_metric.coach_rating = request.form.get(f"{updated_metric.tag}_coach_rating")
+                updated_metric.coach_importance = request.form.get(f"{updated_metric.tag}_coach_importance")
+                updated_metric.view_allowed = bool(request.form.get(f"{updated_metric.tag}_view_allowed"))
+                db.session.commit()
+                flash(f"Updated {updated_metric.tag} for {user.firstname}.", "success")
+                return redirect('#')
     else:
         # Goes through and adds all important metrics for a user if they don't exist when a coach is viewing
         if current_user.coach_key != "000000":

@@ -27,10 +27,32 @@
                     <p><strong>5k PR: </strong>{{ fivek }}</p>
                 </div>
             </div>
-          </div>
-          {% if current_user.id != user.id or not all_metrics %}
-          <div class="border-bottom border-dark mt-3"></div>
-          {% endif %}
+        </div>
+        <p class="border-bottom border-dark mt-3"></p>
+        {% if current_user.id == user.id and not current_user.pinged %}
+        <h5>Request for a coach to review your profile</h5>
+        <div>
+            <form method="POST" action="">
+                <div class="form-group col">
+                    <button type="submit" class="btn btn-outline-primary rounded-pill" >Request Review</button>
+                </div>
+            </form>
+        </div>
+        {% else %}
+        <h5>Request for a coach to review your profile</h5>
+        <div>
+            <form method="POST" action="">
+                <small class="form-text text-muted ml-4">Request is active.</small>
+                <div class="form-group col">
+                    <button type="submit" class="btn btn-outline-primary rounded-pill" disabled="true">Request Review</button>
+                </div>
+            </form>
+        </div>
+        {% endif %}
+
+        {% if current_user.id != user.id or not all_metrics %}
+        <div class="border-bottom border-dark mt-3"></div>
+        {% endif %}
         
         <!-- If viewing their own page as a non-coach -->
         {% if current_user.id == user.id and all_metrics %}

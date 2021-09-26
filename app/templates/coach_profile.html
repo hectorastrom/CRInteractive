@@ -30,6 +30,18 @@
             </div>
         </div>
       </div>
+        {% if user.pinged %}
+        <p class="border-bottom border-dark mt-3"></p>
+        <h5>{{ user.firstname }} has requested review!</h5>
+        <div>
+            <form method="POST" action="">
+                <div class="form-group col">
+                    <input type="hidden" value="silence" name="form_identifier" />
+                    <button type="submit" class="btn btn-outline-primary rounded-pill" >Silence Request</button>
+                </div>
+            </form>
+        </div>
+        {% endif %}
     {% if current_user.team == user.team %}
     <legend class="border-bottom border-dark mb-2" style="font-weight: 600;">Set Ratings</legend>
     <p><span style="color:#007bff;">Blue</span> means you have set that metric, <span style="color:#dc3545;">Red</span> means you still need to.<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
