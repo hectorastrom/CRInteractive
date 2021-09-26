@@ -22,6 +22,14 @@
                         {% endif %}
                         {% endfor %}
                     </select>
+                    <div class="row mt-4">
+                        <label for="enable_default" class="form-control-label">Set Default View Permissions to be On for New Users:</label>
+                        {% if current_user.default_on %}
+                        <input type="checkbox" id="enable_default" name="enable_default" class="form-check-input-xl" checked>
+                        {% else %}
+                        <input type="checkbox" id="enable_default" name="enable_default" class="form-check-input-xl">
+                        {% endif %}
+                    </div>
                 </div> 
             {%else%}
                 <div class="form-group short">

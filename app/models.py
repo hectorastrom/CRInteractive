@@ -18,6 +18,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     coach_key = db.Column(db.String(6), nullable=False, default="000000")
     pinged = db.Column(db.Boolean, default=False)
+    default_on = db.Column(db.Boolean, default=False)
     # Height is in inches
     height = db.Column(db.Integer())
     weight = db.Column(db.Integer())

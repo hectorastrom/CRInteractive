@@ -119,14 +119,16 @@ def settings():
             current_user.side = side
             current_user.team = team
             current_user.grade = int(grade)
-            flash('Settings Updated.', 'success')
-        
         else:
             team = request.form.get("team")
+            default_on = bool(request.form.get("enable_default"))
             if not team:
                 flash('Team not selected.', 'error')
                 return redirect(url_for('settings'))
-            current_user.team = request.form.get("team")
+            current_user.team = team
+            current_user.default_on = default_on
+
+        flash('Settings Updated.', 'success')
 
         db.session.commit()
         return redirect(url_for('index'))
@@ -176,13 +178,17 @@ def profile(firstname, id):
         flash(f"Updated {updated_metric.tag} for {user.firstname}.", "success")
         return redirect('#')
     else:
-        # Goes through and adds all important metrics for a user if they don't exist
-        for defMetric in metric_list:
-            metric = Metric.query.filter(Metric.user_id==id, Metric.tag==defMetric.tag, Metric.name==defMetric.name).first()
-            if not metric:
-                metric = Metric(user_id=id, tag=defMetric.tag, name=defMetric.name, desc=defMetric.desc)
-                db.session.add(metric)
-                db.session.commit()
+        # Goes through and adds all important metrics for a user if they don't exist when a coach is viewing
+        if current_user.coach_key != "000000":
+            for defMetric in metric_list:
+                metric = Metric.query.filter(Metric.user_id==id, Metric.tag==defMetric.tag, Metric.name==defMetric.name).first()
+                if not metric:
+                    if current_user.default_on:
+                        metric = Metric(user_id=id, tag=defMetric.tag, name=defMetric.name, view_allowed = True, desc=defMetric.desc)
+                    else:
+                        metric = Metric(user_id=id, tag=defMetric.tag, name=defMetric.name, desc=defMetric.desc)
+                    db.session.add(metric)
+                    db.session.commit()
         # All metrics is to be sent to profiles to be displayed
         # The purpose of a for loop instead of querying Metrics with user_id.all() is that metrics that have had their name changed or removed will not longer appear as metrics to view.
         all_metrics = []
