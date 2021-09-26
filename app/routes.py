@@ -198,7 +198,7 @@ def profile(firstname, id):
                 all_metrics.append(new_metric)
         all_user_metrics = []
         for metric in metric_list:
-            new_metric = Metric.query.filter(Metric.user_id==id, Metric.tag==metric.tag, Metric.name==metric.name, Metric.view_allowed==True).first()
+            new_metric = Metric.query.filter(Metric.user_id==id, Metric.tag==metric.tag, Metric.name==metric.name, Metric.has_set==True, Metric.view_allowed==True).first()
             if new_metric is not None:
                 all_user_metrics.append(new_metric)
         image_file = url_for('static', filename='profile_pics/' + user.image_file)
