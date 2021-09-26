@@ -126,11 +126,29 @@ html, body
     -webkit-transition: .2s;
     transition: opacity .2s;
 }
+
+@media screen and (max-width: 1000px) {
+    .slider
+    {
+        height:10px
+    }
+    .slider::-webkit-slider-thumb 
+    {
+        width:16px;
+        height:16px;
+    }
+    .slider::-moz-range-thumb 
+    {
+        width:16px;
+        height:16px;
+    }
+}
   
 .slider::-webkit-slider-thumb 
 {
     -webkit-appearance: none;
     appearance: none;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
     width: 25px;
     height: 25px;
     border-radius: 50%; 
@@ -142,6 +160,7 @@ html, body
 {
     width: 25px;
     height: 25px;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
     border-radius: 50%;
     background: rgb(177, 23, 49);
     cursor: grab;
@@ -152,11 +171,26 @@ html, body
     background: rgb(177, 133, 11) !important;
 }
 
+
 .slider.slider-yellow::-moz-range-thumb 
 {
     background: rgb(177, 133, 11) !important;
 }
 
+.slider.slider-yellow.disabled
+{
+    opacity: .65;
+}
+
+.slider.slider-yellow.disabled::-webkit-slider-thumb
+{
+    cursor: default;
+}
+
+.slider.slider-yellow.disabled::-moz-range-thumb
+{
+    cursor: default;
+}
 
 
 .form-check-input-xl
@@ -331,6 +365,17 @@ border-radius: 20px;
     fill:rgba(0, 0, 0, 1);
 }
 
+.modal-body h5
+{
+    font-size: large;
+}
+
+@media screen and (max-width: 760px) {
+    .modal-body h5
+    {
+        font-size: smaller;
+    }
+}
 
 @media screen and (max-width: 400px)
 {

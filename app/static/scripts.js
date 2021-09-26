@@ -53,7 +53,8 @@ function drawUserBellCurve(metric_tag, metric_name, metric_desc, metric_value, m
             <p class="form-text text-muted text-center">${metric_name}</p>
 
             <div class="slidecontainer mt-4">
-                <input type="range" min="0" max="10" step="1" value="${metric_importance}" class="slider slider-yellow" disabled>
+                <label for="${metric_tag}_coach_importance" style="margin-left:14%;">Importance</label>
+                <input type="range" min="0" max="10" step="1" value="${metric_importance}" class="slider slider-yellow disabled" disabled>
             </div>
 
         </div>
@@ -76,6 +77,8 @@ function drawUserBellCurve(metric_tag, metric_name, metric_desc, metric_value, m
         var coordinates = curve.getPointAtLength(portion * totalLength);
         dot.setAttribute("transform", `translate(${coordinates.x}, ${coordinates.y})`);
     }
+
+    document.getElementById(`${metric_tag}Button`).style.opacity = metric_value/100;
 }
 
 
@@ -91,7 +94,7 @@ function drawCoachBellCurve(metric_tag, metric_name, metric_desc, metric_value, 
     }
     let html = `
     <div class="metric-eye">
-    <button id="${metric_tag}Button" type="button" class="btn ${button_class} metric-button" data-toggle="modal" data-target="#${metric_tag}modal">${metric_name} Rating</button> 
+    <button id="${metric_tag}Button" type="button" class="btn ${button_class} metric-button" data-toggle="modal" data-target="#${metric_tag}modal">${metric_name}</button> 
     <p class="eyeball">${eyeball}</p>
     </div>
 
@@ -131,20 +134,22 @@ function drawCoachBellCurve(metric_tag, metric_name, metric_desc, metric_value, 
                         cy="0"
                         cx="0"
                         id="${metric_tag}_dot"
-                        style="fill: rgba(177, 23, 49, .8)" />
+                        style="fill: rgba(177, 23, 49, 1)" />
                 </svg>
                     <p class="form-text text-muted text-center">${metric_name}</p>
                     <div class="form-group short">
+                        <label for="${metric_tag}_slider" style="margin-left:14%;">Rating</label>
                         <div class="slidecontainer">
-                            <input type="range" min="1" max="100" value="${metric_value}" class="slider" id="${metric_tag}_slider" name="${metric_tag}_coach_rating">
+                            <input type="range" min="0" max="100" value="${metric_value}" class="slider" id="${metric_tag}_slider" name="${metric_tag}_coach_rating">
                         </div>
                     </div>
                     <div class="form-check mt-4">
                         <input type="hidden" value="${active}" id="${metric_tag}_view_allowed" name="${metric_tag}_view_allowed" />
                     </div>
                     <div class="form-group short mt-3">
+                        <label for="${metric_tag}_coach_importance" style="margin-left:14%;">Importance</label>
                         <div class="slidecontainer">
-                            <input type="range" min="0" max="10" step="1" value="${metric_importance}" class="slider slider-yellow" name="${metric_tag}_coach_importance">
+                            <input type="range" min="0" max="10" step="1" value="${metric_importance}" class="slider slider-yellow" id="${metric_tag}_coach_importance" name="${metric_tag}_coach_importance">
                         </div>
                     </div>
                 </div>
