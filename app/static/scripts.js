@@ -5,7 +5,7 @@ $(document).ready(function(){
 // Fade Flashes
 setTimeout(function() {
     $('.alert').fadeOut('slow');
-}, 4500);
+}, 3000);
 
 
 function drawUserBellCurve(metric_tag, metric_name, metric_desc, metric_value, metric_importance, firstname)
