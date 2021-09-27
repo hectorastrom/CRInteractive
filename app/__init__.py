@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_manager
 from flask_migrate import Migrate
 from werkzeug.datastructures import auth_property 
+import os
 #from app import config
 #from imgurpython import ImgurClient
 
@@ -22,7 +23,7 @@ teams = ["Men's Varsity", "Men's U17"]
 # To hash do bycrypt.generate_password_hash(password).decode('utf-8')
 # To check password do bycrypt.check_password_hash(hashed_password, password)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
