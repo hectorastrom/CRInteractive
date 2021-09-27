@@ -4,14 +4,14 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_manager
 from flask_migrate import Migrate
 from werkzeug.datastructures import auth_property 
-from app import config
-from imgurpython import ImgurClient
+#from app import config
+#from imgurpython import ImgurClient
 
 app = Flask(__name__)
 #client = ImgurClient(client_id=config.client_id, client_secret=config.client_secret)
 
 #authorization_url = client.get_auth_url('pin')
-app.config['SECRET_KEY'] = config.secretkey
+app.config['SECRET_KEY'] = '45767333ff1241fa9bf361de3a3e0802'
 
 # Coach keys
 valid_keys = ["ABC123"]
