@@ -43,4 +43,9 @@ login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
 
+from app.commands import create_tables
+
+app.cli.add_command(create_tables)
+
+
 from app import routes
