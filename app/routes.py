@@ -33,7 +33,7 @@ def index():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        user = User.query.filter_by(email=form.email.data.lower()).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
@@ -58,7 +58,7 @@ def register():
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         # Adds user to database
-        user = User(firstname=form.firstname.data.strip().capitalize(), lastname=form.lastname.data.strip().capitalize(), email=form.email.data.strip(), password=hashed_password)
+        user = User(firstname=form.firstname.data.strip().capitalize(), lastname=form.lastname.data.strip().capitalize(), email=form.email.data.strip().lower(), password=hashed_password)
         db.session.add(user)
         db.session.commit()
         login_user(user, remember=True)
