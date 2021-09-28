@@ -10,12 +10,6 @@ rgb(42, 43, 44) */
     text-shadow: .5px .5px 1px rgb(235, 234, 234);
 }
 
-.brand:hover
-{
-    color: rgb(138, 18, 38);
-}
-
-
 .form-control
 {
     border-radius: 30px;
