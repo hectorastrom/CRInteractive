@@ -1,7 +1,8 @@
-from app import db
+from app import db, session, models
 import csv
 
-print(db.User.query.all())
+print(User.query.all())
+db.session.commit()
 
 with open("rowers.csv", "r") as file:
     # No clue if we actually need to do this for csv files
@@ -11,6 +12,10 @@ with open("rowers.csv", "r") as file:
         if line_count == 0:
             print("The columns are", row)
             line_count += 1
+        else:
+            print(f"First name: {row[0]}, Last name: {row[1]}, Email: {row[2]}, Team: {row[3]}")
+            line_count += 1
+            
 
 """
 Read in each user in the csv from google sheets. If the user exists already, do nothing. Otherwise
