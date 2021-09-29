@@ -1,6 +1,16 @@
 from app import db
+import csv
 
 print(db.User.query.all())
+
+with open("rowers.csv", "r") as file:
+    # No clue if we actually need to do this for csv files
+    csv_reader = csv.reader(file, delimiter="")
+    line_count = 0
+    for row in csv_reader:
+        if line_count == 0:
+            print("The columns are", row)
+            line_count += 1
 
 """
 Read in each user in the csv from google sheets. If the user exists already, do nothing. Otherwise
