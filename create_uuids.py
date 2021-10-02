@@ -1,5 +1,6 @@
 from app import db
 from app.models import User
+from random import randint
 import csv
 
 print(User.query.all())
@@ -7,7 +8,8 @@ db.session.commit()
 
 with open("rowers.csv", "r") as file:
     csv_reader = csv.reader(file)
-    next(csv_reader)
+    # Skips the titles of each column
+    next(csv_reader) 
     row_number = 0
     for row in csv_reader:
         row_number += 1
@@ -30,6 +32,21 @@ with open("rowers.csv", "r") as file:
             is_coach = True
         else:
             is_coach = False
+        unique_id = randint(10000000, 99999999)
+        while User.query.filter_by(uuid=unique_id).first():
+            unique_id = randint(10000000, 99999999)
+        existing_user = User.query.filter(User.email==email).all()
+        if existing_user:
+            continue
+        else:
+            new_user = User(firstname = firstname,
+                            lastname = lastname,
+                            email = email, 
+                            is_coach = is_coach, 
+                            is_coxswain = is_coxswain, 
+                            uuid = unique_id)
+            db.session.add(new_user)
+            db.session.commit()
         
             
 
