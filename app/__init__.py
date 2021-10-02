@@ -12,7 +12,7 @@ app = Flask(__name__)
 #client = ImgurClient(client_id=config.client_id, client_secret=config.client_secret)
 
 #authorization_url = client.get_auth_url('pin')
-app.config['SECRET_KEY'] = '45767333ff1241fa9bf361de3a3e0802'
+app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
 # Coach keys
 valid_keys = ["ABC123"]
@@ -22,11 +22,14 @@ teams = ["Men's Varsity", "Men's U17"]
 
 # To hash do bycrypt.generate_password_hash(password).decode('utf-8')
 # To check password do bycrypt.check_password_hash(hashed_password, password)
-
-uri = os.getenv("DATABASE_URL") 
-if uri and uri.startswith("postgres://"):
-    uri = uri.replace("postgres://", "postgresql://", 1)
-app.config['SQLALCHEMY_DATABASE_URI'] = uri
+is_production = True
+if is_production:
+    uri = os.getenv("DATABASE_URL") 
+    if uri and uri.startswith("postgres://"):
+        uri = uri.replace("postgres://", "postgresql://", 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = uri
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
