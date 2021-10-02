@@ -167,7 +167,7 @@ function drawCoachBellCurve(metric_tag, metric_name, metric_desc, metric_value, 
                         <input type="hidden" value="${active}" id="${metric_tag}_view_allowed" name="${metric_tag}_view_allowed" />
                     </div>
                     <div class="form-group short mt-3">
-                        <label for="${metric_tag}_coach_importance" style="margin-left:14%;">Importance</label>
+                        <label for="${metric_tag}_coach_importance" style="margin-left:14%;">Coaches' Suggested Level of Prioritization in Practice/Racing</label>
                         <div class="slidecontainer">
                             <input type="range" min="0" max="10" step="1" value="${metric_importance}" class="slider slider-yellow" id="${metric_tag}_coach_importance" name="${metric_tag}_coach_importance">
                         </div>
