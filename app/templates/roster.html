@@ -12,7 +12,7 @@
     </script>
     
     <!-- If they're a coach -->
-    {% if current_user.coach_key != "000000" %}
+    {% if current_user.is_coach %}
         {% if current_user.team != "none" %}
             <h2>Roster</h2> 
             <table class="table table-striped">

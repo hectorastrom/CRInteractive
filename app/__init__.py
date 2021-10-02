@@ -9,10 +9,14 @@ import os
 #from imgurpython import ImgurClient
 
 app = Flask(__name__)
+is_production = False
 #client = ImgurClient(client_id=config.client_id, client_secret=config.client_secret)
 
 #authorization_url = client.get_auth_url('pin')
-app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
+if is_production:
+    app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
+else: 
+    app.config['SECRET_KEY'] = 'alksdjfasdfikluwenfdsfuje'
 
 # Coach keys
 valid_keys = ["ABC123"]
@@ -22,7 +26,6 @@ teams = ["Men's Varsity", "Fall Launchpad"]
 
 # To hash do bycrypt.generate_password_hash(password).decode('utf-8')
 # To check password do bycrypt.check_password_hash(hashed_password, password)
-is_production = False
 if is_production:
     uri = os.getenv("DATABASE_URL") 
     if uri and uri.startswith("postgres://"):

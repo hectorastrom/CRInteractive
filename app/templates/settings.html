@@ -7,7 +7,7 @@
     <form method="POST" action="">
         <fieldset class="form-group">
             <legend class="border-bottom border-dark mb-4" style="font-weight: 600;">Settings</legend>
-            {% if current_user.coach_key != "000000" %}
+            {% if current_user.is_coach %}
                 <div class="form-group short">
                     <select class="form-select form-control form-control-lg" aria-label="Team Selector" name="team">
                         <!-- Teams is a list of team names gotten from the database -->

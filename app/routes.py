@@ -73,7 +73,7 @@ def coach_register():
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         # Adds user to database
-        user = User(firstname=form.firstname.data.strip().capitalize(), lastname=form.lastname.data.strip().capitalize(), email=form.email.data.strip(), password=hashed_password, coach_key=form.coach_key.data)
+        user = User(firstname=form.firstname.data.strip().capitalize(), lastname=form.lastname.data.strip().capitalize(), email=form.email.data.strip(), password=hashed_password, is_coach = True)
         db.session.add(user)
         db.session.commit()
         login_user(user, remember=True)
@@ -94,7 +94,7 @@ def settings():
         user_inches = int(current_user.height % 12)
     grades = [9, 10, 11, 12]
     if request.method == "POST":
-        if current_user.coach_key == "000000":
+        if not current_user.is_coach:
             side = request.form.get("side")
             team = request.form.get("team")
             grade = request.form.get("grade")
@@ -162,7 +162,7 @@ def profile(firstname, id):
         return redirect(url_for('index'))
 
     if request.method == "POST":
-        if current_user.coach_key == "000000":
+        if not current_user.is_coach:
             if not current_user.pinged:
                 current_user.pinged = True
                 db.session.commit()
@@ -192,7 +192,7 @@ def profile(firstname, id):
                 return redirect('#')
     else:
         # Goes through and adds all important metrics for a user if they don't exist when a coach is viewing
-        if current_user.coach_key != "000000":
+        if current_user.is_coach:
             for defMetric in metric_list:
                 metric = Metric.query.filter(Metric.user_id==id, Metric.tag==defMetric.tag, Metric.name==defMetric.name).first()
                 if not metric:
@@ -225,7 +225,7 @@ def profile(firstname, id):
             fivek = convert_from_seconds(fivek.seconds, "time")
         else:
             fivek = "No Data"
-        if current_user.coach_key != "000000":
+        if current_user.is_coach:
             return render_template('coach_profile.html', image_file = image_file, user=user, all_metrics=all_metrics, twok=twok, fivek=fivek)
         else:
             return render_template('user_profile.html', image_file = image_file, user=user, all_metrics=all_user_metrics, twok=twok, fivek=fivek)
@@ -239,7 +239,7 @@ def rankings(type):
         return redirect(url_for('index'))
     userList = []
 
-    users = User.query.filter(User.team==current_user.team, User.coach_key=="000000").all()
+    users = User.query.filter(User.team==current_user.team, User.is_coach==False).all()
 
     labels = []
     values = []
@@ -315,8 +315,8 @@ def upload_fivek():
 @app.route('/roster')
 @login_required
 def roster():
-    if current_user.coach_key != "000000":
-        athletes = User.query.filter(User.team==current_user.team, User.coach_key == "000000").order_by(User.pinged.desc(), User.lastname).all()
+    if current_user.is_coach:
+        athletes = User.query.filter(User.team==current_user.team, User.is_coach == False).order_by(User.pinged.desc(), User.lastname).all()
 
         return render_template('roster.html', athletes=athletes)
     else:

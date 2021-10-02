@@ -7,7 +7,7 @@
 
 {% if current_user.is_authenticated %}
 
-    {% if current_user.coach_key != "000000" %}
+    {% if current_user.is_coach %}
 
         <h1>You're logged in, Coach {{ current_user.lastname }}.</h1>
 
