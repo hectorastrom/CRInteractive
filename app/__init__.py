@@ -22,7 +22,7 @@ teams = ["Men's Varsity", "Men's U17"]
 
 # To hash do bycrypt.generate_password_hash(password).decode('utf-8')
 # To check password do bycrypt.check_password_hash(hashed_password, password)
-is_production = False
+is_production = True
 if is_production:
     uri = os.getenv("DATABASE_URL") 
     if uri and uri.startswith("postgres://"):
