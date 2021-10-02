@@ -8,8 +8,29 @@ db.session.commit()
 with open("rowers.csv", "r") as file:
     csv_reader = csv.reader(file)
     next(csv_reader)
+    row_number = 0
     for row in csv_reader:
-        print(f"First name: {row[0]}, Last name: {row[1]}, Email: {row[2]}, Team: {row[3]}")
+        row_number += 1
+        firstname = row[0].capitalize()
+        lastname = row[1].capitalize()
+        email = row[2].lower()
+        if row[3].lower() == "mv":
+            team = "Men's Varsity"
+        elif row[3].lower() == "l":
+            team = "Launchpad"
+        else:
+            print(f"ERROR: Unrecognized team value in row {row_number}: {row[3]}.")
+            quit()
+        if row[4].lower() == "coxswain":
+            is_coxswain = True
+        else: 
+            is_coxswain == False
+
+        if row[4].lower() == "coach":
+            is_coach = True
+        else:
+            is_coach = False
+        
             
 
 """

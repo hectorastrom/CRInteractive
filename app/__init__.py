@@ -18,11 +18,11 @@ app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 valid_keys = ["ABC123"]
 
 # Teams
-teams = ["Men's Varsity", "Men's U17"]
+teams = ["Men's Varsity", "Fall Launchpad"]
 
 # To hash do bycrypt.generate_password_hash(password).decode('utf-8')
 # To check password do bycrypt.check_password_hash(hashed_password, password)
-is_production = True
+is_production = False
 if is_production:
     uri = os.getenv("DATABASE_URL") 
     if uri and uri.startswith("postgres://"):

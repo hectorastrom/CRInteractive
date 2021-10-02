@@ -17,6 +17,7 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     coach_key = db.Column(db.String(6), nullable=False, default="000000")
+    is_coxswain = db.Column(db.Boolean, default=False)
     pinged = db.Column(db.Boolean, default=False)
     default_on = db.Column(db.Boolean, default=False)
     # Height is in inches
