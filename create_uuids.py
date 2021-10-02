@@ -1,20 +1,15 @@
-from app import db, session, models
+from app import db
+from app.models import User
 import csv
 
 print(User.query.all())
 db.session.commit()
 
 with open("rowers.csv", "r") as file:
-    # No clue if we actually need to do this for csv files
-    csv_reader = csv.reader(file, delimiter="")
-    line_count = 0
+    csv_reader = csv.reader(file)
+    next(csv_reader)
     for row in csv_reader:
-        if line_count == 0:
-            print("The columns are", row)
-            line_count += 1
-        else:
-            print(f"First name: {row[0]}, Last name: {row[1]}, Email: {row[2]}, Team: {row[3]}")
-            line_count += 1
+        print(f"First name: {row[0]}, Last name: {row[1]}, Email: {row[2]}, Team: {row[3]}")
             
 
 """
