@@ -1,54 +1,11 @@
+from enum import unique
 from app import db
 from app.models import User
 from random import randint
 import csv
+import smtplib
+from email.message import EmailMessage
 
-print(User.query.all())
-db.session.commit()
-
-with open("rowers.csv", "r") as file:
-    csv_reader = csv.reader(file)
-    # Skips the titles of each column
-    next(csv_reader) 
-    row_number = 0
-    for row in csv_reader:
-        row_number += 1
-        firstname = row[0].capitalize()
-        lastname = row[1].capitalize()
-        email = row[2].lower()
-        if row[3].lower() == "mv":
-            team = "Men's Varsity"
-        elif row[3].lower() == "l":
-            team = "Launchpad"
-        else:
-            print(f"ERROR: Unrecognized team value in row {row_number}: {row[3]}.")
-            quit()
-        if row[4].lower() == "coxswain":
-            is_coxswain = True
-        else: 
-            is_coxswain == False
-
-        if row[4].lower() == "coach":
-            is_coach = True
-        else:
-            is_coach = False
-        unique_id = randint(10000000, 99999999)
-        while User.query.filter_by(uuid=unique_id).first():
-            unique_id = randint(10000000, 99999999)
-        existing_user = User.query.filter(User.email==email).all()
-        if existing_user:
-            continue
-        else:
-            new_user = User(firstname = firstname,
-                            lastname = lastname,
-                            email = email, 
-                            is_coach = is_coach, 
-                            is_coxswain = is_coxswain, 
-                            uuid = unique_id)
-            db.session.add(new_user)
-            db.session.commit()
-        
-            
 
 """
 Read in each user in the csv from google sheets. If the user exists already, do nothing. Otherwise
@@ -57,5 +14,74 @@ their email for them to sign up. The unique id is a 8 digit code that will be UN
 the User database for other codes like that before assigning it to a user. Once each user is created
 it will be easy to create a route in routes.py that queries the database at route /create-account/<UUID>/
 for a user with that UUID and allows them to enter their password before creating the account. 
-
 """
+messages = []
+EMAIL_ADDRESS = "test@gmail.com"
+EMAIL_PASSWORD = "test"
+
+
+def main():
+    with open("rowers.csv", "r") as file:
+        csv_reader = csv.reader(file)
+        # Skips the titles of each column
+        next(csv_reader) 
+        row_number = 0
+        for row in csv_reader:
+            row_number += 1
+            firstname = row[0].capitalize()
+            lastname = row[1].capitalize()
+            email = row[2].lower()
+            if row[3].lower() == "mv":
+                team = "Men's Varsity"
+            elif row[3].lower() == "l":
+                team = "Launchpad"
+            else:
+                print(f"ERROR: Unrecognized team value in row {row_number}: {row[3]}.")
+                quit()
+            if row[4].lower() == "coxswain":
+                is_coxswain = True
+            else: 
+                is_coxswain == False
+
+            if row[4].lower() == "coach":
+                is_coach = True
+            else:
+                is_coach = False
+            unique_id = randint(10000000, 99999999)
+            while User.query.filter_by(uuid=unique_id).first():
+                unique_id = randint(10000000, 99999999)
+            unique_id = str(unique_id)
+            existing_user = User.query.filter(User.email==email).all()
+            if existing_user:
+                continue
+            else:
+                new_user = User(firstname = firstname,
+                                lastname = lastname,
+                                email = email, 
+                                is_coach = is_coach, 
+                                is_coxswain = is_coxswain, 
+                                uuid = unique_id)
+                db.session.add(new_user)
+                db.session.commit()
+            send_email(EMAIL_ADDRESS, EMAIL_PASSWORD, firstname, email, unique_id)
+
+def send_email(EMAIL_ADDRESS, EMAIL_PASSWORD, firstname, user_email, unique_id):
+    msg = EmailMessage()
+    msg['From'] = EMAIL_ADDRESS
+    msg['To'] = user_email
+    
+    msg.set_content(f'Welcome to CRInteractive, {firstname}! Your CRInteractive link is https://crinteractive.org/register/{unique_id}.')
+
+    msg.add_alternative("""\
+        
+    """, subtype="html")
+    messages.append(msg)
+
+
+main()        
+
+with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:  
+        smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+        for message in messages:
+            smtp.send_message(message)
+            
