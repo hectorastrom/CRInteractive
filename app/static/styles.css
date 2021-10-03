@@ -187,6 +187,15 @@ html, body
     cursor: default;
 }
 
+select:disabled
+{
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+
+
 label[for="enable_default"]
 {
     font-size: larger;

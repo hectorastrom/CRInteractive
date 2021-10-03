@@ -125,7 +125,7 @@ def settings():
                     current_user.height = int(feet) * 12 + int(inches)
 
             current_user.side = side
-            current_user.team = team
+            # current_user.team = team
             current_user.grade = int(grade)
         else:
             team = request.form.get("team")
