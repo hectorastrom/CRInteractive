@@ -64,6 +64,7 @@ def main():
                 db.session.add(new_user)
                 print("User with firstname:", firstname, "lastname:", lastname, "email:", email, "UUID:", unique_id, "added to database.")
                 db.session.commit()
+            # Emails currently sent even if account already exists, JUST FOR TESTING, NEEDS TO BE TABBED UP
             send_email(EMAIL_ADDRESS, firstname, email, unique_id)
 
 def send_email(EMAIL_ADDRESS, firstname, user_email, unique_id):
@@ -74,7 +75,7 @@ def send_email(EMAIL_ADDRESS, firstname, user_email, unique_id):
     
     msg.set_content(f'Welcome to CRInteractive, {firstname}! Your CRInteractive link is https://crinteractive.org/register/{unique_id}.')
 
-    msg.add_alternative("""\
+    html = """\
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -140,16 +141,18 @@ def send_email(EMAIL_ADDRESS, firstname, user_email, unique_id):
         <center>
             <div class="card">
                 <div class="container">
-                    <h2>Welcome, {firstname}!</h2>
+                    <h2>Welcome, """ + firstname + """!</h2>
                     <p>You've been invited to use <span style="color:rgb(177, 23, 49)">CRInteractive</span> by your coach. Use the following link to finish creating your account.</p>  
-                    <p><a href="https://www.apple.com">www.crinteractive.org/register/{unique_id}</a></p>
+                    <p><a href="https://www.crinteractive.org/register/""" + unique_id + """">www.crinteractive.org/register/""" + unique_id + """</a></p>
                     <small class="muted">This link is unique to you. Do not share it with anyone else. Impersonation is a violation of the <strong style="color:black;">Code of Conduct</strong></small>
                 </div>
             </div> 
         </center>
     </body>
 </html>
-""".format(firstname=firstname, unique_id=unique_id), subtype='html')
+"""
+
+    msg.add_alternative(html, subtype='html')
     messages.append(msg)
 
 
