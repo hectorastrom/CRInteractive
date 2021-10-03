@@ -28,7 +28,6 @@ def remove_user(email):
 @click.command(name='send_emails')
 @with_appcontext
 def send_emails():
-    from enum import unique
     from random import randint
     import csv
     import smtplib
@@ -55,8 +54,8 @@ def send_emails():
             elif row[3].lower().strip() == "l":
                 team = "Launchpad"
             else:
-                print(f"ERROR: Unrecognized team value in row {row_number}: {row[3]}.")
-                quit()
+                print(f"ERROR: Unrecognized team value in row {row_number}: {row[3]}. Defaulted to launchpad.")
+                team = "Launchpad"
             if row[4].lower().strip() == "coxswain":
                 is_coxswain = True
             else: 
