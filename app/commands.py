@@ -39,7 +39,7 @@ def send_emails():
     EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
     EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 
-    with open("rowers.csv", "r") as file:
+    with open(r"app\static\rowers.csv", "r") as file: 
         csv_reader = csv.reader(file)
         # Skips the titles of each column
         next(csv_reader) 
