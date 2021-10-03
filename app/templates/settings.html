@@ -32,6 +32,7 @@
                     </div>
                 </div> 
             {%else%}
+                {% if not current_user.is_coxswain %}
                 <div class="form-group short">
                     <select class="form-select form-control form-control-lg" aria-label="Side Selector" name="side">
                         {% if current_user.side == "none" %}
@@ -61,6 +62,7 @@
                         {% endif %}
                     </select>
                 </div>
+                {% endif %}
                 <div class="form-group short">
                     <select disabled class="form-select form-control form-control-lg" aria-label="Team Selector" name="team">  
                         <!-- Teams is a list of team names gotten from the database -->
