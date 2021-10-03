@@ -60,6 +60,7 @@ def main():
                 new_user = User(firstname = firstname,
                                 lastname = lastname,
                                 email = email, 
+                                team = team,
                                 is_coach = is_coach, 
                                 is_coxswain = is_coxswain, 
                                 uuid = unique_id)
