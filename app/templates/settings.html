@@ -38,26 +38,26 @@
                             <option disabled selected>Choose Side</option>
                             <option value="Port">Port</option>
                             <option value="Starboard">Starboard</option>
-                            <option value="Both - Port">Both (port preference)</option> 
-                            <option value="Both - Starboard">Both (starboard preference)</option> 
+                            <option value="Both - Port">Both (Port Preference)</option> 
+                            <option value="Both - Starboard">Both (Starboard Preference)</option> 
                         {% elif current_user.side == "Port" %}
                             <option disabled>Choose Side</option>
                             <option selected value="Port">Port</option>
                             <option value="Starboard">Starboard</option>
-                            <option value="Both - Port">Both (port preference)</option> 
-                            <option value="Both - Starboard">Both (starboard preference)</option>  
+                            <option value="Both - Port">Both (Port Preference)</option> 
+                            <option value="Both - Starboard">Both (Starboard Preference)</option>  
                         {% elif current_user.side == "Both - Port" %}
                             <option disabled>Choose Side</option>
                             <option value="Port">Port</option>
                             <option value="Starboard">Starboard</option>
-                            <option selected value="Both - Port">Both (port preference)</option> 
-                            <option value="Both - Starboard">Both (starboard preference)</option> 
+                            <option selected value="Both - Port">Both (Port Preference)</option> 
+                            <option value="Both - Starboard">Both (Starboard Preference)</option> 
                         {% elif current_user.side == "Both - Starboard" %}
                             <option disabled>Choose Side</option>
                             <option value="Port">Port</option>
                             <option value="Starboard">Starboard</option>
-                            <option value="Both - Port">Both (port preference)</option> 
-                            <option selected value="Both - Starboard">Both (starboard preference)</option> 
+                            <option value="Both - Port">Both (Port Preference)</option> 
+                            <option selected value="Both - Starboard">Both (Starboard Preference)</option> 
                         {% endif %}
                     </select>
                 </div>

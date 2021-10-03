@@ -71,7 +71,7 @@ def main():
 
 def send_email(EMAIL_ADDRESS, firstname, user_email, unique_id):
     msg = EmailMessage()
-    msg["Subject"] = "Finish Setting Up Your CRInteractive Account"
+    msg["Subject"] = f"Your CRInteractive Code is {unique_id}"
     msg['From'] = formataddr(('CRInteractive', EMAIL_ADDRESS))
     msg['To'] = formataddr((firstname, user_email))
     
