@@ -20,7 +20,7 @@ class User(db.Model, UserMixin):
     is_coach = db.Column(db.Boolean, default=False)
     is_coxswain = db.Column(db.Boolean, default=False)
     pinged = db.Column(db.Boolean, default=False)
-    default_on = db.Column(db.Boolean, default=False)
+    default_on = db.Column(db.Boolean, default=True)
     # Height is in inches
     height = db.Column(db.Integer())
     weight = db.Column(db.Integer())
