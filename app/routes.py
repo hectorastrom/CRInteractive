@@ -55,7 +55,7 @@ def logout():
     return redirect(url_for('login'))
 
 @app.route('/register', methods=["GET", "POST"])
-def search_key():
+def search_code():
     if request.method == "POST":
         potential_user = User.query.filter_by(uuid=request.form.get("search_code")).first()
         if potential_user:
