@@ -30,7 +30,7 @@ def login():
             else:
                 flash(f'Incorrect credentials. Please check email and password.', 'error')
         else:
-            flash(f"Account for {user.email} is not yet initalized. Head to the registration link in your email to finish creating your account.", "error")
+            flash(f"Account for {form.email.data} is not yet initalized. Head to the registration link in your email to finish creating your account.", "error")
     return render_template('login.html', form=form)
 
 @app.route('/logout')
