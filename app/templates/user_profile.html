@@ -13,7 +13,9 @@
                     <h2 class="account-heading">{{ user.firstname }} {{ user.lastname }}</h2>
                     <p><strong>Grade: </strong>{% if user.grade %}{{ user.grade }}{% else %}No grade{% endif %}</p>
                     <p><strong>Team: </strong>{% if user.team != "none" %}{{ user.team }}{% else %}No team{% endif %}</p>
+                    {% if not user.is_coxswain %}
                     <p><strong>Side: </strong>{% if user.side != "none" %}{{ user.side }}{% else %}No side{% endif %}</p>
+                    {% endif %}
                     {% if user.height %}
                     <p><strong>Height: </strong>{{ (user.height / 12) | int }}'{{ user.height % 12 }}"</p>
                     {% endif %}
@@ -21,11 +23,13 @@
                     <p><strong>Weight: </strong>{{ user.weight }}lbs</p>
                     {% endif %}
                     </div>
-                <div class="col-sm-4">
-                    <h2>Scores</h2>
-                    <p><strong>2k PR: </strong>{{ twok }}</p>
-                    <p><strong>5k PR: </strong>{{ fivek }}</p>
-                </div>
+                    {% if not user.is_coxswain %}
+                        <div class="col-sm-4">
+                            <h2>Scores</h2>
+                            <p><strong>2k PR: </strong>{{ twok }}</p>
+                            <p><strong>5k PR: </strong>{{ fivek }}</p>
+                        </div>
+                    {% endif %}
             </div>
         </div>
         <p class="border-bottom border-dark mt-3"></p>
