@@ -244,6 +244,17 @@ border-color: rgba(177, 23, 49, .5);
 border-radius: 20px;
 }
 
+#register-card
+{
+    box-shadow: 0 5px 18px 0 rgba(0,0,0,0.4);
+    background-color: white;
+    padding: 10px;
+    border-radius: 15px;
+    max-width: 500px;   
+    height:auto;
+    margin-bottom: 30px;
+}
+
 .responsive-border
 {
     display: inline-block;

@@ -57,7 +57,7 @@ def logout():
 
 @app.route('/register/<uuid>', methods=["GET", "POST"])
 def register(uuid):
-    user = User.query.filter(User.uuid==uuid, User.password=="not set").first()
+    user = User.query.filter(User.uuid==uuid).first()
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -70,7 +70,10 @@ def register(uuid):
         if not user:
             flash("Registration page for that code does not exist.", "error")
             return redirect(url_for("index"))
-        if user:
+        elif user and user.password != "not set":
+            flash("Account has already been created.", "error")
+            return redirect(url_for("login"))
+        else:
             return render_template("register.html", form=form, user=user)
 
 
@@ -78,6 +81,7 @@ def register(uuid):
 @app.route('/settings', methods=["GET", "POST"])
 @login_required
 def settings():
+    print(current_user)
     possible_feet = [1,2,3,4,5,6,7]
     possible_inches = [0,1,2,3,4,5,6,7,8,9,10,11]
     user_inches = -1

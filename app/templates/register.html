@@ -5,10 +5,19 @@
 
 {% block main %}
     <div class='content-section'>
+        <div class="card" id="register-card">
+            <div class="card-body">
+                <h4 class="card-title border-bottom border-dark">Account Information</h4>
+                <p class="card-text"><strong>Name: </strong>{{ user.firstname }} {{ user.lastname }}</p>
+                <p class="card-text"><strong>Email: </strong>{{ user.email }}</p>
+                <p class="card-text"><strong>Team: </strong>{{ user.team }}</p>
+                <p class="card-text"><strong>Role: </strong>{% if user.is_coxswain %}Coxswain{% elif user.is_coach %}Coach{% else %}Rower{% endif %}</p>
+            </div>
+        </div>
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
-                <legend class="border-bottom border-dark mb-4" style="font-weight: 600;">Welcome {{ user.firstname }}. To finish creating your account for the email {{ user.email }}, enter your password you will use to login.</legend>
+                <legend class="border-bottom border-dark mb-4" style="font-weight: 600;">Create Password</legend>
                 <div class="form-group short">
                     {{ form.password.label(class="form-control-label") }}
                     {% if form.password.errors %}
