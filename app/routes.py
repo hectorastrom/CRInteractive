@@ -145,7 +145,7 @@ def settings():
     
 
 # MetricObjs have format tag, name, description. Descriptions are default "" so they can be omitted.
-metric_list = [
+rower_metric_list = [
     MetricObj("gt", "General Technique", "Coaches' subjective estimate of your technique."),
     MetricObj("bp", "Body Preparation", "Are arms fully extended, lats slightly engaged, spine supported, and shoulders forward of hips prior to quarter slide?"),
     MetricObj("rhythm", "Rhythm", "Distance Over Time = Speed. Distance = Connected Length. Power * Connected Length = Distance Over Time."),
@@ -161,6 +161,14 @@ metric_list = [
     MetricObj("mob", "Mobility", "Full range of motion at the ankle, knee, hip, shoulder without compensatory movement anywhere else in your body, especially in your spine."),
     MetricObj("bm", "Breath Mechanics", "Do you maintain core stability when you’re breathing hard, or not? Are you able to remain un-shrugged all throughout long rows?")
 ]
+
+cox_metric_list = [
+    MetricObj("pe", "Practice Efficiency", "Duration of practice transitions, getting boats on and off racks/water, spinning / aligning boats done without wasting time."),
+    MetricObj("pex", "Practice Execution", "Is your crew executing the prescribed drills properly on the first try? Do you rotate through pairs in sync with the coaches' and other boats' clocks? Is your crew at the prescribed rates the entire time?"),
+    MetricObj("tex", "Technical Execution", "How do your blades look? Are they skying? Missing water? Staying locked at the right depth? Are your stations catching and finishing together? Is your crew checking the boat, or picking it up on the fly?"),
+    MetricObj("st", "Steering", "Do you stay close to the other eight (when applicable)? Do you know how to maneuver around obstacles without disrupting the flow of practice? Do you stay on the right side of the river at all times?"),
+    MetricObj("candc", "Clarity and Conciceness", "In how few words are you able to get your message across? How easy is it for your crew to understand your commands? Is there unnecessary, meaningless filler?"),
+]
 @app.route('/profile/<firstname>:<id>', methods=["GET", "POST"])
 @login_required
 def profile(firstname, id):
@@ -168,7 +176,6 @@ def profile(firstname, id):
     if not user:
         flash("Profile not found", 'error')
         return redirect(url_for('index'))
-
     if request.method == "POST":
         if not current_user.is_coach:
             if not current_user.pinged:
@@ -199,9 +206,13 @@ def profile(firstname, id):
                 flash(f"Updated {updated_metric.tag} for {user.firstname}.", "success")
                 return redirect('#')
     else:
+        if user.is_coxswain:
+            focused_list = cox_metric_list
+        else:
+            focused_list = rower_metric_list
         # Goes through and adds all important metrics for a user if they don't exist when a coach is viewing
         if current_user.is_coach:
-            for defMetric in metric_list:
+            for defMetric in focused_list:
                 metric = Metric.query.filter(Metric.user_id==id, Metric.tag==defMetric.tag, Metric.name==defMetric.name).first()
                 if not metric:
                     if current_user.default_on:
@@ -213,12 +224,12 @@ def profile(firstname, id):
         # All metrics is to be sent to profiles to be displayed
         # The purpose of a for loop instead of querying Metrics with user_id.all() is that metrics that have had their name changed or removed will not longer appear as metrics to view.
         all_metrics = []
-        for metric in metric_list:
+        for metric in focused_list:
             new_metric = Metric.query.filter(Metric.user_id==id, Metric.tag==metric.tag).first()
             if new_metric is not None:
                 all_metrics.append(new_metric)
         all_user_metrics = []
-        for metric in metric_list:
+        for metric in focused_list:
             new_metric = Metric.query.filter(Metric.user_id==id, Metric.tag==metric.tag, Metric.name==metric.name, Metric.has_set==True, Metric.view_allowed==True).first()
             if new_metric is not None:
                 all_user_metrics.append(new_metric)
@@ -237,59 +248,6 @@ def profile(firstname, id):
             return render_template('coach_profile.html', image_file = image_file, user=user, all_metrics=all_metrics, twok=twok, fivek=fivek)
         else:
             return render_template('user_profile.html', image_file = image_file, user=user, all_metrics=all_user_metrics, twok=twok, fivek=fivek)
-
-
-# @app.route('/rankings/<type>', methods=['GET'])
-# @login_required
-# def rankings(type):
-#     if type != "2k" and type != "5k":
-#         flash("Ranking type not found.", "error")
-#         return redirect(url_for('index'))
-#     userList = []
-
-#     users = User.query.filter(User.team==current_user.team, User.is_coach==False).all()
-
-#     labels = []
-#     values = []
-
-#     border_colors = []
-#     background_colors = []
-
-#     for user in users:
-#         userStats = {}
-#         userStats["name"] = user.firstname + " " + user.lastname
-#         userStats["firstname"] = user.firstname.lower()
-#         if type == "2k":
-#             userStats["type"] = Twok.query.filter_by(user_id=user.id).order_by("seconds").first()
-#         elif type == "5k":
-#             userStats["type"] = Fivek.query.filter_by(user_id=user.id).order_by("seconds").first()
-#         userStats["id"] = user.id
-#         if userStats["type"]:  
-#             userList.append(userStats)
-
-#     userList.sort(key=lambda x:x["type"].seconds)
-#     for user in userList:
-#         if user['type']:
-#             # This adds the name and 2k (in seconds!) of the user to labels and vlaues to be used in the chart
-#             labels.append(user["name"])
-#             # If the user is in the userList database, set that color value to be purple
-#             if user["id"] == current_user.id:
-#                 border_colors.append('rgb(144, 15, 209)')
-#                 background_colors.append('rgba(144, 15, 209, 0.25)')
-#             else:
-#                 border_colors.append('rgb(177, 23, 49)')
-#                 background_colors.append('rgba(177, 23, 49, 0.25)')
-
-#             time = user["type"].seconds
-#             values.append(user["type"].seconds)
-#             user["time"] = convert_from_seconds(time, "time")
-
-#     if not userList:
-#         userStats = {}
-#         userStats["id"] = -1
-#         userList.append(userStats)
-
-#     return render_template("rankings.html", users = userList, labels = labels, values = values, border_colors = border_colors, background_colors = background_colors, type = type)
 
 
 @app.route('/2k', methods=['GET', 'POST'])
