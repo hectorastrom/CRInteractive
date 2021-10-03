@@ -109,14 +109,10 @@ def settings():
                     flash('Side not selected.', 'error')
                     return redirect(url_for('settings'))
                 current_user.side = side
-            team = request.form.get("team")
             grade = request.form.get("grade")
             weight = request.form.get("weight")
             feet = request.form.get("feet")
             inches = request.form.get("inch")
-            if not team:
-                flash('Team not selected.', 'error')
-                return redirect(url_for('settings'))
             if not grade:
                 flash('Grade not selected.', 'error')
                 return redirect(url_for('settings'))
@@ -125,7 +121,6 @@ def settings():
             if feet and inches:
                 if int(feet) and int(inches) in possible_inches:
                     current_user.height = int(feet) * 12 + int(inches)
-            # current_user.team = team
             current_user.grade = int(grade)
         else:
             team = request.form.get("team")
