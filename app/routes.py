@@ -8,22 +8,6 @@ from datetime import date
 from random import randint
 from app.helpers import convert_from_seconds, coach_required, MetricObj
 
-# def create_users(amount):
-#     for i in range(amount):
-#         name = "test"+str(i)
-#         email = name + "@test.com"
-#         password = name
-#         team = teams[0]
-#         new_user = User(firstname=name, lastname=name, email=email, password=bcrypt.generate_password_hash(password).decode('utf-8'), team=team, side="Port")
-#         db.session.add(new_user)
-#         db.session.commit()
-#         new_2k = Twok(seconds=randint(360, 480), date_completed=date.today(), user_id=new_user.id)
-#         db.session.add(new_2k)
-#         db.session.commit()
-# # REAALLLLY DANGEROUS THIS CREATES 10 NEW USERS EVERYTIME THE PROGRAM IS RUN WHICH IS DANGEROUS BAD BAD NEWS
-# db.drop_all()
-# db.create_all()
-# create_users(30)
 
 @app.route("/")
 def index():
@@ -34,7 +18,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data.lower()).first()
-        if user.password != "not set":
+        if user and user.password != "not set":
             if user and bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user, remember=form.remember.data)
                 next_page = request.args.get('next')
