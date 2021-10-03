@@ -56,7 +56,16 @@ def logout():
 
 @app.route('/register', methods=["GET", "POST"])
 def search_key():
-    return redirect(url_for('index'))
+    if request.method == "POST":
+        potential_user = User.query.filter_by(uuid=request.form.get("search_code")).first()
+        if potential_user:
+            return redirect(url_for("register", uuid=request.form.get("search_code")))
+        else: 
+            flash("Invalid Code. Please try again.", "error")
+            return redirect("")
+    else:
+        random_num = randint(10000000, 99999999)
+        return render_template("search_uuid.html", random_num=random_num)
 
 @app.route('/register/<uuid>', methods=["GET", "POST"])
 def register(uuid):

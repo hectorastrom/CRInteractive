@@ -255,6 +255,16 @@ border-radius: 20px;
     margin-bottom: 30px;
 }
 
+#search-card
+{
+    box-shadow: 0 5px 18px 0 rgba(0,0,0,0.4);
+    background-color: white;
+    padding: 10px;
+    border-radius: 15px;
+    max-width: 800px;
+    height: 70px;
+}
+
 .responsive-border
 {
     display: inline-block;

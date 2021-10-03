@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}Search Code{% endblock %}
+
+
+{% block main %}
+<form method="POST" action="">
+    <h4 class="border-bottom border-dark">Search with Code</h4>
+    <div class="form-group short mt-3">
+        <input type="text" class="form-control form-control-lg" placeholder="{{ random_num }}" name="search_code" autocomplete="off">
+    </div>
+    <small class="text-muted">Each User Received a Registration Code in their Email. Search using the code in the email here to finish setting up your account.</small>
+    <div class="row justify-content-center mt-4">
+        <button class="btn btn-outline-danger rounded-pill" type="submit">Search</button>
+    </div>
+</form>
+{% endblock %}

@@ -7,7 +7,7 @@ from functools import wraps
 def coach_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if current_user.coach_key == "000000":
+        if not current_user.is_coach:
             flash(f'Insufficient permissions', 'danger')
             return redirect(url_for('index'))
         return f(*args, **kwargs)

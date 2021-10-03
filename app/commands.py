@@ -165,7 +165,7 @@ def send_emails():
                             <div class="card">
                                 <div class="container">
                                     <h2>Welcome, """ + firstname + """!</h2>
-                                    <p>You've been invited to use <span style="color:rgb(177, 23, 49)">CRInteractive</span> by your coach. Use the following link to finish creating your account.</p>  
+                                    <p>You've been invited to use <span style="color:rgb(177, 23, 49)">CRInteractive</span>. Use the following link to finish creating your account.</p>  
                                     <p><a href="https://www.crinteractive.org/register/""" + unique_id + """">www.crinteractive.org/register/""" + unique_id + """</a></p>
                                     <small class="muted">This link is unique to you. Do not share it with anyone else. Impersonation is a violation of the <strong style="color:black;">CRI Code of Conduct</strong>.</small>
                                 </div>
