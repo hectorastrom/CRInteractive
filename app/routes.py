@@ -72,31 +72,7 @@ def register(uuid):
             return redirect(url_for("index"))
         if user:
             return render_template("register.html", form=form, user=user)
-    # if form.validate_on_submit():
-    #     hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-    #     # Adds user to database
-    #     user = User(firstname=form.firstname.data.strip().capitalize(), lastname=form.lastname.data.strip().capitalize(), email=form.email.data.strip().lower(), password=hashed_password)
-    #     db.session.add(user)
-    #     db.session.commit()
-    #     login_user(user, remember=True)
-    #     flash(f'Your account has been created!', 'success')
-    #     return redirect(url_for('index'))
-    # return render_template('register.html', form=form)
 
-
-@app.route('/register/coach', methods=['GET', 'POST'])
-def coach_register():
-    form = CoachRegistrationForm()
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        # Adds user to database
-        user = User(firstname=form.firstname.data.strip().capitalize(), lastname=form.lastname.data.strip().capitalize(), email=form.email.data.strip(), password=hashed_password, is_coach = True)
-        db.session.add(user)
-        db.session.commit()
-        login_user(user, remember=True)
-        flash(f'Your account has been created!', 'success')
-        return redirect(url_for('index'))
-    return render_template('registercoach.html', form=form)
 
 
 @app.route('/settings', methods=["GET", "POST"])
