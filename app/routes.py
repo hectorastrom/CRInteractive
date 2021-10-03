@@ -65,7 +65,7 @@ def register(uuid):
     else:
         if not user:
             flash("Registration page for that code does not exist.", "error")
-            return redirect(url_for("index"))
+            return redirect(url_for("search_code"))
         elif user and user.password != "not set":
             flash("Account has already been created.", "error")
             return redirect(url_for("login"))
