@@ -54,6 +54,9 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+@app.route('/register', methods=["GET", "POST"])
+def search_key():
+    return redirect(url_for('index'))
 
 @app.route('/register/<uuid>', methods=["GET", "POST"])
 def register(uuid):

@@ -115,6 +115,7 @@ def send_email(EMAIL_ADDRESS, firstname, user_email, unique_id):
             {
                 margin:0px;
                 background-color: lightgray;
+                font-family:Verdana, Geneva, Tahoma, sans-serif;
             }
             svg
             {
