@@ -52,19 +52,26 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/register', methods=["GET", "POST"])
-def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        # Adds user to database
-        user = User(firstname=form.firstname.data.strip().capitalize(), lastname=form.lastname.data.strip().capitalize(), email=form.email.data.strip().lower(), password=hashed_password)
-        db.session.add(user)
-        db.session.commit()
-        login_user(user, remember=True)
-        flash(f'Your account has been created!', 'success')
-        return redirect(url_for('index'))
-    return render_template('register.html', form=form)
+@app.route('/register/<uuid>', methods=["GET", "POST"])
+def register(uuid):
+    user = User.query.filter(User.uuid==uuid, User.password=="not set").first()
+    if not user:
+        flash("Registration page for that code does not exist.", "error")
+        return redirect(url_for("index"))
+    if user:
+        form = RegistrationForm()
+        flash("That account does exist and is not registered!", "success")
+        return render_template("register.html", form=form)
+    # if form.validate_on_submit():
+    #     hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+    #     # Adds user to database
+    #     user = User(firstname=form.firstname.data.strip().capitalize(), lastname=form.lastname.data.strip().capitalize(), email=form.email.data.strip().lower(), password=hashed_password)
+    #     db.session.add(user)
+    #     db.session.commit()
+    #     login_user(user, remember=True)
+    #     flash(f'Your account has been created!', 'success')
+    #     return redirect(url_for('index'))
+    # return render_template('register.html', form=form)
 
 
 @app.route('/register/coach', methods=['GET', 'POST'])
@@ -231,57 +238,57 @@ def profile(firstname, id):
             return render_template('user_profile.html', image_file = image_file, user=user, all_metrics=all_user_metrics, twok=twok, fivek=fivek)
 
 
-@app.route('/rankings/<type>', methods=['GET'])
-@login_required
-def rankings(type):
-    if type != "2k" and type != "5k":
-        flash("Ranking type not found.", "error")
-        return redirect(url_for('index'))
-    userList = []
+# @app.route('/rankings/<type>', methods=['GET'])
+# @login_required
+# def rankings(type):
+#     if type != "2k" and type != "5k":
+#         flash("Ranking type not found.", "error")
+#         return redirect(url_for('index'))
+#     userList = []
 
-    users = User.query.filter(User.team==current_user.team, User.is_coach==False).all()
+#     users = User.query.filter(User.team==current_user.team, User.is_coach==False).all()
 
-    labels = []
-    values = []
+#     labels = []
+#     values = []
 
-    border_colors = []
-    background_colors = []
+#     border_colors = []
+#     background_colors = []
 
-    for user in users:
-        userStats = {}
-        userStats["name"] = user.firstname + " " + user.lastname
-        userStats["firstname"] = user.firstname.lower()
-        if type == "2k":
-            userStats["type"] = Twok.query.filter_by(user_id=user.id).order_by("seconds").first()
-        elif type == "5k":
-            userStats["type"] = Fivek.query.filter_by(user_id=user.id).order_by("seconds").first()
-        userStats["id"] = user.id
-        if userStats["type"]:  
-            userList.append(userStats)
+#     for user in users:
+#         userStats = {}
+#         userStats["name"] = user.firstname + " " + user.lastname
+#         userStats["firstname"] = user.firstname.lower()
+#         if type == "2k":
+#             userStats["type"] = Twok.query.filter_by(user_id=user.id).order_by("seconds").first()
+#         elif type == "5k":
+#             userStats["type"] = Fivek.query.filter_by(user_id=user.id).order_by("seconds").first()
+#         userStats["id"] = user.id
+#         if userStats["type"]:  
+#             userList.append(userStats)
 
-    userList.sort(key=lambda x:x["type"].seconds)
-    for user in userList:
-        if user['type']:
-            # This adds the name and 2k (in seconds!) of the user to labels and vlaues to be used in the chart
-            labels.append(user["name"])
-            # If the user is in the userList database, set that color value to be purple
-            if user["id"] == current_user.id:
-                border_colors.append('rgb(144, 15, 209)')
-                background_colors.append('rgba(144, 15, 209, 0.25)')
-            else:
-                border_colors.append('rgb(177, 23, 49)')
-                background_colors.append('rgba(177, 23, 49, 0.25)')
+#     userList.sort(key=lambda x:x["type"].seconds)
+#     for user in userList:
+#         if user['type']:
+#             # This adds the name and 2k (in seconds!) of the user to labels and vlaues to be used in the chart
+#             labels.append(user["name"])
+#             # If the user is in the userList database, set that color value to be purple
+#             if user["id"] == current_user.id:
+#                 border_colors.append('rgb(144, 15, 209)')
+#                 background_colors.append('rgba(144, 15, 209, 0.25)')
+#             else:
+#                 border_colors.append('rgb(177, 23, 49)')
+#                 background_colors.append('rgba(177, 23, 49, 0.25)')
 
-            time = user["type"].seconds
-            values.append(user["type"].seconds)
-            user["time"] = convert_from_seconds(time, "time")
+#             time = user["type"].seconds
+#             values.append(user["type"].seconds)
+#             user["time"] = convert_from_seconds(time, "time")
 
-    if not userList:
-        userStats = {}
-        userStats["id"] = -1
-        userList.append(userStats)
+#     if not userList:
+#         userStats = {}
+#         userStats["id"] = -1
+#         userList.append(userStats)
 
-    return render_template("rankings.html", users = userList, labels = labels, values = values, border_colors = border_colors, background_colors = background_colors, type = type)
+#     return render_template("rankings.html", users = userList, labels = labels, values = values, border_colors = border_colors, background_colors = background_colors, type = type)
 
 
 @app.route('/2k', methods=['GET', 'POST'])
