@@ -1,8 +1,9 @@
 import click
+import os
 from flask.cli import with_appcontext
 
 from app import db
-from app.models import User, Twok, Fivek, Metric
+from app.models import User
 
 @click.command(name='create_tables')
 @with_appcontext
@@ -20,8 +21,6 @@ def drop_tables():
 @with_appcontext
 def send_emails():
     from enum import unique
-    from app import db
-    from app.models import User
     from random import randint
     import csv
     import smtplib
@@ -30,10 +29,10 @@ def send_emails():
 
     db.create_all()
     messages = []
-    EMAIL_ADDRESS = "crinteractivebot@gmail.com"
-    EMAIL_PASSWORD = "2hourdrive&will"
+    EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
+    EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 
-    with open("rowers.csv", "r") as file:
+    with open("static/rowers.csv", "r") as file:
         csv_reader = csv.reader(file)
         # Skips the titles of each column
         next(csv_reader) 
@@ -80,7 +79,7 @@ def send_emails():
                 msg = EmailMessage()
                 msg["Subject"] = f"Your CRInteractive Code is {unique_id}"
                 msg['From'] = formataddr(('CRInteractive', EMAIL_ADDRESS))
-                msg['To'] = formataddr((firstname, user_email))
+                msg['To'] = formataddr((firstname, email))
                 
                 msg.set_content(f'Welcome to CRInteractive, {firstname}! Your CRInteractive link is https://crinteractive.org/register/{unique_id}.')
 
@@ -186,4 +185,5 @@ def send_emails():
             for message in messages:
                 smtp.send_message(message)
                 print("Message sent to", message['To'])
+    print("\nFinished 'send_emails' command.")
 
