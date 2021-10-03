@@ -8,47 +8,7 @@
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
-                <legend class="border-bottom border-dark mb-4" style="font-weight: 600;">Create Account</legend>
-                <div class="form-group short">
-                    {{ form.firstname.label(class="form-control-label") }}
-
-                    {% if form.firstname.errors %}
-                        {{ form.firstname(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.firstname.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.firstname(class="form-control form-control-lg", autocomplete="off") }}
-                    {% endif %}
-                </div>
-                <div class="form-group short">
-                    {{ form.lastname.label(class="form-control-label") }}
-                    {% if form.lastname.errors %}
-                        {{ form.lastname(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.lastname.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.lastname(class="form-control form-control-lg", autocomplete="off") }}
-                    {% endif %}
-                </div>
-                <div class="form-group short">
-                    {{ form.email.label(class="form-control-label") }}
-                    {% if form.email.errors %}
-                        {{ form.email(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.email.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.email(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
+                <legend class="border-bottom border-dark mb-4" style="font-weight: 600;">Welcome {{ user.firstname }}. To finish creating your account for the email {{ user.email }}, enter your password you will use to login.</legend>
                 <div class="form-group short">
                     {{ form.password.label(class="form-control-label") }}
                     {% if form.password.errors %}

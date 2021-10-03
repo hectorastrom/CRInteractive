@@ -14,30 +14,11 @@ from app import valid_keys
 import email_validator
 
 class RegistrationForm(FlaskForm):
-    firstname = StringField('First Name', 
-                            validators=[DataRequired(), Length(min=2, max=30)])
-    lastname = StringField('Last Name', 
-                            validators=[DataRequired(), Length(min=2, max=30)])
-    email = StringField('Email', 
-                        validators=[DataRequired(), Email()])
     password = PasswordField('Password', 
                             validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', 
                                     validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')
-
-    def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
-        if user:
-            raise ValidationError('Email is taken. Please choose a different email.')
-    
-    def validate_firstname(self, firstname):
-        if not firstname.data.isalpha():
-            raise ValidationError('First name contains characters which are not letters. Please try a different name.')
-
-    def validate_lastname(self, lastname):
-        if not lastname.data.isalpha():
-            raise ValidationError('Last name contains characters which are not letters. Please try a different last name.')
 
 class LoginForm(FlaskForm):
     email = StringField('Email', 

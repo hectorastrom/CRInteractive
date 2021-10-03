@@ -34,16 +34,19 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data.lower()).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
-            login_user(user, remember=form.remember.data)
-            next_page = request.args.get('next')
-            flash(f'Logged in for {form.email.data}!', 'success')
-            if next_page:
-                return redirect(next_page)
+        if user.password != "not set":
+            if user and bcrypt.check_password_hash(user.password, form.password.data):
+                login_user(user, remember=form.remember.data)
+                next_page = request.args.get('next')
+                flash(f'Logged in for {form.email.data}!', 'success')
+                if next_page:
+                    return redirect(next_page)
+                else:
+                    return redirect(url_for('index'))
             else:
-                return redirect(url_for('index'))
+                flash(f'Incorrect credentials. Please check email and password.', 'error')
         else:
-            flash(f'Incorrect credentials. Please check email and password.', 'error')
+            flash(f"Account for {user.email} is not yet initalized. Head to the registration link in your email to finish creating your account.", "error")
     return render_template('login.html', form=form)
 
 @app.route('/logout')
@@ -55,13 +58,20 @@ def logout():
 @app.route('/register/<uuid>', methods=["GET", "POST"])
 def register(uuid):
     user = User.query.filter(User.uuid==uuid, User.password=="not set").first()
-    if not user:
-        flash("Registration page for that code does not exist.", "error")
-        return redirect(url_for("index"))
-    if user:
-        form = RegistrationForm()
-        flash("That account does exist and is not registered!", "success")
-        return render_template("register.html", form=form)
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password = hashed_password
+        db.session.commit()
+        login_user(user, remember=True)
+        flash(f'Your account has been created!', 'success')
+        return redirect(url_for('index'))
+    else:
+        if not user:
+            flash("Registration page for that code does not exist.", "error")
+            return redirect(url_for("index"))
+        if user:
+            return render_template("register.html", form=form, user=user)
     # if form.validate_on_submit():
     #     hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
     #     # Adds user to database

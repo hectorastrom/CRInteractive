@@ -5,6 +5,7 @@ from random import randint
 import csv
 import smtplib
 from email.message import EmailMessage
+from email.utils import formataddr
 
 
 """
@@ -15,6 +16,7 @@ the User database for other codes like that before assigning it to a user. Once 
 it will be easy to create a route in routes.py that queries the database at route /create-account/<UUID>/
 for a user with that UUID and allows them to enter their password before creating the account. 
 """
+db.create_all()
 messages = []
 EMAIL_ADDRESS = "crinteractivebot@gmail.com"
 EMAIL_PASSWORD = "2hourdrive&will"
@@ -64,14 +66,13 @@ def main():
                 db.session.add(new_user)
                 print("User with firstname:", firstname, "lastname:", lastname, "email:", email, "UUID:", unique_id, "added to database.")
                 db.session.commit()
-            # Emails currently sent even if account already exists, JUST FOR TESTING, NEEDS TO BE TABBED UP
-            send_email(EMAIL_ADDRESS, firstname, email, unique_id)
+                send_email(EMAIL_ADDRESS, firstname, email, unique_id)
 
 def send_email(EMAIL_ADDRESS, firstname, user_email, unique_id):
     msg = EmailMessage()
     msg["Subject"] = "Your CRInteractive Account Has Been Created!"
-    msg['From'] = EMAIL_ADDRESS
-    msg['To'] = user_email
+    msg['From'] = formataddr(('CRInteractive', EMAIL_ADDRESS))
+    msg['To'] = formataddr((firstname, user_email))
     
     msg.set_content(f'Welcome to CRInteractive, {firstname}! Your CRInteractive link is https://crinteractive.org/register/{unique_id}.')
 
@@ -79,10 +80,14 @@ def send_email(EMAIL_ADDRESS, firstname, user_email, unique_id):
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta name="color-scheme" content="only">
-        <style>
+        <meta name="color-scheme" content="light">
+        <style type="text/css">
             .nav
             {
+                position: absolute;
+                top:0px;
+                left:0px;
+                right:0px;
                 background-color: rgb(42, 43, 44);
                 width: 100%;
                 height: 80px;
@@ -91,12 +96,17 @@ def send_email(EMAIL_ADDRESS, firstname, user_email, unique_id):
             .svg-container
             {
                 height: 100%;
+                width: 100%;
                 display: flex;
                 align-items: center;
             }
             .body-container
             {
-                padding:10px;
+                position: absolute;
+                top: 80px;
+                left: 0px;
+                right: 0px;
+                padding:15px;
                 margin:0px;
                 background-color: lightgray;
             }
@@ -132,7 +142,7 @@ def send_email(EMAIL_ADDRESS, firstname, user_email, unique_id):
             }
             .muted
             {
-                color: rgb(128, 128, 128)
+                color: rgb(128, 128, 128);
             }
         </style>
     </head>
@@ -149,7 +159,7 @@ def send_email(EMAIL_ADDRESS, firstname, user_email, unique_id):
                         <h2>Welcome, """ + firstname + """!</h2>
                         <p>You've been invited to use <span style="color:rgb(177, 23, 49)">CRInteractive</span> by your coach. Use the following link to finish creating your account.</p>  
                         <p><a href="https://www.crinteractive.org/register/""" + unique_id + """">www.crinteractive.org/register/""" + unique_id + """</a></p>
-                        <small class="muted">This link is unique to you. Do not share it with anyone else. Impersonation is a violation of the <strong style="color:black;">CRI Code of Conduct</strong></small>
+                        <small class="muted">This link is unique to you. Do not share it with anyone else. Impersonation is a violation of the <strong style="color:black;">CRI Code of Conduct</strong>.</small>
                     </div>
                 </div> 
             </center>
