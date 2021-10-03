@@ -17,6 +17,14 @@ def drop_tables():
     db.drop_all()
 
 
+@click.command(name='remove_user')
+@with_appcontext
+def remove_user(email):
+    user = User.query.filter(email=email).first()
+    db.session.delete(user)
+    db.session.commit()
+
+
 @click.command(name='send_emails')
 @with_appcontext
 def send_emails():
