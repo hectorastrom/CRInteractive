@@ -8,22 +8,6 @@ from datetime import date
 from random import randint
 from app.helpers import convert_from_seconds, coach_required, MetricObj
 
-# def create_users(amount):
-#     for i in range(amount):
-#         name = "test"+str(i)
-#         email = name + "@test.com"
-#         password = name
-#         team = teams[0]
-#         new_user = User(firstname=name, lastname=name, email=email, password=bcrypt.generate_password_hash(password).decode('utf-8'), team=team, side="Port")
-#         db.session.add(new_user)
-#         db.session.commit()
-#         new_2k = Twok(seconds=randint(360, 480), date_completed=date.today(), user_id=new_user.id)
-#         db.session.add(new_2k)
-#         db.session.commit()
-# # REAALLLLY DANGEROUS THIS CREATES 10 NEW USERS EVERYTIME THE PROGRAM IS RUN WHICH IS DANGEROUS BAD BAD NEWS
-# db.drop_all()
-# db.create_all()
-# create_users(30)
 
 @app.route("/")
 def index():
@@ -34,7 +18,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data.lower()).first()
-        if user.password != "not set":
+        if user and user.password != "not set":
             if user and bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user, remember=form.remember.data)
                 next_page = request.args.get('next')
@@ -46,7 +30,7 @@ def login():
             else:
                 flash(f'Incorrect credentials. Please check email and password.', 'error')
         else:
-            flash(f"Account for {user.email} is not yet initalized. Head to the registration link in your email to finish creating your account.", "error")
+            flash(f"Account for {form.email.data} is not yet initalized. Head to the registration link in your email to finish creating your account.", "error")
     return render_template('login.html', form=form)
 
 @app.route('/logout')
@@ -81,7 +65,7 @@ def register(uuid):
     else:
         if not user:
             flash("Registration page for that code does not exist.", "error")
-            return redirect(url_for("index"))
+            return redirect(url_for("search_code"))
         elif user and user.password != "not set":
             flash("Account has already been created.", "error")
             return redirect(url_for("login"))
@@ -158,7 +142,7 @@ rower_metric_list = [
 ]
 
 cox_metric_list = [
-    MetricObj("pe", "Practice Efficiency", "Duration of practice transitions, getting boats on and off racks/water, spinning / aligning boats done without wasting time."),
+    MetricObj("pe", "Practice Efficiency", "Duration of practice transitions, getting boats on and off racks/water, spinning/aligning boats done without wasting time."),
     MetricObj("pex", "Practice Execution", "Is your crew executing the prescribed drills properly on the first try? Do you rotate through pairs in sync with the coaches' and other boats' clocks? Is your crew at the prescribed rates the entire time?"),
     MetricObj("tex", "Technical Execution", "How do your blades look? Are they skying? Missing water? Staying locked at the right depth? Are your stations catching and finishing together? Is your crew checking the boat, or picking it up on the fly?"),
     MetricObj("st", "Steering", "Do you stay close to the other eight (when applicable)? Do you know how to maneuver around obstacles without disrupting the flow of practice? Do you stay on the right side of the river at all times?"),
@@ -254,7 +238,7 @@ def upload_twok():
         twok = Twok(seconds=total_seconds, date_completed=form.date.data, user_id = current_user.id)
         db.session.add(twok)
         db.session.commit()
-        flash(f'Logged 5k for {form.date.data}.', 'success')
+        flash(f'Logged 2k for {form.date.data}.', 'success')
         return redirect(url_for('index'))
     return render_template('2k.html', form=form)
 
