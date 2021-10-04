@@ -238,7 +238,7 @@ def upload_twok():
         twok = Twok(seconds=total_seconds, date_completed=form.date.data, user_id = current_user.id)
         db.session.add(twok)
         db.session.commit()
-        flash(f'Logged 5k for {form.date.data}.', 'success')
+        flash(f'Logged 2k for {form.date.data}.', 'success')
         return redirect(url_for('index'))
     return render_template('2k.html', form=form)
 
