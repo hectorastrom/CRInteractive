@@ -2,7 +2,7 @@ import click
 import os
 from flask.cli import with_appcontext
 
-from app import db
+from app import db, is_production
 from app.models import User
 
 @click.command(name='create_tables')
@@ -36,8 +36,12 @@ def send_emails():
 
     db.create_all()
     messages = []
-    EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
-    EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
+    if is_production:
+        EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
+        EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
+    else: 
+        EMAIL_ADDRESS = "crinteractivebot@gmail.com"
+        EMAIL_PASSWORD = "2hourdrive&will"
 
     with open("app/static/rowers.csv", "r") as file: 
         csv_reader = csv.reader(file)
@@ -69,9 +73,9 @@ def send_emails():
             while User.query.filter_by(uuid=str(unique_id)).first():
                 unique_id = randint(10000000, 99999999)
             unique_id = str(unique_id)
-            existing_user = User.query.filter(User.email==email).all()
+            existing_user = User.query.filter(User.email==email).first()
             if existing_user:
-                print("User with email", email, "already exists in the database. Ignored.")
+                print("User with email", email, "already exists in the database with code", existing_user.uuid, ". Ignored.")
             else:
                 new_user = User(firstname = firstname,
                                 lastname = lastname,

@@ -8,7 +8,7 @@ setTimeout(function() {
 }, 3000);
 
 
-function drawUserBellCurve(metric_tag, metric_name, metric_desc, metric_value, metric_importance, firstname)
+function drawUserBellCurve(metric_tag, metric_name, metric_desc, metric_value, metric_importance, metric_notes, firstname)
 {
     let html = `
     <div class="row justify-content-center">
@@ -56,6 +56,10 @@ function drawUserBellCurve(metric_tag, metric_name, metric_desc, metric_value, m
                 <label for="${metric_tag}_coach_importance" style="margin-left:14%;">Importance</label>
                 <input type="range" min="0" max="10" step="1" value="${metric_importance}" class="slider slider-yellow disabled" disabled>
             </div>
+            <div class="form-group">
+                <label style="margin-left:14%;" for="${metric_tag}_coach_notes">Coach Notes:</label>
+                <textarea disabled class="form-control notes" id="${metric_tag}_coach_notes" name="${metric_tag}_coach_notes" rows="2">${metric_notes}</textarea>
+            </div>
 
         </div>
         <div class="modal-footer" style="margin-top: 50px;">
@@ -102,7 +106,7 @@ function drawUserBellCurve(metric_tag, metric_name, metric_desc, metric_value, m
 }
 
 
-function drawCoachBellCurve(metric_tag, metric_name, metric_desc, metric_value, metric_importance, button_class, active, firstname)
+function drawCoachBellCurve(metric_tag, metric_name, metric_desc, metric_value, metric_importance, metric_notes, button_class, active, firstname)
 {
     let eyeball = ""
     if (active)
@@ -155,7 +159,7 @@ function drawCoachBellCurve(metric_tag, metric_name, metric_desc, metric_value, 
                         cx="0"
                         id="${metric_tag}_dot"
                         style="fill: rgba(177, 23, 49, 1)" />
-                </svg>
+                    </svg>
                     <p class="form-text text-muted text-center">${metric_name}</p>
                     <div class="form-group short">
                         <label for="${metric_tag}_slider" style="margin-left:14%;">Rating</label>
@@ -171,6 +175,10 @@ function drawCoachBellCurve(metric_tag, metric_name, metric_desc, metric_value, 
                         <div class="slidecontainer">
                             <input type="range" min="0" max="10" step="1" value="${metric_importance}" class="slider slider-yellow" id="${metric_tag}_coach_importance" name="${metric_tag}_coach_importance">
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label style="margin-left:14%;" for="${metric_tag}_coach_notes">Additional Notes:</label>
+                        <textarea class="form-control notes" id="${metric_tag}_coach_notes" name="${metric_tag}_coach_notes" rows="2">${metric_notes}</textarea>
                     </div>
                 </div>
                 <div class="modal-footer" style="margin-top: 50px;">

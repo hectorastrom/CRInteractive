@@ -156,6 +156,7 @@ def profile(firstname, id):
         flash("Profile not found", 'error')
         return redirect(url_for('index'))
     if request.method == "POST":
+        # For non-coaches the only form is requesting a review 
         if not current_user.is_coach:
             if not current_user.pinged:
                 current_user.pinged = True
@@ -180,9 +181,10 @@ def profile(firstname, id):
                     updated_metric.has_set = True
                 updated_metric.coach_rating = request.form.get(f"{updated_metric.tag}_coach_rating")
                 updated_metric.coach_importance = request.form.get(f"{updated_metric.tag}_coach_importance")
+                updated_metric.note = request.form.get(f"{updated_metric.tag}_coach_notes")
                 updated_metric.view_allowed = bool(request.form.get(f"{updated_metric.tag}_view_allowed"))
                 db.session.commit()
-                flash(f"Updated {updated_metric.tag} for {user.firstname}.", "success")
+                flash(f"Updated {updated_metric.name} for {user.firstname}.", "success")
                 return redirect('#')
     else:
         if user.is_coxswain:

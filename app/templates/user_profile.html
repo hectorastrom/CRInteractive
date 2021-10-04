@@ -72,7 +72,7 @@
         </svg>
         <script>
             {% for metric in all_metrics %}
-                drawUserBellCurve("{{ metric.tag }}", "{{ metric.name }}", "{{ metric.desc }}", {{ metric.coach_rating }}, {{ metric.coach_importance }}, "{{ user.firstname }}")
+                drawUserBellCurve("{{ metric.tag }}", "{{ metric.name }}", "{{ metric.desc }}", {{ metric.coach_rating }}, {{ metric.coach_importance }}, "{{ metric.note }}", "{{ user.firstname }}")
             {% endfor %}
         </script>
         {% endif %}

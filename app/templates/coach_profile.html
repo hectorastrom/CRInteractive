@@ -77,7 +77,7 @@
             {% endif %}
 
 
-            drawCoachBellCurve("{{ metric.tag }}", "{{ metric.name }}", "{{ metric.desc }}", {{ metric.coach_rating }}, {{ metric.coach_importance }}, button_class, active, "{{ user.firstname }}");
+            drawCoachBellCurve("{{ metric.tag }}", "{{ metric.name }}", "{{ metric.desc }}", {{ metric.coach_rating }}, {{ metric.coach_importance }}, "{{ metric.note }}", button_class, active, "{{ user.firstname }}");
         {% endfor %}
     </script>
     {% endif %}

@@ -201,6 +201,15 @@ label[for="enable_default"]
     font-size: larger;
 }
 
+.notes
+{
+    width:73%;
+    border-radius:5px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 
 .form-check-input-xl
 {
