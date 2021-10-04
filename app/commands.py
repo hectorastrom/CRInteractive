@@ -66,7 +66,7 @@ def send_emails():
             else:
                 is_coach = False
             unique_id = randint(10000000, 99999999)
-            while User.query.filter_by(uuid=unique_id).first():
+            while User.query.filter_by(uuid=str(unique_id)).first():
                 unique_id = randint(10000000, 99999999)
             unique_id = str(unique_id)
             existing_user = User.query.filter(User.email==email).all()
