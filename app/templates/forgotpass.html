@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}Forgot Password{% endblock %}
+
+
+{% block main %}
+<form method="POST" action="">
+    <h4 class="border-bottom border-dark">Reset Password</h4>
+    <div class="form-group short mt-3">
+        <input type="email" class="form-control form-control-lg" placeholder="example@email.com" name="email" autocomplete="on">
+    </div>
+    <div class="row justify-content-center mt-4">
+        <button class="btn btn-outline-danger rounded-pill" type="submit">Request Reset</button>
+    </div>
+</form>
+{% endblock %}

@@ -252,7 +252,22 @@ def roster():
 def about_us():
     hector_image = url_for('static', filename='profile_pics/' + 'default.jpg') # Replace with photo for hector 
     albert_image = url_for('static', filename='profile_pics/' + 'default.jpg') # Replace with photo for albert 
-    return render_template("about_us.html", hector_image = hector_image, albert_image = albert_image)        
+    return render_template("about_us.html", hector_image = hector_image, albert_image = albert_image)       
+
+
+@app.route('/forgotpass', methods=["GET","POST"], strict_slashes=False)
+def forgotpass():
+    if request.method == "POST":
+        email = request.form.get("email")
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            flash(f"Password reset email sent to {email}.")
+        else:
+            flash("No account registered with that email. Please try again using a different email.", "error")
+            return redirect("")
+        return redirect(url_for("login"))
+    else:
+        return render_template("forgotpass.html")
 
 @app.errorhandler(404)
 def page_not_found(e):
