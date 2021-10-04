@@ -315,7 +315,7 @@ border-radius: 20px;
 
 #not-found
 {
-    color: red;
+    color: rgb(177, 23, 49);
     font-weight: bold;
     padding-left: 0;
 }

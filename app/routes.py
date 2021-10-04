@@ -38,7 +38,7 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@app.route('/register', methods=["GET", "POST"])
+@app.route('/register', methods=["GET", "POST"], strict_slashes=False)
 def search_code():
     if request.method == "POST":
         potential_user = User.query.filter_by(uuid=request.form.get("search_code")).first()
@@ -74,7 +74,7 @@ def register(uuid):
 
 
 
-@app.route('/settings', methods=["GET", "POST"])
+@app.route('/settings', methods=["GET", "POST"], strict_slashes=False)
 @login_required
 def settings():
     possible_feet = [1,2,3,4,5,6,7]
@@ -148,7 +148,7 @@ cox_metric_list = [
     MetricObj("st", "Steering", "Do you stay close to the other eight (when applicable)? Do you know how to maneuver around obstacles without disrupting the flow of practice? Do you stay on the right side of the river at all times?"),
     MetricObj("candc", "Clarity and Conciceness", "In how few words are you able to get your message across? How easy is it for your crew to understand your commands? Is there unnecessary, meaningless filler?"),
 ]
-@app.route('/profile/<firstname>:<id>', methods=["GET", "POST"])
+@app.route('/profile/<firstname>:<id>', methods=["GET", "POST"], strict_slashes=False)
 @login_required
 def profile(firstname, id):
     user = User.query.filter(User.firstname==firstname.capitalize(), User.id==id).first()
@@ -229,7 +229,7 @@ def profile(firstname, id):
             return render_template('user_profile.html', image_file = image_file, user=user, all_metrics=all_user_metrics, twok=twok, fivek=fivek)
 
 
-@app.route('/2k', methods=['GET', 'POST'])
+@app.route('/2k', methods=['GET', 'POST'], strict_slashes=False)
 @login_required
 def upload_twok():
     form = TwokForm()
@@ -243,7 +243,7 @@ def upload_twok():
     return render_template('2k.html', form=form)
 
 
-@app.route('/5k', methods=['GET', 'POST'])
+@app.route('/5k', methods=['GET', 'POST'], strict_slashes=False)
 @login_required
 def upload_fivek():
     form = TwokForm()
@@ -257,7 +257,7 @@ def upload_fivek():
     return render_template('5k.html', form=form)
 
 
-@app.route('/roster')
+@app.route('/roster', strict_slashes=False)
 @login_required
 def roster():
     if current_user.is_coach:
@@ -268,7 +268,7 @@ def roster():
         flash("You do not have permissions to access that page.", "error")
         return redirect(url_for('index'))
 
-@app.route('/aboutus')
+@app.route('/aboutus', strict_slashes=False)
 def about_us():
     hector_image = url_for('static', filename='profile_pics/' + 'default.jpg') # Replace with photo for hector 
     albert_image = url_for('static', filename='profile_pics/' + 'default.jpg') # Replace with photo for albert 
@@ -277,6 +277,11 @@ def about_us():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html", url = request.url), 404
+
+@app.errorhandler(404)
+def server_error(e):
+    return render_template("500.html", url = request.url), 500
     
 app.register_error_handler(404, page_not_found)
+app.register_error_handler(500, server_error)
 
