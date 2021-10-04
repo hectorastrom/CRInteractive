@@ -142,7 +142,7 @@ rower_metric_list = [
 ]
 
 cox_metric_list = [
-    MetricObj("pe", "Practice Efficiency", "Duration of practice transitions, getting boats on and off racks/water, spinning / aligning boats done without wasting time."),
+    MetricObj("pe", "Practice Efficiency", "Duration of practice transitions, getting boats on and off racks/water, spinning/aligning boats done without wasting time."),
     MetricObj("pex", "Practice Execution", "Is your crew executing the prescribed drills properly on the first try? Do you rotate through pairs in sync with the coaches' and other boats' clocks? Is your crew at the prescribed rates the entire time?"),
     MetricObj("tex", "Technical Execution", "How do your blades look? Are they skying? Missing water? Staying locked at the right depth? Are your stations catching and finishing together? Is your crew checking the boat, or picking it up on the fly?"),
     MetricObj("st", "Steering", "Do you stay close to the other eight (when applicable)? Do you know how to maneuver around obstacles without disrupting the flow of practice? Do you stay on the right side of the river at all times?"),

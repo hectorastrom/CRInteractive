@@ -21,7 +21,7 @@
 
         <h1>You're logged in, {{ current_user.firstname }}.</h1>
 
-        {% if current_user.side == "none" %}
+        {% if current_user.side == "none" and not current_user.is_coxswain %}
             <h3>Head to <a href="{{ url_for('settings') }}">Settings</a> to customize your profile.</h3>
         {% endif %}
 
