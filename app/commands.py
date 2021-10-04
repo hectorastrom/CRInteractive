@@ -1,7 +1,7 @@
 import click
 import os
 from flask.cli import with_appcontext
-
+from random import randint
 from app import db, is_production
 from app.models import User
 
@@ -16,19 +16,61 @@ def create_tables():
 def drop_tables():
     db.drop_all()
 
+# Run with a command like flask add_user test test test@example.com rower "Men's Varsity"
+@click.command(name='add_user')
+@click.argument("firstname")
+@click.argument("lastname")
+@click.argument("email")
+@click.argument("role")
+@click.argument("team")
+@with_appcontext
+def add_user(firstname, lastname, email, role, team):
+    existing_user = User.query.filter_by(email=email).first()
+    if existing_user:
+        print("User with email", email, "already exists:", existing_user)
+    else:
+        if team.lower() == "mv":
+            team = "Men's Varsity"
+        elif team.lower() == "l":
+            team = "Launchpad"
+        elif team.lower() != "men's varsity" and team.lower() != "launchpad":
+            print("Unrecognized team name.")
+            exit(1)
+        unique_id = randint(10000000, 99999999)
+        while User.query.filter_by(uuid=str(unique_id)).first():
+            unique_id = randint(10000000, 99999999)
+        unique_id = str(unique_id)
+        user = User(firstname=firstname, lastname=lastname, email=email, team=team, uuid=unique_id)
+        if role.lower() == "coxswain":
+            user.is_coxswain = True
+        elif role.lower() == "coach":
+            user.is_coach = True
+        db.session.add(user)
+        db.session.commit()
+        print("Added", user, "to database.")
+
 
 @click.command(name='remove_user')
+@click.argument("email")
 @with_appcontext
 def remove_user(email):
-    user = User.query.filter(email=email).first()
-    db.session.delete(user)
-    db.session.commit()
+    user = User.query.filter_by(email=email).first()
+    if user:
+        print("Are you sure you want to remove this user:", user, "?")
+        response = input("Y/N: ")
+        if response.lower() == "y":
+            db.session.delete(user)
+            db.session.commit()
+            print("User with email", email, "removed.")
+        else:
+            print("Task exited.")
+    else: 
+        print("No user with email", email, "found.")
 
 
 @click.command(name='send_emails')
 @with_appcontext
 def send_emails():
-    from random import randint
     import csv
     import smtplib
     from email.message import EmailMessage

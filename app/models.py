@@ -30,7 +30,7 @@ class User(db.Model, UserMixin):
     metric = db.relationship('Metric', backref='rower', lazy=True)
 
     def __repr__(self):
-        return f"User(Firstname: '{self.firstname}', Lastname: '{self.lastname}', Email: '{self.email}', Team: '{self.team}', Side: '{self.side}', Imagefile: '{self.image_file}', is_coach: '{self.is_coach}', is_coxswain: '{self.is_coxswain}')"
+        return f"User(Firstname: '{self.firstname}', Lastname: '{self.lastname}', Email: '{self.email}', Team: '{self.team}', Side: '{self.side}', Imagefile: '{self.image_file}', is_coach: '{self.is_coach}', is_coxswain: '{self.is_coxswain}', uuid: '{self.uuid}')"
 
 class Twok(db.Model):
     id = db.Column(db.Integer, primary_key=True)

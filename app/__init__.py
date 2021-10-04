@@ -49,12 +49,13 @@ login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
 
-from app.commands import create_tables, drop_tables, send_emails, remove_user
+from app.commands import create_tables, drop_tables, send_emails, remove_user, add_user
 
 app.cli.add_command(create_tables)
 app.cli.add_command(drop_tables)
 app.cli.add_command(send_emails)
 app.cli.add_command(remove_user)
+app.cli.add_command(add_user)
 
 
 from app import routes
