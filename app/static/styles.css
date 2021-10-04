@@ -283,6 +283,11 @@ border-radius: 20px;
     height: 70px;
 }
 
+.boxy
+{
+    border-radius: 5px;
+}
+
 .responsive-border
 {
     display: inline-block;

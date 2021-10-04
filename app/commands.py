@@ -31,9 +31,9 @@ def add_user(firstname, lastname, email, role, team):
     else:
         if team.lower() == "mv":
             team = "Men's Varsity"
-        elif team.lower() == "l":
-            team = "Launchpad"
-        elif team.lower() != "men's varsity" and team.lower() != "launchpad":
+        elif team.lower() == "l" or team.lower() == "fl":
+            team = "Fall Launchpad"
+        elif team.lower() != "men's varsity" and team.lower() != "fall launchpad":
             print("Unrecognized team name.")
             exit(1)
         unique_id = randint(10000000, 99999999)
@@ -97,11 +97,11 @@ def send_emails():
             email = row[2].lower().strip()
             if row[3].lower().strip() == "mv":
                 team = "Men's Varsity"
-            elif row[3].lower().strip() == "l":
-                team = "Launchpad"
+            elif row[3].lower().strip() == "l" or row[3].lower().strip() == "fl":
+                team = "Fall Launchpad"
             else:
-                print(f"ERROR: Unrecognized team value in row {row_number}: {row[3]}. Defaulted to launchpad.")
-                team = "Launchpad"
+                print(f"ERROR: Unrecognized team value in row {row_number}: {row[3]}. Defaulted to Fall Launchpad.")
+                team = "Fall Launchpad"
             if row[4].lower().strip() == "coxswain":
                 is_coxswain = True
             else: 
