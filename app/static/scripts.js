@@ -56,9 +56,9 @@ function drawUserBellCurve(metric_tag, metric_name, metric_desc, metric_value, m
                 <label for="${metric_tag}_coach_importance" style="margin-left:14%;">Importance</label>
                 <input type="range" min="0" max="10" step="1" value="${metric_importance}" class="slider slider-yellow disabled" disabled>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
                 <label style="margin-left:14%;" for="${metric_tag}_coach_notes">Coach Notes:</label>
-                <textarea disabled class="form-control notes" id="${metric_tag}_coach_notes" name="${metric_tag}_coach_notes" rows="2">${metric_notes}</textarea>
+                <textarea style="opacity:.8;" disabled class="form-control notes" id="${metric_tag}_coach_notes" name="${metric_tag}_coach_notes">${metric_notes}</textarea>
             </div>
 
         </div>

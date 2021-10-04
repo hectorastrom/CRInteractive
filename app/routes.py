@@ -29,8 +29,10 @@ def login():
                     return redirect(url_for('index'))
             else:
                 flash(f'Incorrect credentials. Please check email and password.', 'error')
-        else:
+        elif user and user.password == "not set":
             flash(f"Account for {form.email.data} is not yet initalized. Head to the registration link in your email to finish creating your account.", "error")
+        else: 
+            flash(f"Acccount registed with {form.email.data} does not exist.", "error")
     return render_template('login.html', form=form)
 
 @app.route('/logout')
