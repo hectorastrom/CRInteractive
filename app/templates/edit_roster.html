@@ -16,8 +16,8 @@
                         <th>First name</th>
                         <th>Last name</th>
                         <th>Email</th>
-                        <th>Team</th>
                         <th>Role</th>
+                        <th>Team</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,7 +26,6 @@
                         <td>{{ user.firstname }}</td>
                         <td>{{ user.lastname }}</td>
                         <td>{{ user.email }}</td>
-                        <td>{{ user.team }}</td>
                         {% if user.is_coxswain %}
                             <td>Coxswain</td>
                         {% elif user.is_coach %}
@@ -34,6 +33,7 @@
                         {% else %}
                             <td>Rower</td>
                         {% endif %}
+                        <td>{{ user.team }}</td>
                     </tr>
                     {% endfor %}
                     <tr>
@@ -42,22 +42,22 @@
                         <td><input type="email" class="form-control boxy" placeholder="Email" name="email" autocomplete="off"></td>
                         <td>
                             <div class="form-group short">
-                                <select class="form-select form-control boxy" aria-label="Team Selector" name="team">  
-                                    <option disabled selected>Team</option>
-                                    {% for team in teams %}
-                                    <option value="{{ team }}">{{ team }}</option>
-                                    {% endfor %}
-                                </select>   
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group short">
                                 <select class="form-select form-control boxy" aria-label="Role Selector" name="role">  
                                     <option disabled selected>Role</option>
                                     <option value="rower">Rower</option>
                                     <option value='coxswain'>Coxswain</option>
                                     <option value='coach'>Coach</option>
                                 </select>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group short">
+                                <select class="form-select form-control boxy" aria-label="Team Selector" name="team">  
+                                    <option disabled selected>Team</option>
+                                    {% for team in teams %}
+                                    <option value="{{ team }}">{{ team }}</option>
+                                    {% endfor %}
+                                </select>   
                             </div>
                         </td>
                     </tr>

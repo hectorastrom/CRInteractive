@@ -4,6 +4,7 @@ from flask.cli import with_appcontext
 from random import randint
 from app import db, is_production
 from app.models import User
+from app.helpers import create_account
 
 @click.command(name='create_tables')
 @with_appcontext
@@ -25,29 +26,12 @@ def drop_tables():
 @click.argument("team")
 @with_appcontext
 def add_user(firstname, lastname, email, role, team):
-    existing_user = User.query.filter_by(email=email).first()
-    if existing_user:
-        print("User with email", email, "already exists:", existing_user)
-    else:
-        if team.lower() == "mv":
-            team = "Men's Varsity"
-        elif team.lower() == "l" or team.lower() == "fl":
-            team = "Fall Launchpad"
-        elif team.lower() != "men's varsity" and team.lower() != "fall launchpad":
-            print("Unrecognized team name.")
-            exit(1)
-        unique_id = randint(10000000, 99999999)
-        while User.query.filter_by(uuid=str(unique_id)).first():
-            unique_id = randint(10000000, 99999999)
-        unique_id = str(unique_id)
-        user = User(firstname=firstname, lastname=lastname, email=email, team=team, uuid=unique_id)
-        if role.lower() == "coxswain":
-            user.is_coxswain = True
-        elif role.lower() == "coach":
-            user.is_coach = True
-        db.session.add(user)
-        db.session.commit()
+    user, message = create_account(firstname, lastname, email, role, team)
+    if message == "added":
         print("Added", user, "to database.")
+    else:
+        print("User with email", email, "already exists:", user)
+
 
 
 @click.command(name='remove_user')
