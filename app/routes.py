@@ -29,7 +29,7 @@ from app.helpers import convert_from_seconds, coach_required, MetricObj
 def index():
     return render_template('index.html')
 
-@app.route('/login', methods=["GET", "POST"])
+@app.route('/login', methods=["GET", "POST"], strict_slashes=False)
 def login():
     form = LoginForm()
     if form.validate_on_submit():
