@@ -248,6 +248,16 @@ def roster():
         flash("You do not have permissions to access that page.", "error")
         return redirect(url_for('index'))
 
+@app.route('/edit-roster', strict_slashes=False)
+@login_required
+def edit_roster():
+    if current_user.is_coach:
+        athletes = User.query.filter(User.team==current_user.team, User.is_coach == False).order_by(User.id).all()
+        return render_template('edit_roster.html', athletes=athletes)
+    else:
+        flash("You do not have permissions to access that page.", "error")
+        return redirect(url_for('index'))
+
 @app.route('/aboutus', strict_slashes=False)
 def about_us():
     hector_image = url_for('static', filename='profile_pics/' + 'default.jpg') # Replace with photo for hector 

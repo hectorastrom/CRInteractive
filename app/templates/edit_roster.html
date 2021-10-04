@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title%}
+    Edit Roster
+{% endblock %}
+
+{% block main %}
+    
+    <!-- If they're a coach -->
+    {% if current_user.is_coach %}
+        {% if current_user.team != "none" %}
+            <h2>Roster</h2> 
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Email</th>
+                        <th>Team</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for athlete in athletes %}
+                    <tr>
+                        <td>{{ athlete.firstname }}</td>
+                        <td>{{ athlete.lastname }}</td>
+                        <td>{{ athlete.email }}</td>
+                        <td>{{ athlete.team }}</td>
+                        {% if athlete.is_coxswain %}
+                            <td>Coxswain</td>
+                        {% elif athlete.is_coach %}
+                            <td>Coach</td>
+                        {% else %}
+                            <td>Rower</td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <h2>You have not selected a team yet. Head to <a href="{{ url_for('settings') }}">Settings</a> to do so.</h2>
+        {% endif %}
+    {%else%}
+        <h1 style="color:red;">Access Denied</h1>
+    {%endif%}
+    
+{% endblock%}
