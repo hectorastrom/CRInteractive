@@ -77,10 +77,10 @@ def send_emails():
             firstname = row[0].capitalize().strip()
             lastname = row[1].capitalize().strip()
             email = row[2].lower().strip()
-            role = row[4]
-            if row[3].lower().strip() == "mv":
+            role = row[3]
+            if row[4].lower().strip() == "mv":
                 team = "Men's Varsity"
-            elif row[3].lower().strip() == "l" or row[3].lower().strip() == "fl":
+            elif row[4].lower().strip() == "l" or row[4].lower().strip() == "fl":
                 team = "Fall Launchpad"
             else:
                 print(f"ERROR: Unrecognized team value in row {row_number}: {row[3]}. Defaulted to Fall Launchpad.")

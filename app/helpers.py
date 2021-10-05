@@ -1,4 +1,3 @@
-from typing import List
 from random import randint
 from flask import url_for, flash, redirect
 from flask.helpers import url_for
@@ -166,7 +165,7 @@ def create_email(user:User):
     msg.add_alternative(html, subtype='html')
     return msg
 
-def send_emails(messages:list):
+def send_emails(messages):
     if is_production:
         EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
         EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
