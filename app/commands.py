@@ -4,7 +4,7 @@ from flask.cli import with_appcontext
 from random import randint
 from app import db, is_production
 from app.models import User
-from app.helpers import create_account, create_email, send_emails
+from app.helpers import create_account, create_email, email_links
 
 @click.command(name='create_tables')
 @with_appcontext
@@ -94,6 +94,6 @@ def send_emails():
                 messages.append(msg)      
 
     print("\nFinished iteration through csv. Sending emails now.\n")
-    send_emails(messages)
+    email_links(messages)
     print("\nFinished 'send_emails' command.")
 

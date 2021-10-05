@@ -6,7 +6,7 @@ from app.models import User, Twok, Fivek, Metric
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import date
 from random import randint
-from app.helpers import convert_from_seconds, coach_required, MetricObj, create_account, create_email, send_emails
+from app.helpers import convert_from_seconds, coach_required, MetricObj, create_account, create_email, email_links
 from app.static.metrics import rower_metric_list, cox_metric_list
 
 
@@ -279,7 +279,7 @@ def edit_roster():
             # If the account doesn't exist then it has automatically been added and an email needs to be sent
             # email is a list since the send emails method takes in a list
             email = [create_email(user)]
-            send_emails[email]
+            email_links[email]
             flash(f"User for {firstname} has been created and an email has been sent!", "success")
         return redirect("")
     else:
