@@ -6,7 +6,7 @@ from app.models import User, Twok, Fivek, Metric
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import date
 from random import randint
-from app.helpers import convert_from_seconds, coach_required, MetricObj, create_account
+from app.helpers import convert_from_seconds, coach_required, MetricObj, create_account, create_email, send_emails
 from app.static.metrics import rower_metric_list, cox_metric_list
 
 
@@ -276,15 +276,28 @@ def edit_roster():
         if message == "exists":
             flash(f"Account with the email {email} already exists.", "error")
         else:
+            # If the account doesn't exist then it has automatically been added and an email needs to be sent
+            # email is a list since the send emails method takes in a list
+            email = [create_email(user)]
+            send_emails[email]
             flash(f"User for {firstname} has been created and an email has been sent!", "success")
         return redirect("")
     else:
-        if current_user.is_coach:
-            users = User.query.order_by(User.id).all()
-            return render_template('edit_roster.html', users=users, teams=teams)
-        else:
-            flash("You do not have permissions to access that page.", "error")
-            return redirect(url_for('index'))
+        # In production, only THE account with the email will.congram@gmail.com can edit roster. Outside of it, all coaches can edit the roster.
+        if not is_production:
+            if current_user.is_coach:
+                users = User.query.order_by(User.id).all()
+                return render_template('edit_roster.html', users=users, teams=teams)
+            else:
+                flash("You do not have permissions to access that page.", "error")
+                return redirect(url_for('index'))
+        else: 
+            if current_user.email == "will.congram@gmail.com":
+                users = User.query.order_by(User.id).all()
+                return render_template('edit_roster.html', users=users, teams=teams)
+            else:
+                flash("You do not have permissions to access that page.", "error")
+                return redirect(url_for('index'))
 
 @app.route('/aboutus', strict_slashes=False)
 def about_us():

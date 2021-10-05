@@ -48,6 +48,8 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
+# # Need to import from helpers before adding all commands since they rely on these commands
+# from app.helpers import create_email, create_account, send_emails
 
 from app.commands import create_tables, drop_tables, send_emails, remove_user, add_user
 
