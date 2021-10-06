@@ -305,12 +305,13 @@ def edit_roster():
             else:
                 flash("You do not have permissions to access that page.", "error")
                 return redirect(url_for('index'))
-
-@app.route('/aboutus', strict_slashes=False)
-def about_us():
-    hector_image = url_for('static', filename='profile_pics/' + 'default.jpg') # Replace with photo for hector 
-    albert_image = url_for('static', filename='profile_pics/' + 'default.jpg') # Replace with photo for albert 
-    return render_template("about_us.html", hector_image = hector_image, albert_image = albert_image)       
+                
+if not is_production:
+    @app.route('/aboutus', strict_slashes=False)
+    def about_us():
+        hector_image = url_for('static', filename='profile_pics/' + 'default.jpg') # Replace with photo for hector 
+        albert_image = url_for('static', filename='profile_pics/' + 'default.jpg') # Replace with photo for albert 
+        return render_template("about_us.html", hector_image = hector_image, albert_image = albert_image)       
 
 
 @app.route('/forgotpass', methods=["GET","POST"], strict_slashes=False)
