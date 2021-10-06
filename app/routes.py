@@ -279,7 +279,7 @@ def edit_roster():
             # If the account doesn't exist then it has automatically been added and an email needs to be sent
             # email is a list since the send emails method takes in a list
             email = [create_email(user)]
-            email_links[email]
+            email_links(email)
             flash(f"User for {firstname} has been created and an email has been sent!", "success")
         return redirect("")
     else:

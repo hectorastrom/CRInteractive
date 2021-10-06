@@ -165,7 +165,7 @@ def create_email(user:User):
     msg.add_alternative(html, subtype='html')
     return msg
 
-def email_links(messages:list):
+def email_links(messages):
     if is_production:
         EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
         EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")

@@ -86,22 +86,22 @@ function drawUserBellCurve(metric_tag, metric_name, metric_desc, metric_value, m
     if (metric_value <= 25)
     {
         // Firebrick
-        mod_button.style.backgroundColor = "rgb(178,34,34)"
+        mod_button.style.backgroundColor = "#fb5607"
     }
     else if (metric_value <= 50)
     {
         // Orangered
-        mod_button.style.backgroundColor = "rgb(255,69,0)"
+        mod_button.style.backgroundColor = "#ff006e"
     }
     else if (metric_value <= 85)
     {
         // Green
-        mod_button.style.backgroundColor = "rgb(34,139,34)"
+        mod_button.style.backgroundColor = "#8338ec"
     }
     else
     {
         // Golden rod
-        mod_button.style.backgroundColor = "rgb(218,165,32)"
+        mod_button.style.backgroundColor = "#3a86ff"
     }
 }
 

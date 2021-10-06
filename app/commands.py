@@ -3,7 +3,7 @@ import os
 from flask.cli import with_appcontext
 from random import randint
 from app import db, is_production
-from app.models import User
+from app.models import User, Metric, Twok, Fivek
 from app.helpers import create_account, create_email, email_links
 
 @click.command(name='create_tables')
@@ -40,12 +40,21 @@ def add_user(firstname, lastname, email, role, team):
 def remove_user(email):
     user = User.query.filter_by(email=email).first()
     if user:
-        print("Are you sure you want to remove this user:", user, "?")
+        print("Are you sure you want to permanently remove this user and all their data:", user, "?")
         response = input("Y/N: ")
         if response.lower() == "y":
+            all_metrics = Metric.query.filter_by(user_id = user.id).all()
+            for metric in all_metrics:
+                db.session.delete(metric)
+            user_twoks = Twok.query.filter_by(user_id = user.id).all()
+            for twok in user_twoks:
+                db.session.delete(twok)
+            user_fiveks = Fivek.query.filter_by(user_id = user.id).all()
+            for fivek in user_fiveks:
+                db.session.delete(fivek)
             db.session.delete(user)
             db.session.commit()
-            print("User with email", email, "removed.")
+            print("User with email", email, "and all their data was permanentely deleted.")
         else:
             print("Task exited.")
     else: 
@@ -87,7 +96,7 @@ def send_emails():
                 team = "Fall Launchpad"
             user, message = create_account(firstname, lastname, email, role, team)
             if message == "exists":
-                print("User with email", email, "already exists in the database with code", user.uuid, ". Ignored.")
+                print("User with email", email, "already exists in the database with code " + user.uuid + ". Ignored.")
             else:
                 print("User with firstname:", firstname, "lastname:", lastname, "email:", email, "UUID:", user.uuid, "added to database.")
                 msg = create_email(user)
