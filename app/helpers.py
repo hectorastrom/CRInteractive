@@ -35,15 +35,20 @@ def convert_from_seconds(total, form):
     return str(minutes) + ":" + str(seconds)
 
 def create_account(firstname, lastname, email, role, team):
+    firstname = firstname.capitalize()
+    lastname = lastname.capitalize()
+    email = email.lower()
+    role = role.lower()
+    team = team.lower()
     existing_user = User.query.filter_by(email=email).first()
     if existing_user:
         return (existing_user, "exists")
     else:
-        if team.lower() == "mv":
+        if team == "mv":
             team = "Men's Varsity"
-        elif team.lower() == "l" or team.lower() == "fl":
+        elif team == "l" or team == "fl":
             team = "Fall Launchpad"
-        elif team.lower() != "men's varsity" and team.lower() != "fall launchpad":
+        elif team != "men's varsity" and team != "fall launchpad":
             # Unrecognized team names default to launchpad
             team = "Fall Launchpad"
         unique_id = randint(10000000, 99999999)
@@ -51,9 +56,9 @@ def create_account(firstname, lastname, email, role, team):
             unique_id = randint(10000000, 99999999)
         unique_id = str(unique_id)
         user = User(firstname=firstname, lastname=lastname, email=email, team=team, uuid=unique_id)
-        if role.lower() == "coxswain":
+        if role == "coxswain":
             user.is_coxswain = True
-        elif role.lower() == "coach":
+        elif role == "coach":
             user.is_coach = True
         db.session.add(user)
         db.session.commit()

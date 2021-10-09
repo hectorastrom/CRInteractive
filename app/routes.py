@@ -248,8 +248,21 @@ def upload_fivek():
 @login_required
 def roster():
     if current_user.is_coach:
-        athletes = User.query.filter(User.team==current_user.team, User.is_coach == False).order_by(User.pinged.desc(), User.lastname).all()
-
+        users = User.query.filter(User.team==current_user.team, User.is_coach == False).order_by(User.pinged.desc(), User.lastname).all()
+        for user in User.query.all():
+            print(user.firstname, user.id)
+        # Athletes is a dictionary of all users on the coach's roster and their status of if all metrics are set.
+        athletes = {}
+        for user in users:
+            incomplete_metric = Metric.query.filter(Metric.user_id == user.id, Metric.has_set == False).first()
+            # Need a potential metric since if they have not had metrics created yet then they will also have 0 incomplete metrics.
+            potential_metric = Metric.query.filter_by(user_id = user.id).first()
+            if incomplete_metric or not potential_metric:
+                status = "incomplete"
+            else:
+                status = "set"
+            athletes[user] = status
+            
         return render_template('roster.html', athletes=athletes)
     else:
         flash("You do not have permissions to access that page.", "error")
@@ -299,7 +312,7 @@ def edit_roster():
                 flash("You do not have permissions to access that page.", "error")
                 return redirect(url_for('index'))
         else: 
-            if current_user.email == "will.congram@gmail.com":
+            if current_user.email == "will.congram@communityrowing.org":
                 users = User.query.order_by(User.id).all()
                 return render_template('edit_roster.html', users=users, teams=teams)
             else:

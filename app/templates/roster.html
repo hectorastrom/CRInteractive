@@ -19,22 +19,30 @@
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Status</th>
                         <th>Grade</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for athlete in athletes %}
+                    {% for athlete, status in athletes.items() %}
                     <tr>
                         <td>
-                            {%if athlete.pinged%}
-                            <img src="{{ url_for('static', filename='bluedot.png') }}" width="15px" height="15px" style="margin-bottom: 1%;">
-                            {% endif %}
                             <a href="{{ url_for('profile', firstname=athlete.firstname.lower(), id=athlete.id) }}">
-                            
                             {{ athlete.firstname + " " + athlete.lastname }}
-                        
                             </a>
-                        
+                        </td>
+                        <td>
+                            {% if status == "incomplete" %}
+                                <h6><span class="badge badge-danger">Incomplete</span></h6>
+                            {% endif %}
+
+                            {% if athlete.pinged %}
+                                <h6>  <span class="badge badge-primary">Requested</span></h6>
+                            {% endif %}
+
+                            {% if not athlete.pinged and status == "set" %}
+                                <h6><span class="badge badge-secondary">Clear</span></h6>
+                            {% endif %}
                         </td>
                         {% if athlete.grade %}
                             <td>{{ athlete.grade }}</td>
