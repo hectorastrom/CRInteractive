@@ -221,13 +221,14 @@ label[for="enable_default"]
 }
 @media screen and (min-width: 900px)
 {
-.nav-item:hover
+.nav-item.hover-effect:hover
 {
     background-color: rgba(177, 23, 49, 1);
     border-radius: 2px;
 }
 
-.nav-item:hover .nav-link
+
+.nav-item.hover-effect:hover .nav-link
 {
     color:white !important;
     padding-left: 15px;
@@ -235,6 +236,16 @@ label[for="enable_default"]
     transform: scale(1.2);
     transition: transform .15s;
 }
+
+}
+
+@media screen and (max-width:899px)
+{
+    #profile-dropdown
+    {
+        margin-right: auto;
+        width:15%;
+    }
 }
 
 .box
@@ -299,6 +310,7 @@ header
     top:0;
     width:100%;
 }
+
 
 .responsive-border
 {

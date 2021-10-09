@@ -52,9 +52,9 @@
                     {% if current_user.is_authenticated %}
                         {% if not current_user.is_coach %}
                             <ul class="navbar-nav mr-auto mt-1">
-                                <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+                                <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
                                 {% if not current_user.is_coxswain %}
-                                <li class="nav-item dropdown">
+                                <li class="nav-item hover-effect dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Log
                                     </a>
@@ -66,30 +66,39 @@
                                 {% endif %}
                             </ul>
                             <ul class="navbar-nav ml-auto mt-1">
-                                <li class="nav-item"><a class="nav-link" href="{{ url_for('settings') }}">Settings</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ url_for('profile', firstname=current_user.firstname.lower(), id=current_user.id) }}">{{ current_user.firstname }}</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+                                <li class="nav-item dropdown dropleft" id="profile-dropdown">
+                                    <a class="nav-link btn btn-light" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img width="25" height="25" src="{{ url_for('static',filename='user_icon.png') }}">
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="profile-dropdown">
+                                        <a class="dropdown-item" href="{{ url_for('profile', firstname=current_user.firstname.lower(), id=current_user.id) }}">Profile</a>
+                                        <a class="dropdown-item" href="{{ url_for('settings') }}">Settings</a>
+                                        <div class="dropdown-divider border-bottom border-dark" style="width:70%; margin-left: auto; margin-right: auto;"></div>
+                                        <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a>
+                                    </div>
+                                </li>
+                                
                             </ul>
                         {%else%}
                             <ul class="navbar-nav mr-auto mt-1">
-                                <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ url_for('roster') }}">Team</a></li>
+                                <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+                                <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('roster') }}">Team</a></li>
                             </ul> 
 
                             <ul class="navbar-nav ml-auto mt-1">
-                                <li class="nav-item"><a class="nav-link" href="{{ url_for('edit_roster') }}">Edit Roster</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ url_for('settings') }}">Settings</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+                                <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('edit_roster') }}">Edit Roster</a></li>
+                                <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('settings') }}">Settings</a></li>
+                                <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
                             </ul>
                         {%endif%}
                             
                     {% else %}
                         <ul class="navbar-nav mr-auto mt-1">
-                            <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+                            <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
                         </ul>
                         <ul class="navbar-nav ml-auto mt-1">
-                            <li class="nav-item"><a class="nav-link" href="{{ url_for('search_code') }}">Register</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+                            <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('search_code') }}">Register</a></li>
+                            <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
                         </ul>
                     {% endif %}
             </div>
