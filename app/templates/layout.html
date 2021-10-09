@@ -74,7 +74,7 @@
                                         <a class="dropdown-item" href="{{ url_for('profile', firstname=current_user.firstname.lower(), id=current_user.id) }}">Profile</a>
                                         <a class="dropdown-item" href="{{ url_for('settings') }}">Settings</a>
                                         <div class="dropdown-divider border-bottom border-dark" style="width:70%; margin-left: auto; margin-right: auto;"></div>
-                                        <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a>
+                                        <a class="dropdown-item" href="{{ url_for('logout') }}"><span style="color:red;">Logout</span></a>
                                     </div>
                                 </li>
                                 
