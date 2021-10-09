@@ -67,8 +67,8 @@
                             </ul>
                             <ul class="navbar-nav ml-auto mt-1">
                                 <li class="nav-item dropdown dropleft" id="profile-dropdown">
-                                    <a class="nav-link btn btn-light" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img width="25" height="25" src="{{ url_for('static',filename='user_icon.png') }}">
+                                    <a class="nav-link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img width="35" height="35" src="{{ url_for('static',filename='white_usericon.png') }}">
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="profile-dropdown">
                                         <a class="dropdown-item" href="{{ url_for('profile', firstname=current_user.firstname.lower(), id=current_user.id) }}">Profile</a>
