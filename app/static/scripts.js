@@ -1,6 +1,7 @@
-// Enable Tooltips
+// Enable Tooltips and Popovers
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="popover"]').popover()
 });
 // Fade Flashes
 setTimeout(function() {

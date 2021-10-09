@@ -418,7 +418,7 @@ header
     width: 28vh;
     color: white;
     border-radius: 5px;
-    transition: transform .2s;
+    transition: transform .2s ease-in-out;
 }
 
 .metric-button:hover
@@ -426,6 +426,18 @@ header
     color:white;
     transform: scale(1.1);
 }
+
+#metric-info
+{
+    background-color: #17a2b8;
+    border-radius: 50%;
+    border:none;
+    width:35px;
+    height:35px;
+    color:white;
+    margin-bottom:10px;
+}
+
 
 
 .allow-eye

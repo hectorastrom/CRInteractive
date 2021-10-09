@@ -28,6 +28,8 @@
                         <td>{{ user.email }}</td>
                         {% if user.is_coxswain %}
                             <td>Coxswain</td>
+                        {% elif user.is_head %}
+                            <td><strong>Head Coach</strong></td>
                         {% elif user.is_coach %}
                             <td><strong>Coach</strong></td>
                         {% else %}

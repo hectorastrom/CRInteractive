@@ -38,7 +38,7 @@
         <div>
             <form method="POST" action="">
                 <div class="form-group col">
-                    <button type="submit" class="btn btn-outline-primary rounded-pill mr-2" >Request Review</button>
+                    <button type="submit" class="btn btn-outline-primary rounded-pill">Request Review</button>
                 </div>
             </form>
         </div>
@@ -48,7 +48,7 @@
             <form method="POST" action="">
                 <small class="form-text text-muted ml-4">Request is active.</small>
                 <div class="form-group col">
-                    <button type="submit" class="btn btn-outline-primary rounded-pill mr-2" disabled="true">Request Review</button>
+                    <button type="submit" class="btn btn-outline-primary rounded-pill" disabled="true">Request Review</button>
                 </div>
             </form>
         </div>
@@ -60,7 +60,7 @@
         
         <!-- If viewing their own page as a non-coach -->
         {% if current_user.id == user.id and all_metrics %}
-        <legend class="border-bottom border-dark mt-3" style="font-weight: 600;">Ratings Shared by Coaches <button class="btn btn-info">&#8505;</button></legend>
+        <legend class="border-bottom border-dark mt-3" style="font-weight: 600;">Ratings Shared by Coaches <button id="metric-info" data-toggle="popover" data-placement="top" title="Colors and Sorting" data-content="Metrics are sorted by by descending importance level. Therefore, the metric at the top should be your primary focus. The more blue a metric button is, the more competent you are for that metric.">&#8505;</button></legend>
         <svg width="0" height="0">
             <defs>
                 <linearGradient id="CurveGradient" x1="0" x2=".75" y1="0" y2="0">

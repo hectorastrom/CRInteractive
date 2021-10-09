@@ -18,7 +18,7 @@ def index():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data.lower()).first()
+        user = User.query.filter(User.email==form.email.data.lower()).first()
         if user and user.password != "not set":
             if user and bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user, remember=form.remember.data)
@@ -44,7 +44,7 @@ def logout():
 @app.route('/register', methods=["GET", "POST"], strict_slashes=False)
 def search_code():
     if request.method == "POST":
-        potential_user = User.query.filter_by(uuid=request.form.get("search_code")).first()
+        potential_user = User.query.filter(User.uuid==request.form.get("search_code")).first()
         if potential_user:
             return redirect(url_for("register", uuid=request.form.get("search_code")))
         else: 
@@ -303,21 +303,16 @@ def edit_roster():
             flash(f"User for {firstname} has been created and an email has been sent!", "success")
         return redirect("")
     else:
-        # In production, only THE account with the email will.congram@gmail.com can edit roster. Outside of it, all coaches can edit the roster.
-        if not is_production:
-            if current_user.is_coach:
-                users = User.query.order_by(User.id).all()
-                return render_template('edit_roster.html', users=users, teams=teams)
-            else:
-                flash("You do not have permissions to access that page.", "error")
-                return redirect(url_for('index'))
-        else: 
-            if current_user.email == "will.congram@communityrowing.org":
-                users = User.query.order_by(User.id).all()
-                return render_template('edit_roster.html', users=users, teams=teams)
-            else:
-                flash("You do not have permissions to access that page.", "error")
-                return redirect(url_for('index'))
+        # Heads of each team can see all users, regular coaches can only see their team.
+        if current_user.is_coach and current_user.is_head:
+            users = User.query.order_by(User.is_coach.desc(), User.is_head.desc(), User.team == current_user.team, User.id).all()
+            return render_template('edit_roster.html', users=users, teams=teams)
+        elif current_user.is_coach:
+            users = User.query.filter(User.team == current_user.team).order_by(User.is_coach.desc(), User.is_head.desc(), User.id).all()
+            return render_template('edit_roster.html', users=users, teams=teams)
+        else:
+            flash("You do not have permissions to access that page.", "error")
+            return redirect(url_for('index'))
                 
 if not is_production:
     @app.route('/aboutus', strict_slashes=False)

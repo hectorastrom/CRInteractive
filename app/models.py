@@ -18,6 +18,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), default="not set")
     uuid = db.Column(db.String(8))
     is_coach = db.Column(db.Boolean, default=False)
+    is_head = db.Column(db.Boolean, default=False)
     is_coxswain = db.Column(db.Boolean, default=False)
     pinged = db.Column(db.Boolean, default=False)
     default_on = db.Column(db.Boolean, default=True)

@@ -44,9 +44,9 @@ def create_account(firstname, lastname, email, role, team):
     if existing_user:
         return (existing_user, "exists")
     else:
-        if team == "mv":
+        if team == "mv" or team == "men's varsity":
             team = "Men's Varsity"
-        elif team == "l" or team == "fl":
+        elif team == "l" or team == "fl" or team == "launchpad" or team == "fall launchpad":
             team = "Fall Launchpad"
         elif team != "men's varsity" and team != "fall launchpad":
             # Unrecognized team names default to launchpad
@@ -60,6 +60,9 @@ def create_account(firstname, lastname, email, role, team):
             user.is_coxswain = True
         elif role == "coach":
             user.is_coach = True
+        elif role == "hcoach":
+            user.is_coach = True
+            user.is_head = True
         db.session.add(user)
         db.session.commit()
         return (user, "added")
@@ -175,8 +178,9 @@ def email_links(messages):
         EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
         EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
     else: 
-        EMAIL_ADDRESS = "crinteractivebot@gmail.com"
-        EMAIL_PASSWORD = "2hourdrive&will"
+        from app.config import email_address, email_password
+        EMAIL_ADDRESS = email_address
+        EMAIL_PASSWORD = email_password
     
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:  
         smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)

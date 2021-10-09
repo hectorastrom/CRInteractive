@@ -70,13 +70,6 @@ def send_emails():
     messages = []
 
     with open("app/static/rowers.csv", "r") as file:
-        if is_production:
-            EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
-            EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
-        else: 
-            EMAIL_ADDRESS = "crinteractivebot@gmail.com"
-            EMAIL_PASSWORD = "2hourdrive&will" 
-
         csv_reader = csv.reader(file)
         # Skips the titles of each column
         next(csv_reader) 
@@ -87,9 +80,10 @@ def send_emails():
             lastname = row[1].capitalize().strip()
             email = row[2].lower().strip()
             role = row[3]
-            if row[4].lower().strip() == "mv":
+            team = row[4].lower().strip()
+            if team == "mv" or team == "men's varsity":
                 team = "Men's Varsity"
-            elif row[4].lower().strip() == "l" or row[4].lower().strip() == "fl":
+            elif team == "l" or team == "fl" or team == "launchpad" or team == "fall launchpad":
                 team = "Fall Launchpad"
             else:
                 print(f"ERROR: Unrecognized team value in row {row_number}: {row[3]}. Defaulted to Fall Launchpad.")
