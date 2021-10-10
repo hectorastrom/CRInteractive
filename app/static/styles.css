@@ -447,15 +447,46 @@ header
     transform: scale(1.05);
 }
 
-#metric-info
+#inf
 {
+    height: 30px;
+}
+
+/* #metric-info
+{
+    text-align: center;
     background-color: #17a2b8;
     border-radius: 50%;
     border:none;
-    width:35px;
-    height:35px;
+    width:25px;
+    height:25px;
     color:white;
     margin-bottom:10px;
+} */
+
+/* #metric-info {
+    background-color: #04AA6D;
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  } */
+
+  #metric-info{
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
 }
 
 
