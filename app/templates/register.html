@@ -11,7 +11,7 @@
                 <p class="card-text"><strong>Name: </strong>{{ user.firstname }} {{ user.lastname }}</p>
                 <p class="card-text"><strong>Email: </strong>{{ user.email }}</p>
                 <p class="card-text"><strong>Team: </strong>{{ user.team }}</p>
-                <p class="card-text"><strong>Role: </strong>{% if user.is_coxswain %}Coxswain{% elif user.is_coach %}Coach{% else %}Rower{% endif %}</p>
+                <p class="card-text"><strong>Role: </strong>{% if user.is_coxswain %}Coxswain{% elif user.is_head %}Head Coach{% elif user.is_coach %}Coach{% else %}Rower{% endif %}</p>
             </div>
         </div>
         <form method="POST" action="">
