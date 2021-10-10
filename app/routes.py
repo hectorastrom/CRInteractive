@@ -275,6 +275,8 @@ def roster():
             else:
                 status = "set"
             athletes[user] = status
+        # This turns athletes into a list of tuples sorted by incomplete or not
+        athletes = sorted(athletes.items(), key=lambda x: x[1])
             
         return render_template('roster.html', athletes=athletes)
     else:
