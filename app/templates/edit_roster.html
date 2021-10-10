@@ -18,7 +18,7 @@
                         <th>Email</th>
                         <th>Role</th>
                         <th>Team</th>
-                        <th>Actions<span style="visibility: hidden;">a</span></th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,7 +37,7 @@
                         <td>Rower</td>
                         {% endif %}
                         <td>{{ user.team }}</td>
-                        <td><button class="btn btn-outline-success">Edit</button></td>
+                        <td><button class="btn btn-outline-success" style="width:90px;">Edit</button></td>
                     </tr>
                     {% endfor %}
                     <tr>
@@ -105,7 +105,7 @@
                         <td>Rower</td>
                     {% endif %}
                     <td>{{ user.team }}</td>
-                    <td><button class="btn btn-outline-success">Edit</button></td>
+                    <td><button class="btn btn-outline-success" >Edit</button></td>
                 </tr>
                 {% endfor %}
             </tbody>
