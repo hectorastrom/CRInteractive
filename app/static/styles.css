@@ -261,7 +261,7 @@ label[for="enable_default"]
 
 @media screen and (max-width:768px)
 {
-    #profile-dropdown
+    .profile-dropdown
     {
         margin-right: auto;
         width:15%;

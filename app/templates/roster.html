@@ -14,7 +14,7 @@
     <!-- If they're a coach -->
     {% if current_user.is_coach %}
         {% if current_user.team != "none" %}
-            <h2>Roster</h2> 
+            <h2>{{ current_user.team }} Roster</h2> 
             <table class="table table-striped table-responsive w-100 d-block d-md-table">
                 <thead>
                     <tr>
