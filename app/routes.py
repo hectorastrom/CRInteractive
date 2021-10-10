@@ -12,6 +12,8 @@ from app.static.metrics import rower_metric_list, cox_metric_list
 
 @app.route("/")
 def index():
+    if current_user.is_authenticated and not current_user.is_coach:
+        return redirect(url_for('profile', firstname=current_user.firstname.lower(), id=current_user.id))
     return render_template('index.html')
 
 @app.route('/login', methods=["GET", "POST"], strict_slashes=False)
