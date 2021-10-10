@@ -54,7 +54,7 @@ function drawUserBellCurve(metric_tag, metric_name, metric_desc, metric_value, m
             <p class="form-text text-muted text-center">${metric_name}</p>
 
             <div class="slidecontainer mt-4">
-                <label for="${metric_tag}_coach_importance" style="margin-left:14%;">Importance</label>
+                <label for="${metric_tag}_coach_importance" style="margin-left:14%;">Coaches' Suggested Level of Prioritization in Practice/Racing: <span style="font-weight: bold;">${metric_importance}</span></label>
                 <input type="range" min="0" max="10" step="1" value="${metric_importance}" class="slider slider-yellow disabled" disabled>
             </div>
             <div class="form-group mt-3">
@@ -172,7 +172,7 @@ function drawCoachBellCurve(metric_tag, metric_name, metric_desc, metric_value, 
                         <input type="hidden" value="${active}" id="${metric_tag}_view_allowed" name="${metric_tag}_view_allowed" />
                     </div>
                     <div class="form-group short mt-3">
-                        <label for="${metric_tag}_coach_importance" style="margin-left:14%;">Coaches' Suggested Level of Prioritization in Practice/Racing</label>
+                        <label for="${metric_tag}_coach_importance" style="margin-left:14%;">Coaches' Suggested Level of Prioritization in Practice/Racing: <span style="font-weight: bold;" id="${metric_tag}_importance_num">${metric_importance}</span></label>
                         <div class="slidecontainer">
                             <input type="range" min="0" max="10" step="1" value="${metric_importance}" class="slider slider-yellow" id="${metric_tag}_coach_importance" name="${metric_tag}_coach_importance">
                         </div>
@@ -206,11 +206,16 @@ function drawCoachBellCurve(metric_tag, metric_name, metric_desc, metric_value, 
         var portion = parseInt(slider.value)/100.0;
         var coordinates = curve.getPointAtLength(portion * totalLength);
         dot.setAttribute("transform", `translate(${coordinates.x}, ${coordinates.y})`);
-
+        
         slider.oninput = function() {
             portion = this.value/100.0;
             coordinates = curve.getPointAtLength(portion * totalLength);
             dot.setAttribute("transform", `translate(${coordinates.x}, ${coordinates.y})`);
+        }
+        let importance_num = document.getElementById(`${metric_tag}_importance_num`)
+        let importance_slider = document.getElementById(`${metric_tag}_coach_importance`);
+        importance_slider.oninput = function() {
+            importance_num.innerHTML = this.value;
         }
     }
     let hidden_view_input = document.getElementById(`${metric_tag}_view_allowed`);
