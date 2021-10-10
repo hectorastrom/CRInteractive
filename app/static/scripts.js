@@ -9,8 +9,52 @@ setTimeout(function() {
 }, 3000);
 
 
-function drawUserBellCurve(metric_tag, metric_name, metric_desc, metric_value, metric_importance, metric_notes, firstname)
+function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coach_value, coach_importance, user_value, metric_notes, firstname)
 {
+    display = "block"
+    user_curve_html = ""
+    if (has_update)
+    {
+        display="none"
+        user_curve_html = `
+        <h3>Before Viewing The Coach's Rating, You Must First Indicate Your Own:</h3>
+        <form action="" method="POST" class="mt-3">
+            <svg
+            width="100%"
+            height="100%"
+            viewBox="0 -3 320 210"
+            version="1.1"
+            style="margin-bottom:-36%;"
+            class = "mt-2"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:svg="http://www.w3.org/2000/svg">
+            <g>
+                <path
+                style="fill: url(#CurveGradient2);fill-opacity:0.529138;stroke:rgba(0, 0, 0, .6);stroke-width:2.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                d="m 43.19351,92.098556 c 0,0 19.633412,1.07091 37.48197,-11.42308 17.848559,-12.49399 32.48437,-36.054082 32.48437,-36.054082 0,0 17.55469,-24.234497 20.41046,-27.528229 2.0916,-2.412365 10.16471,-12.6418523 21.58779,-12.2848823 11.42307,0.356971 18.32988,5.1869094 24.39839,12.6833043 6.06851,7.496392 28.11147,38.775991 28.11147,38.775991 0,0 19.6434,24.001346 27.35292,27.888368 7.66874,3.866459 10.50607,5.916948 30.90469,7.18536"
+                id="${metric_tag}_user_curve" />
+            </g>
+            <circle
+                r="6"
+                cy="0"
+                cx="0"
+                id="${metric_tag}_user_dot"
+                style="fill: rgba(177, 23, 49, 1)" />
+            </svg>
+            <p class="form-text text-muted text-center">${metric_name}</p>
+            <div class="form-group short">
+                <label for="${metric_tag}_user_slider" style="margin-left:14%;">Your Rating</label>
+                <div class="slidecontainer">
+                    <input type="range" min="0" max="100" value="${user_value}" class="slider" id="${metric_tag}_user_slider" name="${metric_tag}_user_rating">
+                </div>
+            </div>
+            <div class="form-group col text-center">
+                <button type="submit" class="btn btn-outline-danger rounded-pill">Set</button>
+            </div>
+            <input type="hidden" value="${metric_tag}" name="form_identifier" />
+        </form>
+        `
+    }
     let html = `
     <div class="row justify-content-center">
         <button id="${metric_tag}Button" type="button" class="btn metric-button" data-toggle="modal" data-target="#${metric_tag}modal">
@@ -29,39 +73,41 @@ function drawUserBellCurve(metric_tag, metric_name, metric_desc, metric_value, m
         </div>
         <div class="modal-body">
             <h5><strong>Description:</strong> ${metric_desc}</h5>
-            <svg
-                width="100%"
-                height="100%"
-                viewBox="0 -3 320 210"
-                version="1.1"
-                style="margin-bottom:-36%;"
-                class = "mt-2"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:svg="http://www.w3.org/2000/svg">
-                <g>
-                    <path
-                    style="fill: url(#CurveGradient);fill-opacity:0.529138;stroke:rgba(0, 0, 0, .6);stroke-width:2.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-                    d="m 43.19351,92.098556 c 0,0 19.633412,1.07091 37.48197,-11.42308 17.848559,-12.49399 32.48437,-36.054082 32.48437,-36.054082 0,0 17.55469,-24.234497 20.41046,-27.528229 2.0916,-2.412365 10.16471,-12.6418523 21.58779,-12.2848823 11.42307,0.356971 18.32988,5.1869094 24.39839,12.6833043 6.06851,7.496392 28.11147,38.775991 28.11147,38.775991 0,0 19.6434,24.001346 27.35292,27.888368 7.66874,3.866459 10.50607,5.916948 30.90469,7.18536"
-                    id="${metric_tag}_curve" />
-                </g>
-                <circle
-                    r="6"
-                    cy="0"
-                    cx="0"
-                    id="${metric_tag}_dot"
-                    style="fill: rgba(177, 23, 49, .8)" />
-            </svg>
-            <p class="form-text text-muted text-center">${metric_name}</p>
+            ${user_curve_html}
+            <div id="${metric_tag}_coach_information" style="display:none;">
+                <svg
+                    width="100%"
+                    height="100%"
+                    viewBox="0 -3 320 210"
+                    version="1.1"
+                    style="margin-bottom:-36%;"
+                    class = "mt-2"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:svg="http://www.w3.org/2000/svg">
+                    <g>
+                        <path
+                        style="fill: url(#CurveGradient1);fill-opacity:0.529138;stroke:rgba(0, 0, 0, .6);stroke-width:2.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                        d="m 43.19351,92.098556 c 0,0 19.633412,1.07091 37.48197,-11.42308 17.848559,-12.49399 32.48437,-36.054082 32.48437,-36.054082 0,0 17.55469,-24.234497 20.41046,-27.528229 2.0916,-2.412365 10.16471,-12.6418523 21.58779,-12.2848823 11.42307,0.356971 18.32988,5.1869094 24.39839,12.6833043 6.06851,7.496392 28.11147,38.775991 28.11147,38.775991 0,0 19.6434,24.001346 27.35292,27.888368 7.66874,3.866459 10.50607,5.916948 30.90469,7.18536"
+                        id="${metric_tag}_curve" />
+                    </g>
+                    <circle
+                        r="6"
+                        cy="0"
+                        cx="0"
+                        id="${metric_tag}_dot"
+                        style="fill: rgba(177, 23, 49, .8)" />
+                </svg>
+                <p class="form-text text-muted text-center">${metric_name}</p>
 
-            <div class="slidecontainer mt-4">
-                <label for="${metric_tag}_coach_importance" style="margin-left:14%;">Coaches' Suggested Level of Prioritization in Practice/Racing: <span style="font-weight: bold;">${metric_importance}</span></label>
-                <input type="range" min="0" max="10" step="1" value="${metric_importance}" class="slider slider-yellow disabled" disabled>
+                <div class="slidecontainer mt-4">
+                    <label for="${metric_tag}_coach_importance" style="margin-left:14%;">Coaches' Suggested Level of Prioritization in Practice/Racing: <span style="font-weight: bold;">${coach_importance}</span></label>
+                    <input type="range" min="0" max="10" step="1" value="${coach_importance}" class="slider slider-yellow disabled" disabled>
+                </div>
+                <div class="form-group mt-3">
+                    <label style="margin-left:14%;" for="${metric_tag}_coach_notes">Coach Notes:</label>
+                    <textarea style="opacity:.8;" disabled class="form-control notes" id="${metric_tag}_coach_notes" name="${metric_tag}_coach_notes">${metric_notes}</textarea>
+                </div>
             </div>
-            <div class="form-group mt-3">
-                <label style="margin-left:14%;" for="${metric_tag}_coach_notes">Coach Notes:</label>
-                <textarea style="opacity:.8;" disabled class="form-control notes" id="${metric_tag}_coach_notes" name="${metric_tag}_coach_notes">${metric_notes}</textarea>
-            </div>
-
         </div>
         <div class="modal-footer" style="margin-top: 50px;">
             <button type="button" class="btn btn-secondary close" data-dismiss="modal" aria-label="Close">Close</button>
@@ -74,40 +120,60 @@ function drawUserBellCurve(metric_tag, metric_name, metric_desc, metric_value, m
     document.write(html);
 
     document.getElementById(`${metric_tag}Button`).onclick = function() {
-        let dot = document.getElementById(`${metric_tag}_dot`);
-        let curve = document.getElementById(`${metric_tag}_curve`);
-        let totalLength = curve.getTotalLength();
+        if (has_update)
+        {
+            let user_dot = document.getElementById(`${metric_tag}_user_dot`);
+            let user_curve = document.getElementById(`${metric_tag}_user_curve`);
+            let user_total_length = user_curve.getTotalLength();
+            let user_slider = document.getElementById(`${metric_tag}_user_slider`);
+            
+            var user_portion = parseInt(user_slider.value)/100.0;
+            var user_coordinates = user_curve.getPointAtLength(user_portion * user_total_length);
+            user_dot.setAttribute("transform", `translate(${user_coordinates.x}, ${user_coordinates.y})`);
+            
+            user_slider.oninput = function() {
+                user_portion = this.value/100.0;
+                user_coordinates = user_curve.getPointAtLength(user_portion * user_total_length);
+                user_dot.setAttribute("transform", `translate(${user_coordinates.x}, ${user_coordinates.y})`);
+            }
 
-        var portion = parseInt(metric_value)/100.0;
-        var coordinates = curve.getPointAtLength(portion * totalLength);
-        dot.setAttribute("transform", `translate(${coordinates.x}, ${coordinates.y})`);
+        }
+        else
+        {
+            coach_information = document.getElementById(`${metric_tag}_coach_information`);
+            coach_information.style.display = "inline";
+            let dot = document.getElementById(`${metric_tag}_dot`);
+            let curve = document.getElementById(`${metric_tag}_curve`);
+            let totalLength = curve.getTotalLength();
+    
+            var portion = parseInt(coach_value)/100.0;
+            var coordinates = curve.getPointAtLength(portion * totalLength);
+            dot.setAttribute("transform", `translate(${coordinates.x}, ${coordinates.y})`);
+        }
+
     }
     let mod_button = document.getElementById(`${metric_tag}Button`)
 
-    if (metric_value <= 25)
+    if (coach_value <= 25)
     {
-        // Firebrick
-        mod_button.style.backgroundColor = "#fb5607"
+        mod_button.style.backgroundColor = "#fb5607";
     }
-    else if (metric_value <= 50)
+    else if (coach_value <= 50)
     {
-        // Orangered
-        mod_button.style.backgroundColor = "#ff006e"
+        mod_button.style.backgroundColor = "#ff006e";
     }
-    else if (metric_value <= 85)
+    else if (coach_value <= 85)
     {
-        // Green
-        mod_button.style.backgroundColor = "#8338ec"
+        mod_button.style.backgroundColor = "#8338ec";
     }
     else
     {
-        // Golden rod
-        mod_button.style.backgroundColor = "#3a86ff"
+        mod_button.style.backgroundColor = "#3a86ff";
     }
 }
 
 
-function drawCoachBellCurve(metric_tag, metric_name, metric_desc, metric_value, metric_importance, metric_notes, button_class, active, firstname)
+function drawCoachBellCurve(metric_tag, metric_name, metric_desc, coach_value, coach_importance, metric_notes, button_class, active, firstname)
 {
     let eyeball = ""
     if (active)
@@ -165,16 +231,16 @@ function drawCoachBellCurve(metric_tag, metric_name, metric_desc, metric_value, 
                     <div class="form-group short">
                         <label for="${metric_tag}_slider" style="margin-left:14%;">Rating</label>
                         <div class="slidecontainer">
-                            <input type="range" min="0" max="100" value="${metric_value}" class="slider" id="${metric_tag}_slider" name="${metric_tag}_coach_rating">
+                            <input type="range" min="0" max="100" value="${coach_value}" class="slider" id="${metric_tag}_slider" name="${metric_tag}_coach_rating">
                         </div>
                     </div>
                     <div class="form-check mt-4">
                         <input type="hidden" value="${active}" id="${metric_tag}_view_allowed" name="${metric_tag}_view_allowed" />
                     </div>
                     <div class="form-group short mt-3">
-                        <label for="${metric_tag}_coach_importance" style="margin-left:14%;">Coaches' Suggested Level of Prioritization in Practice/Racing: <span style="font-weight: bold;" id="${metric_tag}_importance_num">${metric_importance}</span></label>
+                        <label for="${metric_tag}_coach_importance" style="margin-left:14%;">Coaches' Suggested Level of Prioritization in Practice/Racing: <span style="font-weight: bold;" id="${metric_tag}_importance_num">${coach_importance}</span></label>
                         <div class="slidecontainer">
-                            <input type="range" min="0" max="10" step="1" value="${metric_importance}" class="slider slider-yellow" id="${metric_tag}_coach_importance" name="${metric_tag}_coach_importance">
+                            <input type="range" min="0" max="10" step="1" value="${coach_importance}" class="slider slider-yellow" id="${metric_tag}_coach_importance" name="${metric_tag}_coach_importance">
                         </div>
                     </div>
                     <div class="form-group">

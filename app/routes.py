@@ -139,12 +139,21 @@ def profile(firstname, id):
         flash("Profile not found", 'error')
         return redirect(url_for('index'))
     if request.method == "POST":
-        # For non-coaches the only form is requesting a review 
+        # Different forms for coaches and non-coaches
         if not current_user.is_coach:
-            if not current_user.pinged:
+            if request.form.get("form-identifier") == "ping":
                 current_user.pinged = True
                 db.session.commit()
                 flash("Review has been requested.", "success")
+            else:
+                requested_metric = Metric.query.filter(Metric.user_id == id, Metric.tag == request.form.get("form_identifier")).first()
+                if not requested_metric:
+                    flash("Problem submitting form. Please try again.", "error")
+                    return redirect(request.url)
+                requested_metric.user_rating = request.form.get(f"{requested_metric.tag}_user_rating")
+                requested_metric.has_update = False
+                db.session.commit()
+
             return redirect('#')
         else:
             if request.form.get("form_identifier") == "silence":
@@ -160,12 +169,13 @@ def profile(firstname, id):
                     flash("Problem submitting form. Please try again.", "error")
                     return redirect(request.url)
 
-                if not updated_metric.has_set:
-                    updated_metric.has_set = True
                 updated_metric.coach_rating = request.form.get(f"{updated_metric.tag}_coach_rating")
                 updated_metric.coach_importance = request.form.get(f"{updated_metric.tag}_coach_importance")
                 updated_metric.note = request.form.get(f"{updated_metric.tag}_coach_notes")
                 updated_metric.view_allowed = bool(request.form.get(f"{updated_metric.tag}_view_allowed"))
+                updated_metric.has_set = True
+                # When there's an update available, a user should have to indicate their rating
+                updated_metric.has_update = True
                 db.session.commit()
                 flash(f"Updated {updated_metric.name} for {user.firstname}.", "success")
                 return redirect('#')

@@ -63,15 +63,25 @@
         <legend class="border-bottom border-dark mt-3" style="font-weight: 600;">Ratings Shared by Coaches <button id="metric-info" data-toggle="popover" data-placement="top" title="Colors and Sorting" data-content="Metrics are sorted by by descending importance level. Therefore, the metric at the top should be your primary focus. The more blue a metric button is, the more competent you are for that metric.">&#8505;</button></legend>
         <svg width="0" height="0">
             <defs>
-                <linearGradient id="CurveGradient" x1="0" x2=".75" y1="0" y2="0">
+                <linearGradient id="CurveGradient1" x1="0" x2=".75" y1="0" y2="0">
                     <stop offset="50%" stop-color="rgba(223,23,34,.5)"/>
                     <stop offset="100%" stop-color="rgba(223,23,200,.5)"/>
+                </linearGradient>
+                <linearGradient id="CurveGradient2" x1="0" x2=".75" y1="0" y2="0">
+                    <stop offset="50%" stop-color="rgba(89,164,235,.5)"/>
+                    <stop offset="100%" stop-color="rgba(23,50,189,.5)"/>
                 </linearGradient>
             </defs>
         </svg>
         <script>
+            let has_update = false
             {% for metric in all_metrics %}
-                drawUserBellCurve("{{ metric.tag }}", "{{ metric.name }}", "{{ metric.desc }}", {{ metric.coach_rating }}, {{ metric.coach_importance }}, "{{ metric.note }}", "{{ user.firstname }}")
+                {% if metric.has_update %}
+                    has_update = true
+                {% else %}
+                    has_update = false
+                {% endif %}
+                drawUserBellCurve(has_update, "{{ metric.tag }}", "{{ metric.name }}", "{{ metric.desc }}", {{ metric.coach_rating }}, {{ metric.coach_importance }}, {{ metric.user_rating }}, "{{ metric.note }}", "{{ user.firstname }}")
             {% endfor %}
         </script>
         {% endif %}
