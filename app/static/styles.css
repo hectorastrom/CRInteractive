@@ -478,13 +478,45 @@ header
 
 .modal-body h5
 {
-    font-size: large;
+    font-size: 1.3vw;
+}
+
+.modal-body h4
+{
+    font-size: 1.6vw;
+}
+
+@media screen and (max-width: 980px) {
+    .modal-body h5
+    {
+        font-size: 1.7vw;
+    }
+
+    .modal-body h4
+    {
+        font-size: 2vw;
+    }
 }
 
 @media screen and (max-width: 760px) {
     .modal-body h5
     {
-        font-size: smaller;
+        font-size: 2.4vw;
+    }
+    .modal-body h4
+    {
+        font-size: 3vw;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .modal-body h5
+    {
+        font-size: 4vw;
+    }
+    .modal-body h4
+    {
+        font-size: 5vw;
     }
 }
 
