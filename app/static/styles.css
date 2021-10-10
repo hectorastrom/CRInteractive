@@ -564,11 +564,20 @@ header
     }
 }
 
-.metric-eye
+.metric-group
 {
     text-align: center;
     position: relative;
 }
+
+.lock-image
+{
+    position:absolute;
+    top:10%;
+    right:33.5%;
+}
+
+
 
 
 @font-face 

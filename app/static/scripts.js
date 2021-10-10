@@ -13,9 +13,11 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
 {
     let coach_info_html = ""
     let user_curve_html = ""
+    let lock_image = ""
 
     if (has_update)
     {
+        lock_image = "lock.png"
         user_curve_html = `
         <h4 class="mt-4">Before viewing the coach's rating, indicate your perceived ${metric_name} competence:</h4>
         <form action="" method="POST" class="mt-3">
@@ -58,6 +60,7 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
     // If there is no new update:
     else 
     {
+    lock_image = "unlock.png"
         coach_info_html = `
     <div class="row justify-content-center"> 
         <h1 style="font-size: 4vh;">Per Coaches:</h1>
@@ -124,11 +127,16 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
     <p class="form-text text-muted text-center">${metric_name}</p>
     `
     }
+
+
+
     let html = `
-    <div class="row justify-content-center">
+    
+    <div class="metric-group">
         <button id="${metric_tag}Button" type="button" class="btn metric-button" data-toggle="modal" data-target="#${metric_tag}modal">
-                Coach's ${metric_name} Rating
-        </button> 
+                ${metric_name} Rating
+        </button>
+        <img width="30" height="30" class="lock-image" src="/static/${lock_image}">
     </div>
     <!-- Modal -->
     <div class="modal fade" id="${metric_tag}modal" tabindex="-1" role="dialog" aria-labelledby="${metric_tag}modallabel" aria-hidden="true">
@@ -260,7 +268,7 @@ function drawCoachBellCurve(has_update, metric_tag, metric_name, metric_desc, co
         style=" fill:#000000;">    <path d="M 15 5 C 6.081703 5 0.32098813 14.21118 0.21679688 14.378906 A 1 1 0 0 0 0 15 A 1 1 0 0 0 0.16210938 15.544922 A 1 1 0 0 0 0.16601562 15.550781 C 0.18320928 15.586261 5.0188313 25 15 25 C 24.938822 25 29.767326 15.678741 29.826172 15.564453 A 1 1 0 0 0 29.837891 15.544922 A 1 1 0 0 0 30 15 A 1 1 0 0 0 29.785156 14.380859 A 1 1 0 0 0 29.783203 14.378906 C 29.679012 14.21118 23.918297 5 15 5 z M 15 8 C 18.866 8 22 11.134 22 15 C 22 18.866 18.866 22 15 22 C 11.134 22 8 18.866 8 15 C 8 11.134 11.134 8 15 8 z M 15 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 18 A 3 3 0 0 0 18 15 A 3 3 0 0 0 15 12 z"></path></svg>`
     }
     let html = `
-    <div class="metric-eye">
+    <div class="metric-group">
     <button id="${metric_tag}Button" type="button" class="btn ${button_class} metric-button" data-toggle="modal" data-target="#${metric_tag}modal">${metric_name}</button> 
     <p class="eyeball">${eyeball}</p>
     </div>
