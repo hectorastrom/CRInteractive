@@ -134,14 +134,10 @@ def settings():
 @app.route('/profile/<firstname>:<id>', methods=["GET", "POST"], strict_slashes=False)
 @login_required
 def profile(firstname, id):
-    print(current_user)
-    print(current_user.deleted)
-    print(firstname)
-    print(id)
     user = User.query.filter(User.firstname==firstname.capitalize(), User.id==id, User.deleted == False).first()
     if not user:
         flash("Profile not found", 'error')
-        return redirect(url_for('settings'))
+        return redirect(url_for('index'))
     if request.method == "POST":
         # For non-coaches the only form is requesting a review 
         if not current_user.is_coach:
@@ -258,8 +254,6 @@ def upload_fivek():
 def roster():
     if current_user.is_coach:
         users = User.query.filter(User.team==current_user.team, User.is_coach == False, User.deleted == False).order_by(User.pinged.desc(), User.lastname).all()
-        for user in User.query.all():
-            print(user.firstname, user.id)
         # Athletes is a dictionary of all users on the coach's roster and their status of if all metrics are set.
         athletes = {}
         for user in users:

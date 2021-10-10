@@ -15,7 +15,13 @@ def create_tables():
 @click.command(name='drop_tables')
 @with_appcontext
 def drop_tables():
-    db.drop_all()
+    users = User.query.all()
+    print(f"Are you sure you want to drop tables for all {len(users)} users? ")
+    response = input("Y/N: ")
+    if response.lower() == "y":
+        db.drop_all()
+    else: 
+        print("Task exited.")
 
 # Run with a command like flask add_user test test test@example.com rower "Men's Varsity"
 @click.command(name='add_user')

@@ -1,4 +1,3 @@
-from enum import unique
 from app import db
 from app.models import User
 from random import randint

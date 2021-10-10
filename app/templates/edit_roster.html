@@ -10,7 +10,7 @@
     {% if current_user.is_coach %}
         <h2>Active Roster For {{ current_user.team }}</h2> 
         <form method="POST" action="">
-            <table class="table table-striped table-bordered">
+            <table class="table table-responsive table-striped table-bordered w-100 d-block d-md-table">
                 <thead>
                     <tr>
                         <th>First name</th>
@@ -73,7 +73,7 @@
             </div>
         </form>
         <h2 class="mt-4">Pending Invites For {{ current_user.team }}</h2> 
-        <table class="table table-striped table-bordered">
+        <table class="table table-responsive table-striped table-bordered w-100 d-block d-md-table">
             <thead>
                 <tr>
                     <th class="pending">First name</th>
