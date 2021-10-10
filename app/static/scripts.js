@@ -136,7 +136,7 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
         <button id="${metric_tag}Button" type="button" class="btn metric-button" data-toggle="modal" data-target="#${metric_tag}modal">
                 ${metric_name} Rating
         </button>
-        <img width="30" height="30" class="lock-image" src="/static/${lock_image}">
+        <img width="30" height="30" class="eyeball" src="/static/${lock_image}">
     </div>
     <!-- Modal -->
     <div class="modal fade" id="${metric_tag}modal" tabindex="-1" role="dialog" aria-labelledby="${metric_tag}modallabel" aria-hidden="true">
