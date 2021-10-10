@@ -303,13 +303,11 @@ def edit_roster():
             flash(f"User for {firstname} has been created and an email has been sent!", "success")
         return redirect("")
     else:
-        # Heads of each team can see all users, regular coaches can only see their team.
+        # Only head coaches have access to the edit-roster page
         if current_user.is_coach and current_user.is_head:
-            users = User.query.order_by(User.is_coach.desc(), User.is_head.desc(), User.team == current_user.team, User.id).all()
-            return render_template('edit_roster.html', users=users, teams=teams)
-        elif current_user.is_coach:
-            users = User.query.filter(User.team == current_user.team).order_by(User.is_coach.desc(), User.is_head.desc(), User.id).all()
-            return render_template('edit_roster.html', users=users, teams=teams)
+            users = User.query.filter(User.team == current_user.team, User.password != "not set").order_by(User.is_coach.desc(), User.is_head.desc(), User.id.desc()).all()
+            pending = User.query.filter(User.team == current_user.team, User.password == "not set").all()
+            return render_template('edit_roster.html', users=users, pending=pending, teams=teams)
         else:
             flash("You do not have permissions to access that page.", "error")
             return redirect(url_for('index'))

@@ -8,7 +8,7 @@
     
     <!-- If they're a coach -->
     {% if current_user.is_coach %}
-        <h2>Edit Roster</h2> 
+        <h2>Active Roster For {{ current_user.team }}</h2> 
         <form method="POST" action="">
             <table class="table table-striped table-bordered">
                 <thead>
@@ -49,6 +49,9 @@
                                     <option value="rower">Rower</option>
                                     <option value='coxswain'>Coxswain</option>
                                     <option value='coach'>Coach</option>
+                                    {% if current_user.is_head %}
+                                    <option value='hcoach'>Head Coach</option>
+                                    {% endif %}
                                 </select>
                             </div>
                         </td>
@@ -69,6 +72,37 @@
                 <button class="btn btn-outline-danger rounded-pill" type="submit">Add User</button>
             </div>
         </form>
+        <h2 class="mt-4">Pending Invites For {{ current_user.team }}</h2> 
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th class="pending">First name</th>
+                    <th class="pending">Last name</th>
+                    <th class="pending">Email</th>
+                    <th class="pending">Role</th>
+                    <th class="pending">Team</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in pending %}
+                <tr>
+                    <td>{{ user.firstname }}</td>
+                    <td>{{ user.lastname }}</td>
+                    <td>{{ user.email }}</td>
+                    {% if user.is_coxswain %}
+                        <td>Coxswain</td>
+                    {% elif user.is_head %}
+                        <td><strong>Head Coach</strong></td>
+                    {% elif user.is_coach %}
+                        <td><strong>Coach</strong></td>
+                    {% else %}
+                        <td>Rower</td>
+                    {% endif %}
+                    <td>{{ user.team }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     {%else%}
         <h1 style="color:red;">Access Denied</h1>
     {%endif%}
