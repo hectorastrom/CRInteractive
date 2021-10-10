@@ -11,13 +11,37 @@ setTimeout(function() {
 
 function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coach_value, coach_importance, user_value, metric_notes, firstname)
 {
-    display = "block"
-    user_curve_html = ""
+    let display = "block"
+    let user_curve_html = `
+    <svg
+        width="100%"
+        height="100%"
+        viewBox="0 -3 320 210"
+        version="1.1"
+        style="margin-bottom:-36%;"
+        class = "mt-2"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:svg="http://www.w3.org/2000/svg">
+        <g>
+            <path
+            style="fill: url(#CurveGradient2);fill-opacity:0.529138;stroke:rgba(0, 0, 0, .6);stroke-width:2.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+            d="m 43.19351,92.098556 c 0,0 19.633412,1.07091 37.48197,-11.42308 17.848559,-12.49399 32.48437,-36.054082 32.48437,-36.054082 0,0 17.55469,-24.234497 20.41046,-27.528229 2.0916,-2.412365 10.16471,-12.6418523 21.58779,-12.2848823 11.42307,0.356971 18.32988,5.1869094 24.39839,12.6833043 6.06851,7.496392 28.11147,38.775991 28.11147,38.775991 0,0 19.6434,24.001346 27.35292,27.888368 7.66874,3.866459 10.50607,5.916948 30.90469,7.18536"
+            id="${metric_tag}_user_display_curve" />
+        </g>
+        <circle
+            r="6"
+            cy="0"
+            cx="0"
+            id="${metric_tag}_user_display_dot"
+            style="fill: rgba(177, 23, 49, 1)" />
+    </svg>
+    `
+    // If they have an updated metric then the curve displayed to them will be editable by them. Otherwise, it will be the curve above which is just a static curve of what they last indicated.
     if (has_update)
     {
         display="none"
         user_curve_html = `
-        <h3>Before Viewing The Coach's Rating, You Must First Indicate Your Own:</h3>
+        <h3>Before Viewing The Coach's Rating, Please Indicate Your Perceived Competence Of Your ${metric_name}:</h3>
         <form action="" method="POST" class="mt-3">
             <svg
             width="100%"
@@ -49,7 +73,7 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
                 </div>
             </div>
             <div class="form-group col text-center">
-                <button type="submit" class="btn btn-outline-danger rounded-pill">Set</button>
+                <button type="submit" class="btn btn-outline-danger rounded-pill">Indicate</button>
             </div>
             <input type="hidden" value="${metric_tag}" name="form_identifier" />
         </form>
@@ -73,7 +97,6 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
         </div>
         <div class="modal-body">
             <h5><strong>Description:</strong> ${metric_desc}</h5>
-            ${user_curve_html}
             <div id="${metric_tag}_coach_information" style="display:none;">
                 <svg
                     width="100%"
@@ -88,13 +111,13 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
                         <path
                         style="fill: url(#CurveGradient1);fill-opacity:0.529138;stroke:rgba(0, 0, 0, .6);stroke-width:2.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
                         d="m 43.19351,92.098556 c 0,0 19.633412,1.07091 37.48197,-11.42308 17.848559,-12.49399 32.48437,-36.054082 32.48437,-36.054082 0,0 17.55469,-24.234497 20.41046,-27.528229 2.0916,-2.412365 10.16471,-12.6418523 21.58779,-12.2848823 11.42307,0.356971 18.32988,5.1869094 24.39839,12.6833043 6.06851,7.496392 28.11147,38.775991 28.11147,38.775991 0,0 19.6434,24.001346 27.35292,27.888368 7.66874,3.866459 10.50607,5.916948 30.90469,7.18536"
-                        id="${metric_tag}_curve" />
+                        id="${metric_tag}_coach_curve" />
                     </g>
                     <circle
                         r="6"
                         cy="0"
                         cx="0"
-                        id="${metric_tag}_dot"
+                        id="${metric_tag}_coach_dot"
                         style="fill: rgba(177, 23, 49, .8)" />
                 </svg>
                 <p class="form-text text-muted text-center">${metric_name}</p>
@@ -108,6 +131,7 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
                     <textarea style="opacity:.8;" disabled class="form-control notes" id="${metric_tag}_coach_notes" name="${metric_tag}_coach_notes">${metric_notes}</textarea>
                 </div>
             </div>
+            ${user_curve_html}
         </div>
         <div class="modal-footer" style="margin-top: 50px;">
             <button type="button" class="btn btn-secondary close" data-dismiss="modal" aria-label="Close">Close</button>
@@ -128,13 +152,13 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
             let user_slider = document.getElementById(`${metric_tag}_user_slider`);
             
             var user_portion = parseInt(user_slider.value)/100.0;
-            var user_coordinates = user_curve.getPointAtLength(user_portion * user_total_length);
-            user_dot.setAttribute("transform", `translate(${user_coordinates.x}, ${user_coordinates.y})`);
+            var user_coords = user_curve.getPointAtLength(user_portion * user_total_length);
+            user_dot.setAttribute("transform", `translate(${user_coords.x}, ${user_coords.y})`);
             
             user_slider.oninput = function() {
                 user_portion = this.value/100.0;
-                user_coordinates = user_curve.getPointAtLength(user_portion * user_total_length);
-                user_dot.setAttribute("transform", `translate(${user_coordinates.x}, ${user_coordinates.y})`);
+                user_coords = user_curve.getPointAtLength(user_portion * user_total_length);
+                user_dot.setAttribute("transform", `translate(${user_coords.x}, ${user_coords.y})`);
             }
 
         }
@@ -142,13 +166,22 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
         {
             coach_information = document.getElementById(`${metric_tag}_coach_information`);
             coach_information.style.display = "inline";
-            let dot = document.getElementById(`${metric_tag}_dot`);
-            let curve = document.getElementById(`${metric_tag}_curve`);
-            let totalLength = curve.getTotalLength();
+            let coach_dot = document.getElementById(`${metric_tag}_coach_dot`);
+            let coach_curve = document.getElementById(`${metric_tag}_coach_curve`);
+            let coach_total_length = coach_curve.getTotalLength();
     
-            var portion = parseInt(coach_value)/100.0;
-            var coordinates = curve.getPointAtLength(portion * totalLength);
-            dot.setAttribute("transform", `translate(${coordinates.x}, ${coordinates.y})`);
+            var coach_portion = parseInt(coach_value)/100.0;
+            var coach_coords = coach_curve.getPointAtLength(coach_portion * coach_total_length);
+            coach_dot.setAttribute("transform", `translate(${coach_coords.x}, ${coach_coords.y})`);
+
+            let user_display_dot = document.getElementById(`${metric_tag}_user_display_dot`);
+            let user_display_curve = document.getElementById(`${metric_tag}_user_display_curve`);
+            let user_display_total_length = user_display_curve.getTotalLength();
+    
+            var user_display_portion = parseInt(user_value)/100.0;
+            var user_display_coords = user_display_curve.getPointAtLength(user_display_portion * user_display_total_length);
+            user_display_dot.setAttribute("transform", `translate(${user_display_coords.x}, ${user_display_coords.y})`);
+
         }
 
     }
