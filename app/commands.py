@@ -29,6 +29,8 @@ def add_user(firstname, lastname, email, role, team):
     user, message = create_account(firstname, lastname, email, role, team)
     if message == "added":
         print("Added", user, "to database.")
+    elif message == "readded":
+        print("Re-activated", user, "in database.")
     else:
         print("User with email", email, "already exists:", user)
 
@@ -92,7 +94,10 @@ def send_emails():
             if message == "exists":
                 print("User with email", email, "already exists in the database with code " + user.uuid + ". Ignored.")
             else:
-                print("User with firstname:", firstname, "lastname:", lastname, "email:", email, "UUID:", user.uuid, "added to database.")
+                if message == "added":
+                    print("User with firstname:", firstname, "lastname:", lastname, "email:", email, "UUID:", user.uuid, "added to database.")
+                elif message == "readded":
+                    print("User with firstname:", firstname, "lastname:", lastname, "email:", email, "UUID:", user.uuid, "re-activated in database.")
                 msg = create_email(user)
                 messages.append(msg)      
 

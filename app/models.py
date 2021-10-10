@@ -22,6 +22,7 @@ class User(db.Model, UserMixin):
     is_coxswain = db.Column(db.Boolean, default=False)
     pinged = db.Column(db.Boolean, default=False)
     default_on = db.Column(db.Boolean, default=True)
+    deleted = db.Column(db.Boolean, default=False)
     # Height is in inches
     height = db.Column(db.Integer())
     weight = db.Column(db.Integer())
@@ -31,7 +32,11 @@ class User(db.Model, UserMixin):
     metric = db.relationship('Metric', backref='rower', lazy=True)
 
     def __repr__(self):
-        return f"User(Firstname: '{self.firstname}', Lastname: '{self.lastname}', Email: '{self.email}', Team: '{self.team}', Side: '{self.side}', Imagefile: '{self.image_file}', is_coach: '{self.is_coach}', is_coxswain: '{self.is_coxswain}', uuid: '{self.uuid}')"
+        if not self.deleted:
+            status = "Active"
+        else:
+            status = "Deleted"
+        return f"{status} User(Firstname: '{self.firstname}', Lastname: '{self.lastname}', Email: '{self.email}', Team: '{self.team}', Side: '{self.side}', Imagefile: '{self.image_file}', is_coach: '{self.is_coach}', is_coxswain: '{self.is_coxswain}', uuid: '{self.uuid}')"
 
 class Twok(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -62,6 +67,7 @@ class Metric(db.Model):
     user_importance = db.Column(db.Integer, default=5)
     view_allowed = db.Column(db.Boolean, default=False)
     has_set = db.Column(db.Boolean, default=False)
+    has_update = db.Column(db.Boolean, default=False)
     note = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     

@@ -21,6 +21,9 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter(User.email==form.email.data.lower()).first()
+        if user.deleted:
+            flash(f'Account deactivated.', 'error')
+            return redirect(url_for('login'))
         if user and user.password != "not set":
             if user and bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user, remember=form.remember.data)
@@ -131,10 +134,14 @@ def settings():
 @app.route('/profile/<firstname>:<id>', methods=["GET", "POST"], strict_slashes=False)
 @login_required
 def profile(firstname, id):
-    user = User.query.filter(User.firstname==firstname.capitalize(), User.id==id).first()
+    print(current_user)
+    print(current_user.deleted)
+    print(firstname)
+    print(id)
+    user = User.query.filter(User.firstname==firstname.capitalize(), User.id==id, User.deleted == False).first()
     if not user:
         flash("Profile not found", 'error')
-        return redirect(url_for('index'))
+        return redirect(url_for('settings'))
     if request.method == "POST":
         # For non-coaches the only form is requesting a review 
         if not current_user.is_coach:
@@ -250,16 +257,16 @@ def upload_fivek():
 @login_required
 def roster():
     if current_user.is_coach:
-        users = User.query.filter(User.team==current_user.team, User.is_coach == False).order_by(User.pinged.desc(), User.lastname).all()
+        users = User.query.filter(User.team==current_user.team, User.is_coach == False, User.deleted == False).order_by(User.pinged.desc(), User.lastname).all()
         for user in User.query.all():
             print(user.firstname, user.id)
         # Athletes is a dictionary of all users on the coach's roster and their status of if all metrics are set.
         athletes = {}
         for user in users:
             incomplete_metric = Metric.query.filter(Metric.user_id == user.id, Metric.has_set == False).first()
-            # Need a potential metric since if they have not had metrics created yet then they will also have 0 incomplete metrics.
-            potential_metric = Metric.query.filter_by(user_id = user.id).first()
-            if incomplete_metric or not potential_metric:
+            # Need an any metric since if they have not had metrics created yet then they will also have 0 incomplete metrics.
+            any_metric = Metric.query.filter_by(user_id = user.id).first()
+            if incomplete_metric or not any_metric:
                 status = "incomplete"
             else:
                 status = "set"
@@ -302,13 +309,16 @@ def edit_roster():
             # email is a list since the send emails method takes in a list
             email = [create_email(user)]
             email_links(email)
-            flash(f"User for {firstname} has been created and an email has been sent!", "success")
+            if message == "readded":
+                flash(f"User for {firstname} has been re-activated and an email has been sent!", "success")
+            else:
+                flash(f"User for {firstname} has been created and an email has been sent!", "success")
         return redirect("")
     else:
         # Only head coaches have access to the edit-roster page
         if current_user.is_coach and current_user.is_head:
-            users = User.query.filter(User.team == current_user.team, User.password != "not set").order_by(User.is_coach.desc(), User.is_head.desc(), User.id.desc()).all()
-            pending = User.query.filter(User.team == current_user.team, User.password == "not set").all()
+            users = User.query.filter(User.team == current_user.team, User.password != "not set", User.deleted == False).order_by(User.is_coach.desc(), User.is_head.desc(), User.id.desc()).all()
+            pending = User.query.filter(User.team == current_user.team, User.password == "not set", User.deleted == False).all()
             return render_template('edit_roster.html', users=users, pending=pending, teams=teams)
         else:
             flash("You do not have permissions to access that page.", "error")

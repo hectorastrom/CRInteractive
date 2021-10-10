@@ -41,8 +41,16 @@ def create_account(firstname, lastname, email, role, team):
     role = role.lower()
     team = team.lower()
     existing_user = User.query.filter_by(email=email).first()
-    if existing_user:
+    if existing_user and not existing_user.deleted:
         return (existing_user, "exists")
+    elif existing_user and existing_user.deleted:
+        existing_user.deleted = False
+        unique_id = randint(10000000, 99999999)
+        while User.query.filter_by(uuid=str(unique_id)).first():
+            unique_id = randint(10000000, 99999999)
+        unique_id = str(unique_id)
+        existing_user.uuid = unique_id
+        return(existing_user, "readded")
     else:
         if team == "mv" or team == "men's varsity":
             team = "Men's Varsity"
