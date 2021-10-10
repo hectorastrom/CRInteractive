@@ -17,7 +17,7 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
     if (has_update)
     {
         user_curve_html = `
-        <h4 class="mt-4">Before Viewing The Coach's Rating, Please Indicate Your Perceived Competence Of Your ${metric_name}:</h4>
+        <h4 class="mt-4">Before viewing the coach's rating, indicate your perceived ${metric_name} competence:</h4>
         <form action="" method="POST" class="mt-3">
             <svg
             width="100%"
@@ -49,15 +49,19 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
                 </div>
             </div>
             <div class="form-group col text-center">
-                <button type="submit" class="btn btn-outline-danger rounded-pill">Indicate</button>
+                <button type="submit" class="btn btn-outline-danger rounded-pill mt-4">Indicate</button>
             </div>
             <input type="hidden" value="${metric_tag}" name="form_identifier" />
         </form>
         `
     }
+    // If there is no new update:
     else 
     {
         coach_info_html = `
+    <div class="row justify-content-center"> 
+        <h1 style="font-size: 4vh;">Per Coaches:</h1>
+    </div>
     <svg
         width="100%"
         height="100%"
@@ -92,6 +96,9 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
     </div>
     `
         user_curve_html = `
+    <div class="row justify-content-center"> 
+        <h1 style="font-size: 4vh;" class="mt-4">Per You:</h1>
+    </div>
     <svg
         width="100%"
         height="100%"
@@ -127,7 +134,7 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">${metric_name} Curve for ${firstname}</h5>
+            <h4 class="modal-title">${metric_name} Curves for ${firstname}</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
