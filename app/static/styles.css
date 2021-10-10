@@ -105,6 +105,12 @@ th.pending
     }
 }
 
+#tutorial
+{
+    width: 90%;
+    height:60vh;
+}
+
 html, body
 {
     height: 100%;

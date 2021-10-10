@@ -32,6 +32,11 @@
 {% else %}
         <h1 style="text-align: center;">Welcome to <span style="color: rgb(177, 23, 49); font-weight: bold;">CRInteractive!</span></h1>
         <h2 style="text-align: center;">Check your email to <a href="{{ url_for('search_code') }}">create an account</a> or log in <a href="{{ url_for('login') }}">here.</a></h2>
+        <div class="row justify-content-center mt-4">
+            <iframe id="tutorial" frameborder="0" allowfullscreen
+            src="https://www.youtube.com/embed/IJJo3AUF5e8?autoplay=1&mute=1">
+            </iframe>
+        </div>
 {% endif %}
 
 {% endblock main %}
