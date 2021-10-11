@@ -203,8 +203,104 @@
                         <td>Rower</td>
                     {% endif %}
                     <td>{{ user.team }}</td>
-                    <td><button class="btn btn-outline-success">Edit</button>
+                    <td>
+                        <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#edit{{ user.id }}">Edit</button>
+                        <div class="modal fade" id="edit{{ user.id }}">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3>Edit {{ user.firstname }}'s Profile</h3>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="">
+                                            <small>First Name</small>
+                                            <div class="form-group short">
+                                                <input type="text" class="form-control boxy" value="{{ user.firstname }}" name="firstname" autocapitalize="on" autocomplete="off">
+                                            </div>
+                                        
+                                            <small>Last Name</small>
+                                            <div class="form-group short">
+                                                <input type="text" class="form-control boxy" value="{{ user.lastname }}" name="lastname" autocapitalize="on" autocomplete="off">
+                                            </div>
 
+                                            <small>Email</small>
+                                            <div class="form-group short">
+                                                <input disabled type="text" class="form-control boxy" value="{{ user.email }}" name="email" autocapitalize="on" autocomplete="off">
+                                            </div>
+
+                                            <small>Role</small>
+                                            <div class="form-group short">
+                                                <select class="form-select form-control boxy" aria-label="Role Selector" name="role">
+                                                    {% if user.is_coxswain == True %}
+                
+                                                        <option value="rower">Rower</option>
+                                                        <option selected value="coxswain">Coxswain</option>
+                                                        <option value="coach">Coach</option> 
+                                                        <option value="hcoach">Head Coach</option> 
+                                                    {% elif user.is_head == True %}
+                                                        <option value="rower">Rower</option>
+                                                        <option value="coxswain">Coxswain</option>
+                                                        <option value="coach">Coach</option> 
+                                                        <option selected value="hcoach">Head Coach</option> 
+                                                    {% elif user.is_coach == True %}
+                                                        <option value="rower">Rower</option>
+                                                        <option value="coxswain">Coxswain</option>
+                                                        <option selected value="coach">Coach</option> 
+                                                        <option value="hcoach">Head Coach</option> 
+                                                    {% else %}
+                                                        <option selected value="rower">Rower</option>
+                                                        <option value="coxswain">Coxswain</option>
+                                                        <option value="coach">Coach</option> 
+                                                        <option value="hcoach">Head Coach</option> 
+                                                    {% endif %}
+                                                </select>
+                                            </div>
+                                            
+                                            <small>Team</small>
+                                            <div class="form-group short">
+                                                <select class="form-select form-control boxy" aria-label="Team Selector" name="team">  
+                                                    <!-- Teams is a list of team names gotten from the database -->
+                                                    {% if user.team == "none" %}
+                                                        <option selected>Choose Team</option>
+                                                    {% endif %}
+                                                    {% for team in teams %}
+                                                    {% if user.team == team %}
+                                                        <option selected value='{{ team }}'>{{ team }}</option>
+                                                    {% else %}
+                                                        <option value='{{ team }}'>{{ team }}</option>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <input type="hidden" value="euser{{ user.id }}" name="form_identifier">
+                                            <button type="submit" class="btn btn-outline-success" style="width:90px; position:absolute;">Update</button>
+                                        </form>
+                                        <form id="formduser{{ user.id }}" method="POST" action="">
+                                            <div style="position:relative;">
+                                                <button id="duser{{ user.id }}" type="button" class="btn btn-outline-danger" style="width:90px; position: absolute; right: 0;" >Delete</button> 
+                                            </div>
+                                            <!-- Buffer height for absolutely positioned update and delete buttons -->
+                                            <div style="height:40px;"></div>
+                                            <input type="hidden" value="duser{{ user.id }}" name="form_identifier">
+                                            <script>
+                                                $(function() {
+                                                    document.getElementById("duser{{ user.id }}").onclick = function() {
+                                                        let submit = confirm("Are you sure you'd like to delete this user?");
+                                                        if (submit)
+                                                        {
+                                                            document.getElementById("formduser{{ user.id }}").submit();
+                                                        }
+                                                    }
+                                                });
+                                            </script>
+                                        </form> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 {% endfor %}
