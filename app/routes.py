@@ -23,7 +23,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter(User.email==form.email.data.lower()).first()
-        if user.deleted:
+        if user and user.deleted:
             flash(f'Account deactivated.', 'error')
             return redirect(url_for('login'))
         if user and user.password != "not set":
