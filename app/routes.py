@@ -289,38 +289,51 @@ def roster():
 @login_required
 def edit_roster():
     if request.method == "POST":
-        firstname = request.form.get("firstname").capitalize().strip()
-        lastname = request.form.get("lastname").capitalize().strip()
-        email = request.form.get("email").lower().strip()
-        role = request.form.get("role")
-        team = request.form.get("team")
-        if not firstname:
-            flash("Must specify value for first name.", "error")
-            return redirect("")
-        if not lastname:
-            flash("Must specify value for last name.", "error")
-            return redirect("")
-        if not email:
-            flash("Must specify value for email.", "error")
-            return redirect("")
-        if not role:
-            flash("Must specify value for role.", "error")
-            return redirect("")
-        if not team:
-            flash("Must specify value for team.", "error")
-            return redirect("")
-        user, message = create_account(firstname, lastname, email, role, team)
-        if message == "exists":
-            flash(f"Account with the email {email} already exists.", "error")
+        form_identifier = request.form.get("form_identifier")
+        if form_identifier:
+            user = User.query.get(int(form_identifier[5]))
+            if form_identifier[:5] == "euser":
+                user.firstname = request.form.get("firstname")
+                user.lastname = request.form.get("lastname")
+                user.role = request.form.get("role")
+                user.team = request.form.get("team")
+                db.session.commit()
+            elif form_identifier[:5] == "duser":
+                user.deleted = True
+                db.session.commit()
         else:
-            # If the account doesn't exist then it has automatically been added and an email needs to be sent
-            # email is a list since the send emails method takes in a list
-            email = [create_email(user)]
-            email_links(email)
-            if message == "readded":
-                flash(f"User for {firstname} has been re-activated and an email has been sent!", "success")
+            firstname = request.form.get("firstname").capitalize().strip()
+            lastname = request.form.get("lastname").capitalize().strip()
+            email = request.form.get("email").lower().strip()
+            role = request.form.get("role")
+            team = request.form.get("team")
+            if not firstname:
+                flash("Must specify value for first name.", "error")
+                return redirect("")
+            if not lastname:
+                flash("Must specify value for last name.", "error")
+                return redirect("")
+            if not email:
+                flash("Must specify value for email.", "error")
+                return redirect("")
+            if not role:
+                flash("Must specify value for role.", "error")
+                return redirect("")
+            if not team:
+                flash("Must specify value for team.", "error")
+                return redirect("")
+            user, message = create_account(firstname, lastname, email, role, team)
+            if message == "exists":
+                flash(f"Account with the email {email} already exists.", "error")
             else:
-                flash(f"User for {firstname} has been created and an email has been sent!", "success")
+                # If the account doesn't exist then it has automatically been added and an email needs to be sent
+                # email is a list since the send emails method takes in a list
+                email = [create_email(user)]
+                email_links(email)
+                if message == "readded":
+                    flash(f"User for {firstname} has been re-activated and an email has been sent!", "success")
+                else:
+                    flash(f"User for {firstname} has been created and an email has been sent!", "success")
         return redirect("")
     else:
         # Only head coaches have access to the edit-roster page
