@@ -143,7 +143,7 @@ def profile(firstname, id):
     if request.method == "POST":
         # Different forms for coaches and non-coaches
         if not current_user.is_coach:
-            if request.form.get("form-identifier") == "ping":
+            if request.form.get("form_identifier") == "ping":
                 current_user.pinged = True
                 db.session.commit()
                 flash("Review has been requested.", "success")
