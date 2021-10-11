@@ -292,7 +292,7 @@ def edit_roster():
     if request.method == "POST":
         form_identifier = request.form.get("form_identifier")
         if form_identifier:
-            user = User.query.get(int(form_identifier[5]))
+            user = User.query.get(int(form_identifier[5:]))
             if form_identifier[:5] == "euser":
                 user.firstname = request.form.get("firstname")
                 user.lastname = request.form.get("lastname")
