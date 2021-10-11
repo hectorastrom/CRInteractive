@@ -1,2 +1,5 @@
 First name,Last name,Email,Role,Team
-albert,astrom,ALBERT.ASTROM@ME.com,hcoach,mv
+hcoach,coach,coach@coach.com,hcoach,mv
+coach,astrom,hector.astrom@gmail.com,coach,mv
+rower,astrom,hector.astrom@me.com,rower,mv
+cox,astrom,sicdud@gmail.com,cox,mv

@@ -68,6 +68,7 @@ class Metric(db.Model):
     view_allowed = db.Column(db.Boolean, default=False)
     has_set = db.Column(db.Boolean, default=False)
     has_update = db.Column(db.Boolean, default=True)
+    for_coxswain = db.Column(db.Boolean, default=False)
     note = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     
