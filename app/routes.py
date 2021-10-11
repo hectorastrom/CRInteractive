@@ -68,6 +68,7 @@ def register(uuid):
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user.password = hashed_password
+        user.deleted = False
         db.session.commit()
         login_user(user, remember=True)
         flash(f'Your account has been created!', 'success')
