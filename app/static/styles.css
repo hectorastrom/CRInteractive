@@ -549,6 +549,10 @@ header
     {
         font-size: 5vw;
     }
+    #krustycrab
+    {
+        font-size: 18px;
+    }
 }
 
 @media screen and (max-width: 400px)
@@ -561,6 +565,10 @@ header
     .eyeball
     {
         font-size: large;
+    }
+    #krustycrab
+    {
+        font-size: 15px;
     }
 }
 
