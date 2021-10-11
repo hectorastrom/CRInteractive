@@ -184,8 +184,10 @@ def profile(firstname, id):
                 return redirect('#')
     else:
         if user.is_coxswain:
+            for_coxswain = True
             focused_list = cox_metric_list
         else:
+            for_coxswain = False
             focused_list = rower_metric_list
         # Goes through and adds all important metrics for a user if they don't exist when a coach is viewing
         if current_user.is_coach:
@@ -193,9 +195,9 @@ def profile(firstname, id):
                 metric = Metric.query.filter(Metric.user_id==id, Metric.tag==defMetric.tag, Metric.name==defMetric.name).first()
                 if not metric:
                     if current_user.default_on:
-                        metric = Metric(user_id=id, tag=defMetric.tag, name=defMetric.name, view_allowed = True, desc=defMetric.desc)
+                        metric = Metric(user_id=id, tag=defMetric.tag, name=defMetric.name, view_allowed = True, desc=defMetric.desc, for_coxswain=for_coxswain)
                     else:
-                        metric = Metric(user_id=id, tag=defMetric.tag, name=defMetric.name, desc=defMetric.desc)
+                        metric = Metric(user_id=id, tag=defMetric.tag, name=defMetric.name, desc=defMetric.desc, for_coxswain=for_coxswain)
                     db.session.add(metric)
                     db.session.commit()
         # All metrics is to be sent to profiles to be displayed
@@ -270,9 +272,12 @@ def roster():
         # Athletes is a dictionary of all users on the coach's roster and their status of if all metrics are set.
         athletes = {}
         for user in users:
-            incomplete_metric = Metric.query.filter(Metric.user_id == user.id, Metric.has_set == False).first()
+            for_coxswain = False
+            if user.is_coxswain:
+                for_coxswain = True
+            incomplete_metric = Metric.query.filter(Metric.user_id == user.id, Metric.has_set == False, Metric.for_coxswain == for_coxswain).first()
             # Need an any metric since if they have not had metrics created yet then they will also have 0 incomplete metrics.
-            any_metric = Metric.query.filter_by(user_id = user.id).first()
+            any_metric = Metric.query.filter(Metric.user_id == user.id, Metric.for_coxswain == for_coxswain).first()
             if incomplete_metric or not any_metric:
                 status = "incomplete"
             else:

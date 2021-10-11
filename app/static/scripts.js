@@ -336,7 +336,7 @@ function drawCoachBellCurve(has_update, metric_tag, metric_name, metric_desc, co
                         <textarea class="form-control notes" id="${metric_tag}_coach_notes" name="${metric_tag}_coach_notes" rows="2">${metric_notes}</textarea>
                     </div>
                 </div>
-                <div class="modal-footer" style="margin-top: 50px;">
+                <div class="modal-footer">
                     <div class="form-group col text-center">
                         <button type="submit" class="btn btn-outline-danger rounded-pill">Update</button>
                     </div>
