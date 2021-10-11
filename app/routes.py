@@ -295,7 +295,23 @@ def edit_roster():
             if form_identifier[:5] == "euser":
                 user.firstname = request.form.get("firstname")
                 user.lastname = request.form.get("lastname")
-                user.role = request.form.get("role")
+                role = request.form.get("role")
+                if role == "rower":
+                    user.is_coxswain = False
+                    user.is_coach = False
+                    user.is_head = False
+                elif role == "coxswain":
+                    user.is_coxswain = True
+                    user.is_coach = False
+                    user.is_head = False
+                elif role == "coach":
+                    user.is_coxswain = False
+                    user.is_coach = True
+                    user.is_head = False
+                elif role == "hcoach":
+                    user.is_coxswain = False
+                    user.is_coach = True
+                    user.is_head = True
                 user.team = request.form.get("team")
                 db.session.commit()
             elif form_identifier[:5] == "duser":
