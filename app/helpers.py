@@ -50,6 +50,7 @@ def create_account(firstname, lastname, email, role, team):
             unique_id = randint(10000000, 99999999)
         unique_id = str(unique_id)
         existing_user.uuid = unique_id
+        db.session.commit()
         return(existing_user, "readded")
     else:
         if team == "mv" or team == "men's varsity":
