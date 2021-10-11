@@ -67,7 +67,7 @@ class Metric(db.Model):
     user_importance = db.Column(db.Integer, default=5)
     view_allowed = db.Column(db.Boolean, default=False)
     has_set = db.Column(db.Boolean, default=False)
-    has_update = db.Column(db.Boolean, default=False)
+    has_update = db.Column(db.Boolean, default=True)
     note = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     

@@ -14,6 +14,8 @@ from app.static.metrics import rower_metric_list, cox_metric_list
 def index():
     if current_user.is_authenticated and not current_user.is_coach:
         return redirect(url_for('profile', firstname=current_user.firstname.lower(), id=current_user.id))
+    elif current_user.is_authenticated and current_user.is_coach:
+        return redirect(url_for('roster'))
     return render_template('index.html')
 
 @app.route('/login', methods=["GET", "POST"], strict_slashes=False)
@@ -141,7 +143,7 @@ def profile(firstname, id):
     if request.method == "POST":
         # Different forms for coaches and non-coaches
         if not current_user.is_coach:
-            if request.form.get("form-identifier") == "ping":
+            if request.form.get("form_identifier") == "ping":
                 current_user.pinged = True
                 db.session.commit()
                 flash("Review has been requested.", "success")
@@ -275,6 +277,8 @@ def roster():
             else:
                 status = "set"
             athletes[user] = status
+        # This turns athletes into a list of tuples sorted by incomplete or not
+        athletes = sorted(athletes.items(), key=lambda x: x[1])
             
         return render_template('roster.html', athletes=athletes)
     else:
@@ -285,38 +289,67 @@ def roster():
 @login_required
 def edit_roster():
     if request.method == "POST":
-        firstname = request.form.get("firstname").capitalize().strip()
-        lastname = request.form.get("lastname").capitalize().strip()
-        email = request.form.get("email").lower().strip()
-        role = request.form.get("role")
-        team = request.form.get("team")
-        if not firstname:
-            flash("Must specify value for first name.", "error")
-            return redirect("")
-        if not lastname:
-            flash("Must specify value for last name.", "error")
-            return redirect("")
-        if not email:
-            flash("Must specify value for email.", "error")
-            return redirect("")
-        if not role:
-            flash("Must specify value for role.", "error")
-            return redirect("")
-        if not team:
-            flash("Must specify value for team.", "error")
-            return redirect("")
-        user, message = create_account(firstname, lastname, email, role, team)
-        if message == "exists":
-            flash(f"Account with the email {email} already exists.", "error")
+        form_identifier = request.form.get("form_identifier")
+        if form_identifier:
+            user = User.query.get(int(form_identifier[5]))
+            if form_identifier[:5] == "euser":
+                user.firstname = request.form.get("firstname")
+                user.lastname = request.form.get("lastname")
+                role = request.form.get("role")
+                if role == "rower":
+                    user.is_coxswain = False
+                    user.is_coach = False
+                    user.is_head = False
+                elif role == "coxswain":
+                    user.is_coxswain = True
+                    user.is_coach = False
+                    user.is_head = False
+                elif role == "coach":
+                    user.is_coxswain = False
+                    user.is_coach = True
+                    user.is_head = False
+                elif role == "hcoach":
+                    user.is_coxswain = False
+                    user.is_coach = True
+                    user.is_head = True
+                user.team = request.form.get("team")
+                db.session.commit()
+            elif form_identifier[:5] == "duser":
+                user.deleted = True
+                db.session.commit()
         else:
-            # If the account doesn't exist then it has automatically been added and an email needs to be sent
-            # email is a list since the send emails method takes in a list
-            email = [create_email(user)]
-            email_links(email)
-            if message == "readded":
-                flash(f"User for {firstname} has been re-activated and an email has been sent!", "success")
+            firstname = request.form.get("firstname").capitalize().strip()
+            lastname = request.form.get("lastname").capitalize().strip()
+            email = request.form.get("email").lower().strip()
+            role = request.form.get("role")
+            team = request.form.get("team")
+            if not firstname:
+                flash("Must specify value for first name.", "error")
+                return redirect("")
+            if not lastname:
+                flash("Must specify value for last name.", "error")
+                return redirect("")
+            if not email:
+                flash("Must specify value for email.", "error")
+                return redirect("")
+            if not role:
+                flash("Must specify value for role.", "error")
+                return redirect("")
+            if not team:
+                flash("Must specify value for team.", "error")
+                return redirect("")
+            user, message = create_account(firstname, lastname, email, role, team)
+            if message == "exists":
+                flash(f"Account with the email {email} already exists.", "error")
             else:
-                flash(f"User for {firstname} has been created and an email has been sent!", "success")
+                # If the account doesn't exist then it has automatically been added and an email needs to be sent
+                # email is a list since the send emails method takes in a list
+                email = [create_email(user)]
+                email_links(email)
+                if message == "readded":
+                    flash(f"User for {firstname} has been re-activated and an email has been sent!", "success")
+                else:
+                    flash(f"User for {firstname} has been created and an email has been sent!", "success")
         return redirect("")
     else:
         # Only head coaches have access to the edit-roster page

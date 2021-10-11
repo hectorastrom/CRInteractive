@@ -58,11 +58,16 @@
                 <stop offset="50%" stop-color="rgba(223,23,34,.5)"/>
                 <stop offset="100%" stop-color="rgba(223,23,200,.5)"/>
             </linearGradient>
+            <linearGradient id="CurveGradient2" x1="0" x2=".75" y1="0" y2="0">
+                <stop offset="50%" stop-color="rgba(89,164,235,.5)"/>
+                <stop offset="100%" stop-color="rgba(23,50,189,.5)"/>
+            </linearGradient>
         </defs>
     </svg>
     <script>
         let button_class = "btn-success"
         let active = ""
+        let has_update = false
         {% for metric in all_metrics %}
             {% if metric.has_set %}
                 button_class = "btn-primary";
@@ -76,8 +81,13 @@
                 active = "";
             {% endif %}
 
+            {% if metric.has_update %}
+                has_update = true
+            {% else %}
+                has_update = false
+            {% endif %}
 
-            drawCoachBellCurve("{{ metric.tag }}", "{{ metric.name }}", "{{ metric.desc }}", {{ metric.coach_rating }}, {{ metric.coach_importance }}, "{{ metric.note }}", button_class, active, "{{ user.firstname }}");
+            drawCoachBellCurve(has_update, "{{ metric.tag }}", "{{ metric.name }}", "{{ metric.desc }}", {{ metric.coach_rating }}, {{ metric.coach_importance }}, {{ metric.user_rating }}, "{{ metric.note }}", button_class, active, "{{ user.firstname }}");
         {% endfor %}
     </script>
     {% endif %}

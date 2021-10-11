@@ -66,12 +66,11 @@
                                 {% endif %}
                             </ul>
                             <ul class="navbar-nav ml-auto mt-1">
-                                <li class="nav-item dropdown dropleft" id="profile-dropdown">
+                                <li class="nav-item dropdown dropleft profile-dropdown">
                                     <a class="nav-link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <img width="35" height="35" src="{{ url_for('static',filename='white_usericon.png') }}">
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="profile-dropdown">
-                                        <a class="dropdown-item" href="{{ url_for('profile', firstname=current_user.firstname.lower(), id=current_user.id) }}">Profile</a>
                                         <a class="dropdown-item" href="{{ url_for('settings') }}">Settings</a>
                                         <div class="dropdown-divider border-bottom border-dark" style="width:70%; margin-left: auto; margin-right: auto;"></div>
                                         <a class="dropdown-item" href="{{ url_for('logout') }}"><span style="color:red;">Logout</span></a>
@@ -82,15 +81,22 @@
                         {%else%}
                             <ul class="navbar-nav mr-auto mt-1">
                                 <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
-                                <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('roster') }}">Team</a></li>
                             </ul> 
 
                             <ul class="navbar-nav ml-auto mt-1">
                                 {% if current_user.is_head %}
                                 <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('edit_roster') }}">Edit Roster</a></li>
                                 {% endif %}
-                                <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('settings') }}">Settings</a></li>
-                                <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+                                <li class="nav-item dropdown dropleft profile-dropdown">
+                                    <a class="nav-link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img width="35" height="35" src="{{ url_for('static',filename='white_usericon.png') }}">
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="profile-dropdown">
+                                        <a class="dropdown-item" href="{{ url_for('settings') }}">Settings</a>
+                                        <div class="dropdown-divider border-bottom border-dark" style="width:70%; margin-left: auto; margin-right: auto;"></div>
+                                        <a class="dropdown-item" href="{{ url_for('logout') }}"><span style="color:red;">Logout</span></a>
+                                    </div>
+                                </li>
                             </ul>
                         {%endif%}
                             

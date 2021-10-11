@@ -14,7 +14,7 @@
     <!-- If they're a coach -->
     {% if current_user.is_coach %}
         {% if current_user.team != "none" %}
-            <h2>Roster</h2> 
+            <h2>{{ current_user.team }} Roster</h2> 
             <table class="table table-striped table-responsive w-100 d-block d-md-table">
                 <thead>
                     <tr>
@@ -24,28 +24,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for athlete, status in athletes.items() %}
+                    {% for item in athletes %}
                     <tr>
                         <td>
-                            <a href="{{ url_for('profile', firstname=athlete.firstname.lower(), id=athlete.id) }}">
-                            {{ athlete.firstname + " " + athlete.lastname }}
+                            <a href="{{ url_for('profile', firstname=item.0.firstname.lower(), id=item.0.id) }}">
+                            {{ item.0.firstname + " " + item.0.lastname }}
                             </a>
                         </td>
                         <td>
-                            {% if status == "incomplete" %}
+                            {% if item.1 == "incomplete" %}
                                 <h6><span class="badge badge-danger">Incomplete</span></h6>
                             {% endif %}
 
-                            {% if athlete.pinged %}
+                            {% if item.0.pinged %}
                                 <h6>  <span class="badge badge-primary">Requested</span></h6>
                             {% endif %}
 
-                            {% if not athlete.pinged and status == "set" %}
-                                <h6><span class="badge badge-secondary">Clear</span></h6>
+                            {% if not item.0.pinged and item.1 == "set" %}
+                                <h6><span class="badge badge-success">All Set</span></h6>
                             {% endif %}
                         </td>
-                        {% if athlete.grade %}
-                            <td>{{ athlete.grade }}</td>
+                        {% if item.0.grade %}
+                            <td>{{ item.0.grade }}</td>
                         {% else %}
                             <td>No information</td>
                         {% endif %}
