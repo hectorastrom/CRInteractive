@@ -6,7 +6,7 @@ from app.models import User, Twok, Fivek, Metric
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import date
 from random import randint
-from app.helpers import convert_from_seconds, coach_required, MetricObj, create_account, create_email, email_links
+from app.helpers import convert_from_seconds, coach_required, MetricObj, create_account, create_email, email_links, chooseRole
 from app.static.metrics import rower_metric_list, cox_metric_list
 
 
@@ -296,27 +296,16 @@ def edit_roster():
                 user.firstname = request.form.get("firstname")
                 user.lastname = request.form.get("lastname")
                 role = request.form.get("role")
-                if role == "rower":
-                    user.is_coxswain = False
-                    user.is_coach = False
-                    user.is_head = False
-                elif role == "coxswain":
-                    user.is_coxswain = True
-                    user.is_coach = False
-                    user.is_head = False
-                elif role == "coach":
-                    user.is_coxswain = False
-                    user.is_coach = True
-                    user.is_head = False
-                elif role == "hcoach":
-                    user.is_coxswain = False
-                    user.is_coach = True
-                    user.is_head = True
+                chooseRole(user, role)
                 user.team = request.form.get("team")
                 db.session.commit()
+                flash(f"Updated Information for {user.firstname}.", "success")
+                return redirect(request.url)
             elif form_identifier[:5] == "duser":
                 user.deleted = True
                 db.session.commit()
+                flash(f"Deleted account for {user.firstname}.", "success")
+                return redirect(request.url)
         else:
             firstname = request.form.get("firstname").capitalize().strip()
             lastname = request.form.get("lastname").capitalize().strip()
@@ -354,7 +343,7 @@ def edit_roster():
     else:
         # Only head coaches have access to the edit-roster page
         if current_user.is_coach and current_user.is_head:
-            users = User.query.filter(User.team == current_user.team, User.password != "not set", User.deleted == False).order_by(User.is_coach.desc(), User.is_head.desc(), User.id.desc()).all()
+            users = User.query.filter(User.team == current_user.team, User.password != "not set", User.deleted == False).order_by(User.is_coach.desc(), User.is_head.desc(), User.id).all()
             pending = User.query.filter(User.team == current_user.team, User.password == "not set", User.deleted == False).all()
             return render_template('edit_roster.html', users=users, pending=pending, teams=teams)
         else:

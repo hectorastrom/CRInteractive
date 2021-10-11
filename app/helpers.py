@@ -34,12 +34,43 @@ def convert_from_seconds(total, form):
             seconds = "0" + str(seconds)
     return str(minutes) + ":" + str(seconds)
 
+def chooseTeam(input:str) -> str:
+    input = input.lower().strip()
+    if input == "mv" or input == "men's varsity":
+        team = "Men's Varsity"
+    elif input == "l" or input == "fl" or input == "launchpad" or input == "fall launchpad":
+        team = "Fall Launchpad"
+    elif input != "men's varsity" and input != "fall launchpad":
+        # Unrecognized team names default to launchpad
+        team = "Fall Launchpad"
+    
+    return team
+
+def chooseRole(user:User, input:str):
+    if input == "coxswain" or input == "cox":
+        user.is_coxswain = True
+        user.is_coach = False
+        user.is_head = False
+    elif input == "coach":
+        user.is_coxswain = False
+        user.is_coach = True
+        user.is_head = False
+    elif input == "hcoach":
+        user.is_coxswain = False
+        user.is_coach = True
+        user.is_head = True
+    else:
+        user.is_coxswain = False
+        user.is_coach = False
+        user.is_head = False
+    db.session.commit()
+
+
 def create_account(firstname, lastname, email, role, team):
     firstname = firstname.capitalize()
     lastname = lastname.capitalize()
     email = email.lower()
     role = role.lower()
-    team = team.lower()
     existing_user = User.query.filter_by(email=email).first()
     if existing_user and not existing_user.deleted:
         return (existing_user, "exists")
@@ -50,28 +81,21 @@ def create_account(firstname, lastname, email, role, team):
             unique_id = randint(10000000, 99999999)
         unique_id = str(unique_id)
         existing_user.uuid = unique_id
+        existing_user.firstname = firstname
+        existing_user.lastname = lastname
+        existing_user.password = "not set"
+        existing_user.team = chooseTeam(team)
+        chooseRole(existing_user, role)
         db.session.commit()
         return(existing_user, "readded")
     else:
-        if team == "mv" or team == "men's varsity":
-            team = "Men's Varsity"
-        elif team == "l" or team == "fl" or team == "launchpad" or team == "fall launchpad":
-            team = "Fall Launchpad"
-        elif team != "men's varsity" and team != "fall launchpad":
-            # Unrecognized team names default to launchpad
-            team = "Fall Launchpad"
+        team = chooseTeam(team)
         unique_id = randint(10000000, 99999999)
         while User.query.filter_by(uuid=str(unique_id)).first():
             unique_id = randint(10000000, 99999999)
         unique_id = str(unique_id)
         user = User(firstname=firstname, lastname=lastname, email=email, team=team, uuid=unique_id)
-        if role == "coxswain":
-            user.is_coxswain = True
-        elif role == "coach":
-            user.is_coach = True
-        elif role == "hcoach":
-            user.is_coach = True
-            user.is_head = True
+        chooseRole(user, role)
         db.session.add(user)
         db.session.commit()
         return (user, "added")

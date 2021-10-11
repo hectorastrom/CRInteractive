@@ -4,7 +4,7 @@ from flask.cli import with_appcontext
 from random import randint
 from app import db, is_production
 from app.models import User, Metric, Twok, Fivek
-from app.helpers import create_account, create_email, email_links
+from app.helpers import create_account, create_email, email_links, chooseTeam
 
 @click.command(name='create_tables')
 @with_appcontext
@@ -88,14 +88,7 @@ def send_emails():
             lastname = row[1].capitalize().strip()
             email = row[2].lower().strip()
             role = row[3]
-            team = row[4].lower().strip()
-            if team == "mv" or team == "men's varsity":
-                team = "Men's Varsity"
-            elif team == "l" or team == "fl" or team == "launchpad" or team == "fall launchpad":
-                team = "Fall Launchpad"
-            else:
-                print(f"ERROR: Unrecognized team value in row {row_number}: {row[3]}. Defaulted to Fall Launchpad.")
-                team = "Fall Launchpad"
+            team = chooseTeam(row[4])
             user, message = create_account(firstname, lastname, email, role, team)
             if message == "exists":
                 print("User with email", email, "already exists in the database with code " + user.uuid + ". Ignored.")
