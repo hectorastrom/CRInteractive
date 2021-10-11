@@ -5,7 +5,7 @@ $(document).ready(function(){
 });
 // Fade Flashes
 setTimeout(function() {
-    $('.alert').fadeOut('slow');
+    $('.flash').fadeOut('slow');
 }, 3000);
 
 
