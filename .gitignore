@@ -2,6 +2,5 @@
 __pycache__/
 site.db
 config.py
-migrations/
 .DS_Store
 .vscode/
