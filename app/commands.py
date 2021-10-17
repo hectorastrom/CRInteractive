@@ -10,6 +10,7 @@ from app.helpers import create_account, create_email, email_links, chooseTeam
 @with_appcontext
 def create_tables():
     db.create_all()
+    print("Tables Created.")
 
 
 @click.command(name='drop_tables')
@@ -88,7 +89,7 @@ def send_emails():
             lastname = row[1].capitalize().strip()
             email = row[2].lower().strip()
             role = row[3]
-            team = chooseTeam(row[4])
+            team = row[4]
             user, message = create_account(firstname, lastname, email, role, team)
             if message == "exists":
                 print("User with email", email, "already exists in the database with code " + user.uuid + ". Ignored.")

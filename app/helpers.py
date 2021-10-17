@@ -67,10 +67,10 @@ def chooseRole(user:User, input:str):
 
 
 def create_account(firstname, lastname, email, role, team):
-    firstname = firstname.capitalize()
-    lastname = lastname.capitalize()
-    email = email.lower()
-    role = role.lower()
+    firstname = firstname.capitalize().strip()
+    lastname = lastname.capitalize().strip()
+    email = email.lower().strip()
+    role = role.lower().strip()
     existing_user = User.query.filter_by(email=email).first()
     if existing_user and not existing_user.deleted:
         return (existing_user, "exists")
