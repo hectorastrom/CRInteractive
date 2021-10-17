@@ -41,7 +41,7 @@ db = SQLAlchemy(app)
 # flask db migrate -m 'Initial migration'
 # flask db upgrade 
 
-migrate = Migrate(app, db)
+migrate = Migrate(app, db, compare_type=True)
 
 bcrypt = Bcrypt()
 login_manager = LoginManager(app)
