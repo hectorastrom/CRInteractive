@@ -4,7 +4,7 @@ from app import app, db, bcrypt, teams, is_production
 from app.forms import RegistrationForm, LoginForm, TwokForm, CoachRegistrationForm
 from app.models import User, Twok, Fivek, Metric
 from flask_login import login_user, current_user, logout_user, login_required
-from datetime import date
+from datetime import date, datetime
 from random import randint
 from app.helpers import convert_from_seconds, coach_required, MetricObj, create_account, create_email, email_links, chooseRole
 from app.static.metrics import rower_metric_list, cox_metric_list
@@ -68,6 +68,7 @@ def register(uuid):
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user.password = hashed_password
+        user.date_created = datetime.utcnow()
         user.deleted = False
         db.session.commit()
         login_user(user, remember=True)

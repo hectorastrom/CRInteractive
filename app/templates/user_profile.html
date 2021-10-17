@@ -37,34 +37,42 @@
                     {% endif %}
             </div>
         </div>
-        <p class="border-bottom border-dark mt-3"></p>
-        {% if current_user.id == user.id and not current_user.pinged %}
-        <h5>Request for a coach to review your profile</h5>
-        <div>
-            <form method="POST" action="">
-                <div class="form-group ">
-                    <input type="hidden" name="form_identifier" value="ping">
-                    
+        {% if current_user.id == user.id %}
+            <p class="border-bottom border-dark mt-3"></p>
+            {% if current_user.id == user.id and not current_user.pinged %}
+            <h5>Request for a coach to review your profile</h5>
+            <div>
+                <form method="POST" action="">
+                    <div class="form-group ">
+                        <input type="hidden" name="form_identifier" value="ping">
                         
-                    <button type="submit" class="btn btn-outline-primary rounded-pill" >Request Review</button>   
-        
-                </div>
-            </form>
-        </div>
-        {% else %}
-        <h5 id="krustycrab">Request for a coach to review your profile</h5>
-        <div>
-            <form method="POST" action="">
-                <small class="form-text text-muted ml-3">Request is active.</small>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-outline-primary rounded-pill" disabled="true">Request Review</button>
-                </div>
-            </form>
-        </div>
+                            
+                        <button type="submit" class="btn btn-outline-primary rounded-pill" >Request Review</button>   
+            
+                    </div>
+                </form>
+            </div>
+            {% else %}
+            <h5 id="krustycrab">Request for a coach to review your profile</h5>
+            <div>
+                <form method="POST" action="">
+                    <small class="form-text text-muted ml-3">Request is active.</small>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-outline-primary rounded-pill" disabled="true">Request Review</button>
+                    </div>
+                </form>
+            </div>
+            {% endif %}
         {% endif %}
 
         {% if current_user.id != user.id or not all_metrics %}
         <div class="border-bottom border-dark mt-3"></div>
+        {% endif %}
+
+        {% if current_user.id == user.id and not all_metrics %}
+            <div style = "position:relative;" class = "alert alert-info show">
+                Metrics shared by coaches will appear here. If you don't have any metrics a week after creating your account, request a review. 
+            </div>
         {% endif %}
         
         <!-- If viewing their own page as a non-coach -->
