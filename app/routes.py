@@ -116,10 +116,22 @@ def settings():
                 flash('Grade not selected.', 'error')
                 return redirect(url_for('settings'))
             if weight:
-                current_user.weight = weight
+                try:
+                    weight = int(weight)
+                    current_user.weight = weight
+                except:
+                   flash('Invalid weight input.', 'error')
+                   return redirect(url_for('settings')) 
             if feet and inches:
-                if int(feet) and int(inches) in possible_inches:
-                    current_user.height = int(feet) * 12 + int(inches)
+                try:
+                    if int(feet) in possible_feet and int(inches) in possible_inches:
+                        current_user.height = int(feet) * 12 + int(inches)
+                    else: 
+                        flash('Invalid height inputs.', 'error')
+                        return redirect(url_for('settings'))
+                except:
+                   flash('Height inputs must be numeric.', 'error')
+                   return redirect(url_for('settings'))
             current_user.grade = int(grade)
         else:
             team = request.form.get("team")
