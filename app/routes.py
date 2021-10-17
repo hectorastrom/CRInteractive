@@ -211,7 +211,7 @@ def profile(firstname, id):
         else:
             fivek = "No Data"
 
-        if current_user.id != user.id:
+        if current_user.id != user.id and not current_user.is_coach:
             return render_template('user_profile.html', image_file = image_file, user=user, twok=twok, fivek=fivek)
         
         if user.is_coxswain:
