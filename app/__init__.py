@@ -15,7 +15,6 @@ if Repository('.').head.shorthand == "main":
     is_production = True
 else:
     is_production = False
-print(f"is_production is {is_production}")
 #client = ImgurClient(client_id=config.client_id, client_secret=config.client_secret)
 
 #authorization_url = client.get_auth_url('pin')
