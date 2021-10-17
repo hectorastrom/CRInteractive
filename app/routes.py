@@ -216,25 +216,27 @@ def profile(firstname, id):
                         metric = Metric(user_id=id, tag=defMetric.tag, name=defMetric.name, desc=defMetric.desc, for_coxswain=for_coxswain)
                     db.session.add(metric)
                     db.session.commit()
-        # All metrics is to be sent to profiles to be displayed
-        # The purpose of a for loop instead of querying Metrics with user_id.all() is that metrics that have had their name changed or removed will not longer appear as metrics to view.
-        all_metrics = []
-        for metric in focused_list:
-            new_metric = Metric.query.filter(Metric.user_id==id, Metric.tag==metric.tag, Metric.name==metric.name).first()
-            if new_metric is not None:
-                if new_metric.desc != metric.desc:
+            # All metrics is to be sent to profiles to be displayed
+            # The purpose of a for loop instead of querying Metrics with user_id.all() is that metrics that have had their name changed or removed will not longer appear as metrics to view.
+            all_metrics = []
+            for metric in focused_list:
+                new_metric = Metric.query.filter(Metric.user_id==id, Metric.tag==metric.tag, Metric.name==metric.name).first()
+                if new_metric is not None:
+                    if new_metric.desc != metric.desc:
+                        new_metric.desc = metric.desc
+                        db.session.commit()
+                    all_metrics.append(new_metric)
+
+        all_user_metrics = []
+        if user.id == current_user.id:
+            for metric in focused_list:
+                new_metric = Metric.query.filter(Metric.user_id==id, Metric.tag==metric.tag, Metric.name==metric.name, Metric.has_set==True, Metric.view_allowed==True).first()
+                if new_metric is not None:
                     new_metric.desc = metric.desc
                     db.session.commit()
-                all_metrics.append(new_metric)
-        all_user_metrics = []
-        for metric in focused_list:
-            new_metric = Metric.query.filter(Metric.user_id==id, Metric.tag==metric.tag, Metric.name==metric.name, Metric.has_set==True, Metric.view_allowed==True).first()
-            if new_metric is not None:
-                new_metric.desc = metric.desc
-                db.session.commit()
-                all_user_metrics.append(new_metric)
-        # Sort user displayed metrics by their importance
-        all_user_metrics.sort(key=lambda x:x.coach_importance, reverse=True)
+                    all_user_metrics.append(new_metric)
+            # Sort user displayed metrics by their importance
+            all_user_metrics.sort(key=lambda x:x.coach_importance, reverse=True)
         image_file = url_for('static', filename='profile_pics/' + user.image_file)
         twok = Twok.query.filter_by(user_id=id).order_by("seconds").first()
         if twok:
