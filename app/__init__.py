@@ -4,17 +4,12 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_manager
 from flask_migrate import Migrate
 from werkzeug.datastructures import auth_property 
-from pygit2 import Repository
 import os
 #from app import config
 #from imgurpython import ImgurClient
 
 app = Flask(__name__)
 is_production = True
-if Repository('.').head.shorthand == "main":
-    is_production = True
-else:
-    is_production = False
 #client = ImgurClient(client_id=config.client_id, client_secret=config.client_secret)
 
 #authorization_url = client.get_auth_url('pin')
