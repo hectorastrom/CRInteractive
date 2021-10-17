@@ -7,7 +7,7 @@
 {% block main %}
     
     <h2>{{ current_user.team }}</h2> 
-    <input type="text" id="tableSearch" class="form-control w-50 boxy p-3 mb-2 mt-1" onkeyup="searchTable()" placeholder="Search Athletes...">
+    <input type="text" id="tableSearch" class="form-control w-100 boxy p-3 mb-2 mt-1" onkeyup="searchTable('tableSearch', 'teamTable')" placeholder="Search Users...">
     <table id="teamTable" class="table table-striped table-responsive w-100 d-block d-md-table">
         <thead>
             <tr>

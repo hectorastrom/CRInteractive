@@ -5,17 +5,12 @@
 {% endblock %}
 
 {% block main %}
-    <script>
-        $(function() {
-            enableSorting()
-        });
-    </script>
-    
     <!-- If they're a coach -->
     {% if current_user.is_coach %}
         {% if current_user.team != "none" %}
             <h2>{{ current_user.team }} Roster</h2> 
-            <table class="table table-striped table-responsive w-100 d-block d-md-table">
+            <input type="text" id="tableSearch" class="form-control boxy w-100 p-3 mb-2 mt-1" onkeyup="searchTable('tableSearch', 'rosterTable')" placeholder="Search Users...">
+            <table id="rosterTable" class="table table-striped table-responsive w-100 d-block d-md-table">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -51,6 +46,9 @@
                         {% endif %}
                     </tr>
                     {% endfor %}
+                    <tr id="emptyMessage" style="display:none;">
+                        <td colspan="3">No Results Found.</td>
+                    </tr>
                 </tbody>
             </table>
         {% else %}

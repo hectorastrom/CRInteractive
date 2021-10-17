@@ -420,10 +420,10 @@ function enableSorting()
     })
 }
 
-function searchTable() 
+function searchTable(inputId, tableId) 
 {
-    let table = document.getElementById("teamTable");
-    let input = document.getElementById("tableSearch").value.toLowerCase();
+    let table = document.getElementById(tableId);
+    let input = document.getElementById(inputId).value.toLowerCase();
     let tr = table.getElementsByTagName("tr");
 
     let allInvisible = true
