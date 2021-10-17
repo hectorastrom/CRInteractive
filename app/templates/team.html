@@ -21,6 +21,7 @@
                     <a href="{{ url_for('profile', firstname=user.firstname.lower(), id=user.id) }}">
                     {{ user.firstname + " " + user.lastname }}
                     </a>
+                    {% if user.id == current_user.id %} (You) {% endif %}
                 </td>
                 {% if user.grade %}
                     <td>{{ user.grade }}</td>
