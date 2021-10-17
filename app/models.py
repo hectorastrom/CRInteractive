@@ -23,6 +23,7 @@ class User(db.Model, UserMixin):
     pinged = db.Column(db.Boolean, default=False)
     default_on = db.Column(db.Boolean, default=True)
     deleted = db.Column(db.Boolean, default=False)
+    test = db.Column(db.Boolean, default=False)
     # Height is in inches
     height = db.Column(db.Integer())
     weight = db.Column(db.Integer())
