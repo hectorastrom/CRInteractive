@@ -349,8 +349,8 @@ def edit_roster():
     else:
         # Only head coaches have access to the edit-roster page
         if current_user.is_coach and current_user.is_head:
-            users = User.query.filter(User.team == current_user.team, User.password != "not set", User.deleted == False).order_by(User.is_coach.desc(), User.is_head.desc(), User.id).all()
-            pending = User.query.filter(User.team == current_user.team, User.password == "not set", User.deleted == False).all()
+            users = User.query.filter(User.password != "not set", User.deleted == False).order_by(User.is_coach.desc(), User.is_head.desc(), User.id).all()
+            pending = User.query.filter(User.password == "not set", User.deleted == False).all()
             return render_template('edit_roster.html', users=users, pending=pending, teams=teams)
         else:
             flash("You do not have permissions to access that page.", "error")
