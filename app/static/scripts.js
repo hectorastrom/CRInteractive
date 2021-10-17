@@ -419,3 +419,40 @@ function enableSorting()
         console.log(index + ": " + $( this).text())
     })
 }
+
+function searchTable() 
+{
+    let table = document.getElementById("teamTable");
+    let input = document.getElementById("tableSearch").value.toLowerCase();
+    let tr = table.getElementsByTagName("tr");
+
+    let allInvisible = true
+    // Last row is the empty message which we wont include
+    for (i = 0; i < tr.length-1; i ++)
+    {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td)
+        {
+            let name = td.innerText.toLowerCase();
+            if (name.includes(input))
+            {
+                tr[i].style.display = "";
+                allInvisible = false
+            }
+            else
+            {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+
+    let emptyMessage = document.getElementById("emptyMessage")
+    if (allInvisible)
+    {
+        emptyMessage.style.display = ""
+    }
+    else
+    {
+        emptyMessage.style.display = "none"    
+    }
+}
