@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title%}
+    Team
+{% endblock %}
+
+{% block main %}
+    
+    <h2>{{ current_user.team }}</h2> 
+    <table class="table table-striped table-responsive w-100 d-block d-md-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Grade</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>
+                    <a href="{{ url_for('profile', firstname=user.firstname.lower(), id=user.id) }}">
+                    {{ user.firstname + " " + user.lastname }}
+                    </a>
+                </td>
+                {% if user.grade %}
+                    <td>{{ user.grade }}</td>
+                {% else %}
+                    <td>No information</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+{% endblock%}

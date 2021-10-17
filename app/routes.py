@@ -288,8 +288,8 @@ def roster():
             
         return render_template('roster.html', athletes=athletes)
     else:
-        flash("You do not have permissions to access that page.", "error")
-        return redirect(url_for('index'))
+        users = User.query.filter(User.team==current_user.team, User.is_coach == False, User.deleted == False).order_by(User.lastname).all()
+        return render_template("team.html", users=users)
 
 @app.route('/edit-roster', methods=["GET", "POST"], strict_slashes=False)
 @login_required
