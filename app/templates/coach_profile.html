@@ -16,8 +16,7 @@
                 <p><strong>Grade: </strong>{% if user.grade %}{{ user.grade }}{% else %}No grade{% endif %}</p>
                 <p><strong>Team: </strong>{% if user.team != "none" %}{{ user.team }}{% else %}No team{% endif %}</p>
                 {% if not user.is_coxswain %}
-                <p><strong>Side: </strong>{% if user.side != "none" %}{{ user.side }}{% else %}No side{% endif %}</p>
-                {% endif %}
+                <p><strong>Side: </strong>{% if user.side == "Port" or user.side == "Starboard" %}{{ user.side }}{% elif user.side == "BothP" %}Both (Port Preference){% elif user.side == "BothS" %}Both (Starboard Preference){% else %}No side{% endif %}
                 {% if user.height %}
                 <p><strong>Height: </strong>{{ (user.height / 12) | int }}'{{ user.height % 12 }}"</p>
                 {% endif %}

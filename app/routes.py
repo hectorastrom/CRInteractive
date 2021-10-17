@@ -104,6 +104,9 @@ def settings():
                 if not side:
                     flash('Side not selected.', 'error')
                     return redirect(url_for('settings'))
+                elif side != "Port" and side != "Starboard" and side != "BothS" and side != "BothP":
+                    flash('Invalid input.', 'error')
+                    return redirect(url_for('settings'))
                 current_user.side = side
             grade = request.form.get("grade")
             weight = request.form.get("weight")

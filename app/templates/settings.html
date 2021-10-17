@@ -39,26 +39,32 @@
                             <option disabled selected>Choose Side</option>
                             <option value="Port">Port</option>
                             <option value="Starboard">Starboard</option>
-                            <option value="Both - Port">Both (Port Preference)</option> 
-                            <option value="Both - Starboard">Both (Starboard Preference)</option> 
+                            <option value="BothP">Both (Port Preference)</option> 
+                            <option value="BothS">Both (Starboard Preference)</option> 
                         {% elif current_user.side == "Port" %}
                             <option disabled>Choose Side</option>
                             <option selected value="Port">Port</option>
                             <option value="Starboard">Starboard</option>
-                            <option value="Both - Port">Both (Port Preference)</option> 
-                            <option value="Both - Starboard">Both (Starboard Preference)</option>  
-                        {% elif current_user.side == "Both - Port" %}
+                            <option value="BothP">Both (Port Preference)</option> 
+                            <option value="BothS">Both (Starboard Preference)</option>
+                        {% elif current_user.side == "Starboard" %}
+                            <option disabled>Choose Side</option>
+                            <option value="Port">Port</option>
+                            <option selected value="Starboard">Starboard</option>
+                            <option value="BothP">Both (Port Preference)</option> 
+                            <option value="BothS">Both (Starboard Preference)</option>  
+                        {% elif current_user.side == "BothP" %}
                             <option disabled>Choose Side</option>
                             <option value="Port">Port</option>
                             <option value="Starboard">Starboard</option>
-                            <option selected value="Both - Port">Both (Port Preference)</option> 
-                            <option value="Both - Starboard">Both (Starboard Preference)</option> 
-                        {% elif current_user.side == "Both - Starboard" %}
+                            <option selected value="BothP">Both (Port Preference)</option> 
+                            <option value="BothS">Both (Starboard Preference)</option> 
+                        {% elif current_user.side == "BothS" %}
                             <option disabled>Choose Side</option>
                             <option value="Port">Port</option>
                             <option value="Starboard">Starboard</option>
-                            <option value="Both - Port">Both (Port Preference)</option> 
-                            <option selected value="Both - Starboard">Both (Starboard Preference)</option> 
+                            <option value="BothP">Both (Port Preference)</option> 
+                            <option selected value="BothS">Both (Starboard Preference)</option> 
                         {% endif %}
                     </select>
                 </div>
@@ -135,16 +141,6 @@
                     </select>
                 </div>
             {%endif%}
-            <!-- <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-                </div>
-                <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="inputGroupFile01"
-                    aria-describedby="inputGroupFileAddon01">
-                  <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                </div>
-              </div> -->
         </fieldset>
         <div class="row">
             <div class="form-group col">

@@ -19,7 +19,7 @@
                     <p><strong>Grade: </strong>{% if user.grade %}{{ user.grade }}{% else %}No grade{% endif %}</p>
                     <p><strong>Team: </strong>{% if user.team != "none" %}{{ user.team }}{% else %}No team{% endif %}</p>
                     {% if not user.is_coxswain %}
-                    <p><strong>Side: </strong>{% if user.side != "none" %}{{ user.side }}{% else %}No side{% endif %}</p>
+                    <p><strong>Side: </strong>{% if user.side == "Port" or user.side == "Starboard" %}{{ user.side }}{% elif user.side == "BothP" %}Both (Port Preference){% elif user.side == "BothS" %}Both (Starboard Preference){% else %}No side{% endif %}</p>
                     {% endif %}
                     {% if user.height %}
                     <p><strong>Height: </strong>{{ (user.height / 12) | int }}'{{ user.height % 12 }}"</p>
@@ -56,9 +56,8 @@
             <h5 id="krustycrab">Request for a coach to review your profile</h5>
             <div>
                 <form method="POST" action="">
-                    <small class="form-text text-muted ml-2">Request is active.</small>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-outline-primary rounded-pill" disabled="true">Request Review</button>
+                        <button type="submit" class="btn btn-outline-success rounded-pill" disabled="true">Requested</button>
                     </div>
                 </form>
             </div>
