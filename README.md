@@ -12,7 +12,7 @@ In the future, athletes will be able to share their condition: how they slept la
 # Making Changes On Production Server
 
 ## Steps to upgrade the database on the live server: 
-1. Create new branch on VSCode and set is_production to False
+1. Create new branch on VSCode and **set is_production to *False***
 
 1. Edit models.py for database change
 
@@ -20,7 +20,7 @@ In the future, athletes will be able to share their condition: how they slept la
 
 1. Run `flask db upgrade` and `python run.py` to test change.
 
-1. If everything works as expected, set is_production to True and merge branch with main
+1. If everything works as expected, **set is_production to *True*** and merge branch with main
 
 1. Do this at night and set the CRInteractive Heroku server into maintenance mode. 
 

@@ -199,6 +199,21 @@ def profile(firstname, id):
                 flash(f"Updated {updated_metric.name} for {user.firstname}.", "success")
                 return redirect('#')
     else:
+        image_file = url_for('static', filename='profile_pics/' + user.image_file)
+        twok = Twok.query.filter_by(user_id=id).order_by("seconds").first()
+        if twok:
+            twok = convert_from_seconds(twok.seconds, "time")
+        else:
+            twok = "No Data"
+        fivek = Fivek.query.filter_by(user_id=id).order_by("seconds").first()
+        if fivek:
+            fivek = convert_from_seconds(fivek.seconds, "time")
+        else:
+            fivek = "No Data"
+
+        if current_user.id != user.id:
+            return render_template('user_profile.html', image_file = image_file, user=user, twok=twok, fivek=fivek)
+        
         if user.is_coxswain:
             for_coxswain = True
             focused_list = cox_metric_list
@@ -237,17 +252,6 @@ def profile(firstname, id):
                     all_user_metrics.append(new_metric)
             # Sort user displayed metrics by their importance
             all_user_metrics.sort(key=lambda x:x.coach_importance, reverse=True)
-        image_file = url_for('static', filename='profile_pics/' + user.image_file)
-        twok = Twok.query.filter_by(user_id=id).order_by("seconds").first()
-        if twok:
-            twok = convert_from_seconds(twok.seconds, "time")
-        else:
-            twok = "No Data"
-        fivek = Fivek.query.filter_by(user_id=id).order_by("seconds").first()
-        if fivek:
-            fivek = convert_from_seconds(fivek.seconds, "time")
-        else:
-            fivek = "No Data"
         if current_user.is_coach:
             return render_template('coach_profile.html', image_file = image_file, user=user, all_metrics=all_metrics, twok=twok, fivek=fivek)
         else:
