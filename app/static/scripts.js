@@ -94,7 +94,7 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
         <input type="range" min="0" max="10" step="1" value="${coach_importance}" class="slider slider-yellow disabled" disabled>
     </div>
     <div class="form-group mt-3">
-        <label style="margin-left:14%;" for="${metric_tag}_coach_notes">Coach Notes:</label>
+        <label style="margin-left:14%;" for="${metric_tag}_coach_notes">Coach's Notes:</label>
         <textarea style="opacity:.8;" disabled class="form-control notes" id="${metric_tag}_coach_notes" name="${metric_tag}_coach_notes">${metric_notes}</textarea>
     </div>
     `
