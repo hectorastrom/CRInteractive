@@ -204,23 +204,30 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
 
     }
     let mod_button = document.getElementById(`${metric_tag}Button`)
-
-    if (coach_value <= 25)
+    if (!has_update)
     {
-        mod_button.style.backgroundColor = "#fb5607";
+        if (coach_value <= 25)
+        {
+            mod_button.style.backgroundColor = "#fb5607";
+        }
+        else if (coach_value <= 50)
+        {
+            mod_button.style.backgroundColor = "#ff006e";
+        }
+        else if (coach_value <= 85)
+        {
+            mod_button.style.backgroundColor = "#8338ec";
+        }
+        else
+        {
+            mod_button.style.backgroundColor = "#3a86ff";
+        }
     }
-    else if (coach_value <= 50)
+    else 
     {
-        mod_button.style.backgroundColor = "#ff006e";
+        mod_button.style.backgroundColor = "#9D9D9D"
     }
-    else if (coach_value <= 85)
-    {
-        mod_button.style.backgroundColor = "#8338ec";
-    }
-    else
-    {
-        mod_button.style.backgroundColor = "#3a86ff";
-    }
+    
 }
 
 
