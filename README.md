@@ -28,7 +28,7 @@ In the future, athletes will be able to share their condition: how they slept la
 
 1. Once in Heroku run flask db upgrade
 
-1. If an error message appears saying "Missing revision with id ..." then head back to VSCode main branch and run `flask db revision --rev-id ...`
+1. If an error message appears saying "Missing revision with id ..." then head back to VSCode main branch and run `flask db revision --rev-id ...`, otherwise skip steps 10 and 11
 
 1. Push the change with the new revision
 
