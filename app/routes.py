@@ -141,6 +141,9 @@ def settings():
             space_index = input_name.index(" ")
             input_firstname = input_name[:space_index]
             input_lastname = input_name[space_index+1:]
+            if input_firstname[0].islower() or input_lastname.islower():
+                flash("Invalid capitalization of name.", "error")
+                return redirect(url_for('settings'))
             current_user.firstname = input_firstname
             current_user.lastname = input_lastname
         else:
