@@ -163,7 +163,7 @@ def settings():
 @app.route('/profile/<firstname>:<id>', methods=["GET", "POST"], strict_slashes=False)
 @login_required
 def profile(firstname, id):
-    user = User.query.filter(User.firstname.like(firstname), User.id==id, User.deleted == False).first()
+    user = User.query.filter(User.firstname.like(firstname.lower()), User.id==id, User.deleted == False).first()
     if not user:
         flash("Profile not found", 'error')
         return redirect(url_for('index'))
