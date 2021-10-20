@@ -140,6 +140,11 @@
                         {% endfor %}
                     </select>
                 </div>
+                <small class="form-text text-muted ml-2">Name Capitalization</small>
+                <div class="form-group short">
+                    <input type="text" class="form-control form-control-lg" name="namecap" value="{{ current_user.firstname }} {{ current_user.lastname }}">
+                </div>
+                <small class="form-text text-muted ml-2">Note: For larger name changes contact head coach.</small>
             {%endif%}
         </fieldset>
         <div class="row">

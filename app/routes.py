@@ -133,6 +133,16 @@ def settings():
                    flash('Height inputs must be numeric.', 'error')
                    return redirect(url_for('settings'))
             current_user.grade = int(grade)
+            total_name = current_user.firstname + " " + current_user.lastname
+            input_name = request.form.get("namecap")
+            if input_name.lower() != total_name.lower():
+                flash("Name does not match original name. For name changes outside of capitalization contact your head coach.", "error")
+                return redirect(url_for('settings'))
+            space_index = input_name.index(" ")
+            input_firstname = input_name[:space_index]
+            input_lastname = input_name[space_index+1:]
+            current_user.firstname = input_firstname
+            current_user.lastname = input_lastname
         else:
             team = request.form.get("team")
             default_on = bool(request.form.get("enable_default"))
@@ -153,7 +163,7 @@ def settings():
 @app.route('/profile/<firstname>:<id>', methods=["GET", "POST"], strict_slashes=False)
 @login_required
 def profile(firstname, id):
-    user = User.query.filter(User.firstname==firstname.capitalize(), User.id==id, User.deleted == False).first()
+    user = User.query.filter(User.firstname.like(firstname), User.id==id, User.deleted == False).first()
     if not user:
         flash("Profile not found", 'error')
         return redirect(url_for('index'))
