@@ -44,3 +44,11 @@ For more information, refer to here:
 https://flask-migrate.readthedocs.io/en/latest/
 
 https://stackoverflow.com/questions/47656071/commanderror-cant-locate-revision-identified-by-when-migrating-using-fla
+  
+# Changing Metrics
+  
+Metrics can be added and changed in case different information needs to be assesed. 
+- To change the description of a metric, simply head into metrics.py and adjust the description. 
+- To adjust the name of a metric, you may change the name of the metric but must also change the tag of the metric. 
+- To add a metric, enter metrics.py and add the metric you need for the role.
+- To remove a metric, simply delete it from metrics.py. 
