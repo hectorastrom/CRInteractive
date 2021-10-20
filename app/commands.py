@@ -133,7 +133,11 @@ def send_emails():
                 msg = create_email(user)
                 messages.append(msg)      
 
-    print("\nFinished iteration through csv. Sending emails now.\n")
-    email_links(messages)
-    print("\nFinished 'send_emails' command.")
+    print("\nFinished iteration through csv.")
+    if(messages):
+        print(f"Sending {len(messages)} emails now...\n")
+        email_links(messages)
+    else:
+        print("0 new users to email.\n")
+    print("Finished 'send_emails' command.")
 
