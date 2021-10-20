@@ -69,6 +69,38 @@ def remove_user(email):
     else: 
         print("No user with email", email, "found.")
 
+@click.command(name='query_user')
+@click.argument("email")
+@with_appcontext
+def query_user(email):
+    user = User.query.filter(User.email.like(email.lower())).first()
+    if not user:
+        print("User with", email, "email does not exist.")
+    else:
+        if user.password == "not set":
+            status = "Uninitialized"
+        else:
+            status = "Initialized"
+        if user.deleted:
+            status += ", Deleted"
+        print(f"Status: {status}")
+        print(f"First name: {user.firstname}")
+        print(f"Last name: {user.lastname}")
+        print(f"Email: {user.email}")
+        print(f"Team: {user.team}")
+        print(f"Side: {user.side}")
+        print(f"UUID: {user.uuid}")
+        if user.is_head:
+            role = "Head Coach"
+        elif user.is_coach:
+            role = "Coach"
+        elif user.is_coxswain:
+            role = "Coxswain"
+        else:
+            role="Rower"
+        print(f"Role: {role}")
+        print(f"Date Created: {user.date_created}")
+
 
 @click.command(name='send_emails')
 @with_appcontext
