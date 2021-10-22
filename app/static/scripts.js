@@ -41,7 +41,7 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
                 cy="0"
                 cx="0"
                 id="${metric_tag}_user_dot"
-                style="fill: rgba(177, 23, 49, 1)" />
+                style="fill: rgba(22, 22, 255, 1)" />
             </svg>
             <p class="form-text text-muted text-center">${metric_name}</p>
             <div class="form-group short">
@@ -122,7 +122,7 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
             cy="0"
             cx="0"
             id="${metric_tag}_user_display_dot"
-            style="fill: rgba(177, 23, 49, 1)" />
+            style="fill: rgba(22, 22, 255, 1)" />
     </svg>
     <p class="form-text text-muted text-center">${metric_name}</p>
     `
@@ -260,7 +260,7 @@ function drawCoachBellCurve(has_update, metric_tag, metric_name, metric_desc, co
             cy="0"
             cx="0"
             id="${metric_tag}_user_display_dot"
-            style="fill: rgba(177, 23, 49, 1)" />
+            style="fill: rgba(22, 22, 255, 1)" />
     </svg>
     <p class="form-text text-muted text-center">${metric_name}</p>
     `
