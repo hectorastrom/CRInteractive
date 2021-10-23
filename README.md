@@ -9,6 +9,24 @@ Once logged in, users are greeted with the screen of their profile where they wi
   
 In the future, athletes will be able to share their condition: how they slept last night, how busy they've been, if they have any illness, etc. This will allow coaches to better understand the attitudes of the athletes.
 
+# Commands Reference
+  
+### `flask create_tables`
+- Creates all tables in database. Creates new tables in database if new tables are added.
+### `flask drop_tables`
+- Drops all tables in database (users, workouts, and metrics) after prompting the user to confirm they want to drop the tables.
+### `flask add_user 'firstname' 'lastname' 'email' 'role' 'team'`
+- Using the provided inputs, add_user creates a user if they don't already exist. If they already exist and are not deleted, it will print the information of the existing user. If they already exist and are deleted it'll reactive the user and print their information. If the user does not exist it will add them BUT WILL NOT SEND AN EMAIL TO THEM.
+### `flask remove_user 'email'`
+- Removes user with the email provided, asking for confirmation before DELETING (not setting to deleted) the user.
+### `flask query_user 'email'`
+- Prints information for the user with the email provided.
+### `flask send_email 'email'`
+- Creates and sends and email to the user with the email provided.
+### `flask send_emails`
+- Opens and reads the rowers.csv file in the static folder and creates accounts for and emails all users not already in the database. Each user added is printed and a messages if an email was sent to them is printed. If a user is already in the database then they are ignored.
+
+
 # Making Changes On Production Server
 
 ## Steps to upgrade the database on the live server: 
