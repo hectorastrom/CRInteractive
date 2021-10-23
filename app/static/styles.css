@@ -7,7 +7,7 @@ rgb(42, 43, 44) */
     font-family: "CRI";
     color: rgb(177, 23, 49);
     font-size: 32px;
-    text-shadow: .5px .5px 1px rgb(235, 234, 234);
+    text-shadow: .5px .5px .1px rgb(235, 234, 234);
 }
 
 @media screen and (max-width: 355px)
@@ -192,20 +192,6 @@ html, body
     background: rgb(177, 133, 11) !important;
 }
 
-.slider.slider-yellow.disabled
-{
-    opacity: .65;
-}
-
-.slider.slider-yellow.disabled::-webkit-slider-thumb
-{
-    cursor: default;
-}
-
-.slider.slider-yellow.disabled::-moz-range-thumb
-{
-    cursor: default;
-}
 
 .slider.slider-blue::-webkit-slider-thumb
 {
@@ -216,6 +202,21 @@ html, body
 .slider.slider-blue::-moz-range-thumb 
 {
     background: rgba(22, 22, 255, 1) !important;
+}
+
+.slider.disabled
+{
+    opacity: .65;
+}
+
+.slider.disabled::-webkit-slider-thumb
+{
+    cursor: default;
+}
+
+.slider.disabled::-moz-range-thumb
+{
+    cursor: default;
 }
 
 select:disabled
