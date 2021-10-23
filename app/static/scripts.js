@@ -201,7 +201,7 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
 }
 
 
-function drawCoachBellCurve(has_update, metric_tag, metric_name, metric_desc, coach_value, coach_importance, user_value, metric_notes, button_class, active, firstname)
+function drawCoachBellCurve(has_update, metric_tag, metric_name, metric_desc, coach_value, coach_importance, user_value, metric_notes, button_color, active, firstname)
 {
     let user_dot_html = ""
     if (!has_update)
@@ -226,7 +226,7 @@ function drawCoachBellCurve(has_update, metric_tag, metric_name, metric_desc, co
     }
     let html = `
     <div class="metric-group">
-    <button id="${metric_tag}Button" type="button" class="btn ${button_class} metric-button" data-toggle="modal" data-target="#${metric_tag}modal">${metric_name}</button> 
+    <button id="${metric_tag}Button" type="button" class="btn metric-button" style="background-color:${button_color};" data-toggle="modal" data-target="#${metric_tag}modal">${metric_name}</button> 
     <p class="eyeball">${eyeball}</p>
     </div>
 
