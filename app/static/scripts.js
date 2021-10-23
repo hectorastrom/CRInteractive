@@ -47,7 +47,7 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
             <div class="form-group short">
                 <label for="${metric_tag}_user_slider" style="margin-left:14%;">Your Rating</label>
                 <div class="slidecontainer">
-                    <input type="range" min="0" max="100" value="${user_value}" class="slider" id="${metric_tag}_user_slider" name="${metric_tag}_user_rating">
+                    <input type="range" min="0" max="100" value="${user_value}" class="slider slider-blue" id="${metric_tag}_user_slider" name="${metric_tag}_user_rating">
                 </div>
             </div>
             <div class="form-group col text-center">
