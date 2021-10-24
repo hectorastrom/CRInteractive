@@ -195,13 +195,13 @@ html, body
 
 .slider.slider-blue::-webkit-slider-thumb
 {
-    background: rgba(22, 22, 255, 1) !important;
+    background: rgba(123, 20, 201,1) !important;
 }
 
 
 .slider.slider-blue::-moz-range-thumb 
 {
-    background: rgba(22, 22, 255, 1) !important;
+    background: rgba(123, 20, 201,1) !important;
 }
 
 .slider.disabled
