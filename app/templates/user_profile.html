@@ -45,10 +45,7 @@
                 <form method="POST" action="">
                     <div class="form-group ">
                         <input type="hidden" name="form_identifier" value="ping">
-                        
-                            
                         <button type="submit" class="btn btn-outline-primary rounded-pill" >Request Review</button>   
-            
                     </div>
                 </form>
             </div>
@@ -76,11 +73,11 @@
         
         <!-- If viewing their own page as a non-coach -->
         {% if current_user.id == user.id and all_metrics %}
-        <legend class="border-bottom border-dark mt-3" id="krustycrab" style="font-weight: 600;">Ratings Shared by Coaches <button id="metric-info" data-toggle="popover" data-trigger="focus" data-placement="top" title="Colors and Sorting" data-content="Metrics are sorted by by descending importance level. Therefore, the metric at the top should be your primary focus. The more blue a metric button is, the more competent you are for that metric."><img id="inf" src="{{ url_for('static',filename='info-icon.png') }}"/></button></legend>
+        <legend class="border-bottom border-dark mt-3" id="krustycrab" style="font-weight: 600;">Ratings Shared by Coaches <a id="metric-info" data-toggle="popover" data-trigger="hover" data-placement="top" title="Colors and Sorting" data-content="Metrics are sorted by by descending importance level. Therefore, the metric at the top should be your primary focus. The more blue a metric button is, the more competent you are for that metric."><img id="inf" src="{{ url_for('static',filename='info-icon.png') }}"/></a></legend>
         <svg width="0" height="0">
             <defs>
                 <linearGradient id="CurveGradient1" x1="0" x2=".75" y1="0" y2="0">
-                    <stop offset="50%" stop-color="rgba(223,23,34,.5)"/>
+                    <stop offset="50%" stop-color="rgba(233,23,34,.5)"/>
                     <stop offset="100%" stop-color="rgba(223,23,200,.5)"/>
                 </linearGradient>
                 <linearGradient id="CurveGradient2" x1="0" x2=".75" y1="0" y2="0">

@@ -9,6 +9,9 @@ setTimeout(function() {
 }, 3000);
 
 
+let coachDotColor = "rgba(177,23,49,.8)";
+let userDotColor = "rgba(123, 20, 201,.8)"
+
 function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coach_value, coach_importance, user_value, metric_notes, firstname)
 {
     let coach_info_html = ""
@@ -41,7 +44,7 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
                 cy="0"
                 cx="0"
                 id="${metric_tag}_user_dot"
-                style="fill: rgba(22, 22, 255, 1)" />
+                style="fill: ${userDotColor}" />
             </svg>
             <p class="form-text text-muted text-center">${metric_name}</p>
             <div class="form-group short">
@@ -77,18 +80,22 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
             d="m 43.19351,92.098556 c 0,0 19.633412,1.07091 37.48197,-11.42308 17.848559,-12.49399 32.48437,-36.054082 32.48437,-36.054082 0,0 17.55469,-24.234497 20.41046,-27.528229 2.0916,-2.412365 10.16471,-12.6418523 21.58779,-12.2848823 11.42307,0.356971 18.32988,5.1869094 24.39839,12.6833043 6.06851,7.496392 28.11147,38.775991 28.11147,38.775991 0,0 19.6434,24.001346 27.35292,27.888368 7.66874,3.866459 10.50607,5.916948 30.90469,7.18536"
             id="${metric_tag}_curve" />
         </g>
-        <circle
-            r="6"
-            cy="0"
-            cx="0"
-            id="${metric_tag}_coach_dot"
-            style="fill: rgba(177, 23, 49, .8)" />
-        <circle
-            r="6"
-            cy="0"
-            cx="0"
-            id="${metric_tag}_user_dot"
-            style="fill: rgba(22, 22, 255, .8)" />
+        <a data-toggle="popover" data-trigger="hover" data-content="Coach Rating" data-placement="top">
+            <circle
+                r="6"
+                cy="0"
+                cx="0"
+                id="${metric_tag}_coach_dot"
+                style="fill: ${coachDotColor}" />
+        </a>
+        <a data-toggle="popover" data-trigger="hover" data-content="Your Rating" data-placement="top">
+            <circle
+                r="6"
+                cy="0"
+                cx="0"
+                id="${metric_tag}_user_dot"
+                style="fill: ${userDotColor}" />
+        </a>
     </svg>
     <p class="form-text text-muted text-center">${metric_name}</p>
 
@@ -207,13 +214,13 @@ function drawCoachBellCurve(has_update, metric_tag, metric_name, metric_desc, co
     if (!has_update)
     {
     user_dot_html = `
-    <a data-toggle="popover" data-trigger="hover" title="Dot Meaning" data-content="The blue dot is from rowers or coxswains." data-placement="top">
+    <a data-toggle="popover" data-trigger="hover" data-content="User Rating" data-placement="top">
         <circle
             r="6"
             cy="0"
             cx="0"
             id="${metric_tag}_user_dot"
-            style="fill: rgba(22, 22, 255, 1)" />
+            style="fill: ${userDotColor}" />
     </a>
     `
     }
@@ -224,7 +231,7 @@ function drawCoachBellCurve(has_update, metric_tag, metric_name, metric_desc, co
         eyeball=`<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
         width="30" height="30"
         viewBox="0 0 30 30"
-        style=" fill:#000000;">    <path d="M 15 5 C 6.081703 5 0.32098813 14.21118 0.21679688 14.378906 A 1 1 0 0 0 0 15 A 1 1 0 0 0 0.16210938 15.544922 A 1 1 0 0 0 0.16601562 15.550781 C 0.18320928 15.586261 5.0188313 25 15 25 C 24.938822 25 29.767326 15.678741 29.826172 15.564453 A 1 1 0 0 0 29.837891 15.544922 A 1 1 0 0 0 30 15 A 1 1 0 0 0 29.785156 14.380859 A 1 1 0 0 0 29.783203 14.378906 C 29.679012 14.21118 23.918297 5 15 5 z M 15 8 C 18.866 8 22 11.134 22 15 C 22 18.866 18.866 22 15 22 C 11.134 22 8 18.866 8 15 C 8 11.134 11.134 8 15 8 z M 15 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 18 A 3 3 0 0 0 18 15 A 3 3 0 0 0 15 12 z"></path></svg>`
+        style=" fill:#000000;"><path d="M 15 5 C 6.081703 5 0.32098813 14.21118 0.21679688 14.378906 A 1 1 0 0 0 0 15 A 1 1 0 0 0 0.16210938 15.544922 A 1 1 0 0 0 0.16601562 15.550781 C 0.18320928 15.586261 5.0188313 25 15 25 C 24.938822 25 29.767326 15.678741 29.826172 15.564453 A 1 1 0 0 0 29.837891 15.544922 A 1 1 0 0 0 30 15 A 1 1 0 0 0 29.785156 14.380859 A 1 1 0 0 0 29.783203 14.378906 C 29.679012 14.21118 23.918297 5 15 5 z M 15 8 C 18.866 8 22 11.134 22 15 C 22 18.866 18.866 22 15 22 C 11.134 22 8 18.866 8 15 C 8 11.134 11.134 8 15 8 z M 15 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 18 A 3 3 0 0 0 18 15 A 3 3 0 0 0 15 12 z"></path></svg>`
     }
     let html = `
     <div class="metric-group">
@@ -263,13 +270,13 @@ function drawCoachBellCurve(has_update, metric_tag, metric_name, metric_desc, co
                         d="m 43.19351,92.098556 c 0,0 19.633412,1.07091 37.48197,-11.42308 17.848559,-12.49399 32.48437,-36.054082 32.48437,-36.054082 0,0 17.55469,-24.234497 20.41046,-27.528229 2.0916,-2.412365 10.16471,-12.6418523 21.58779,-12.2848823 11.42307,0.356971 18.32988,5.1869094 24.39839,12.6833043 6.06851,7.496392 28.11147,38.775991 28.11147,38.775991 0,0 19.6434,24.001346 27.35292,27.888368 7.66874,3.866459 10.50607,5.916948 30.90469,7.18536"
                         id="${metric_tag}_curve" />
                     </g>
-                    <a data-toggle="popover" data-trigger="hover" title="Dot Meaning" data-content="The red dot is from coaches." data-placement="top">
+                    <a data-toggle="popover" data-trigger="hover" data-content="Coach Rating" data-placement="top">
                         <circle
                             r="6"
                             cy="0"
                             cx="0"
                             id="${metric_tag}_coach_dot"
-                            style="fill: rgba(177, 23, 49, 1)" />
+                            style="fill: ${coachDotColor}" />
                     </a>
                     ${user_dot_html}
                     </svg>
