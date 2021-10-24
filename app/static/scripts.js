@@ -207,12 +207,14 @@ function drawCoachBellCurve(has_update, metric_tag, metric_name, metric_desc, co
     if (!has_update)
     {
     user_dot_html = `
-    <circle
-        r="6"
-        cy="0"
-        cx="0"
-        id="${metric_tag}_user_dot"
-        style="fill: rgba(22, 22, 255, 1)" />
+    <a data-toggle="popover" data-trigger="hover" title="Dot Meaning" data-content="The blue dot is from rowers or coxswains." data-placement="top">
+        <circle
+            r="6"
+            cy="0"
+            cx="0"
+            id="${metric_tag}_user_dot"
+            style="fill: rgba(22, 22, 255, 1)" />
+    </a>
     `
     }
 
@@ -261,12 +263,14 @@ function drawCoachBellCurve(has_update, metric_tag, metric_name, metric_desc, co
                         d="m 43.19351,92.098556 c 0,0 19.633412,1.07091 37.48197,-11.42308 17.848559,-12.49399 32.48437,-36.054082 32.48437,-36.054082 0,0 17.55469,-24.234497 20.41046,-27.528229 2.0916,-2.412365 10.16471,-12.6418523 21.58779,-12.2848823 11.42307,0.356971 18.32988,5.1869094 24.39839,12.6833043 6.06851,7.496392 28.11147,38.775991 28.11147,38.775991 0,0 19.6434,24.001346 27.35292,27.888368 7.66874,3.866459 10.50607,5.916948 30.90469,7.18536"
                         id="${metric_tag}_curve" />
                     </g>
-                    <circle
-                        r="6"
-                        cy="0"
-                        cx="0"
-                        id="${metric_tag}_coach_dot"
-                        style="fill: rgba(177, 23, 49, 1)" />
+                    <a data-toggle="popover" data-trigger="hover" title="Dot Meaning" data-content="The red dot is from coaches." data-placement="top">
+                        <circle
+                            r="6"
+                            cy="0"
+                            cx="0"
+                            id="${metric_tag}_coach_dot"
+                            style="fill: rgba(177, 23, 49, 1)" />
+                    </a>
                     ${user_dot_html}
                     </svg>
                     <p class="form-text text-muted text-center">${metric_name}</p>
