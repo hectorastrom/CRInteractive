@@ -242,6 +242,16 @@ label[for="enable_default"]
     margin-right: auto;
 }
 
+.hidden-link
+{
+    color:black;
+}
+.hidden-link:hover
+{
+    text-decoration:none;
+    color:red;
+}
+
 
 .form-check-input-xl
 {
