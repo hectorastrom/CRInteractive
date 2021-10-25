@@ -35,20 +35,23 @@ rgb(42, 43, 44) */
 
 a
 {
-    color:black;
-    border-bottom: 1.5px dashed red;
+    color:rgb(177, 23, 49, .45);
+    border-bottom: 2px solid rgb(177, 23, 49, .45);
+    transition: color .2s;
 }
 
 a:hover
 {
-    border-bottom: 1.5px solid red;
-    color:black;
+    -webkit-transition: .2s;
+    transition: color .2s;
+    border-bottom: 2px solid rgb(177, 23, 49);
+    color:rgb(177, 23, 49);
     text-decoration: none;
 }
 
 .dropdown-item, .nav-link, .navbar-brand, .dropdown-item:hover, .nav-link:hover, .navbar-brand:hover
 {
-    border:none;       
+    border:none;      
 }
 
 .nav-link
@@ -263,10 +266,12 @@ label[for="enable_default"]
 
 .hidden-link
 {
+    border:none;
     color:black;
 }
 .hidden-link:hover
 {
+    border:none;
     text-decoration:none;
     color:red;
 }
