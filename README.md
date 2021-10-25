@@ -68,6 +68,9 @@ For more information, refer to here:
 https://flask-migrate.readthedocs.io/en/latest/
 
 https://stackoverflow.com/questions/47656071/commanderror-cant-locate-revision-identified-by-when-migrating-using-fla
+
+For problems involving partial upgrades (especially for string length changes) refer to this:
+https://blog.miguelgrinberg.com/post/fixing-alter-table-errors-with-flask-migrate-and-sqlite
   
 # Changing Metrics
   
