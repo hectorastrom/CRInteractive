@@ -38,13 +38,13 @@ Commands to preface:
   Important Note: Don't **EVER** run flask db migrate on the production server. This will generate a migration file that only exists on the emphermal file system of Heroku and cannot be accessed elsewhere (troubleshooting below in case you ever do). Also, don't upgrade the database on the local environment (VSCode) before pushing it to production); this will make it so the production server thinks its already upgraded which it might not have been. Instead, upgrade and test on local environment after pushing to production, and if there appears to be an issue just revert the change.
   
   ## Steps to upgrade the database on the live server: 
-1. Create new branch on VSCode and **set is_production to *False***
+1. Create new branch on VSCode with relevant name for database change
 
 1. Edit models.py for database change
 
 1. Run `flask db migrate -m "change description"`
 
-1. **Set is_production to *True***, push the change, and merge branch with main
+1. Push the change, and merge branch with main
 
 1. Push changes and wait for deployment to Heroku to finish
 
@@ -52,20 +52,31 @@ Commands to preface:
 
 1. If all works as expected, in Heroku run `flask db upgrade`
 
-1. If an error message appears saying "Missing revision with id ..." then head back to VSCode main branch and run `flask db revision --rev-id ...`, otherwise skip steps 10 and 11. This error occurs from having run `flask db migrate` on the production server, which creates a migration file only on the production server (not in repo).
-
-1. Push the change with the new revision
-
-1. Run `flask db upgrade` on Heroku again
-
 1. Take server out of maintenance mode
 
 1. Your server should be live and the changes complete. 
+
+Potential Errors: 
+1. If an error message appears saying "Missing revision with id ..." then head back to VSCode main branch and run `flask db revision --rev-id ...`. This error occurs from having run `flask db migrate` on the production server, which creates a migration file only on the production server (not in repo).
+
+    * Push the change with the new revision
+
+    * Run `flask db upgrade` on Heroku again
+1. If an error occurs during `flask db upgrade`, that means only part of the upgrade has gone through: Lots of good information in https://blog.miguelgrinberg.com/post/fixing-alter-table-errors-with-flask-migrate-and-sqlite 
+
+    * Figure out what part of the upgrade went through (by looking at schema or maybe order of upgrades)
+    * Clear upgrade() function in migration file
+    * Edit downgrade() function so that the only thing reversed is what was changed (top bullet)
+    * Run `flask db downgrade` to downgrade that migration
+    * Delete failed migration file and figure out the issue.
 
 
 For more information, refer to here:
 
 https://flask-migrate.readthedocs.io/en/latest/
+
+Deleting migration files:
+  https://github.com/miguelgrinberg/Flask-Migrate/issues/333
 
 https://stackoverflow.com/questions/47656071/commanderror-cant-locate-revision-identified-by-when-migrating-using-fla
 
@@ -74,7 +85,7 @@ https://blog.miguelgrinberg.com/post/fixing-alter-table-errors-with-flask-migrat
   
 # Changing Metrics
   
-Metrics can be added and changed in case different information needs to be assesed. 
+Metrics can be added and changed in case different information needs to be assessed. 
 - To change the description of a metric, simply head into metrics.py and adjust the description. 
 - To adjust the name of a metric, you may change the name of the metric but must also change the tag of the metric. 
 - To add a metric, enter metrics.py and add the metric you need for the role.
