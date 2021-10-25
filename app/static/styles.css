@@ -33,11 +33,22 @@ rgb(42, 43, 44) */
     width: 80%;
 }
 
-.navbar-custom
+a
 {
-    background-color: rgb(42, 43, 44);
-    height: 60px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, .4);
+    color:black;
+    border-bottom: 1.5px dashed red;
+}
+
+a:hover
+{
+    border-bottom: 1.5px solid red;
+    color:black;
+    text-decoration: none;
+}
+
+.dropdown-item, .nav-link, .navbar-brand, .dropdown-item:hover, .nav-link:hover, .navbar-brand:hover
+{
+    border:none;       
 }
 
 .nav-link
@@ -50,6 +61,14 @@ rgb(42, 43, 44) */
 {
     color: rgba(223, 223, 223, 0.6) !important;
 }
+
+.navbar-custom
+{
+    background-color: rgb(42, 43, 44);
+    height: 60px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .4);
+}
+
 
 /* Not doing anything right now but could be used later */
 .navbar-toggler-icon
@@ -251,6 +270,8 @@ label[for="enable_default"]
     text-decoration:none;
     color:red;
 }
+
+
 
 
 .form-check-input-xl
