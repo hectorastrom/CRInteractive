@@ -60,8 +60,8 @@ Potential Errors:
 1. If an error message appears saying "Missing revision with id ..." then head back to VSCode main branch and run `flask db revision --rev-id ...`. This error occurs from having run `flask db migrate` on the production server, which creates a migration file only on the production server (not in repo).
 
     * Push the change with the new revision
-
     * Run `flask db upgrade` on Heroku again
+
 1. If an error occurs during `flask db upgrade`, that means only part of the upgrade has gone through: Lots of good information in https://blog.miguelgrinberg.com/post/fixing-alter-table-errors-with-flask-migrate-and-sqlite 
 
     * Figure out what part of the upgrade went through (by looking at schema or maybe order of upgrades)
@@ -73,14 +73,14 @@ Potential Errors:
 
 For more information, refer to here:
 
-https://flask-migrate.readthedocs.io/en/latest/
+* https://flask-migrate.readthedocs.io/en/latest/
 
-Deleting migration files:
+* Deleting migration files:
   https://github.com/miguelgrinberg/Flask-Migrate/issues/333
 
-https://stackoverflow.com/questions/47656071/commanderror-cant-locate-revision-identified-by-when-migrating-using-fla
+* https://stackoverflow.com/questions/47656071/commanderror-cant-locate-revision-identified-by-when-migrating-using-fla
 
-For problems involving partial upgrades (especially for string length changes) refer to this:
+For problems involving partial upgrades^ (especially for string length changes) refer to this:
 https://blog.miguelgrinberg.com/post/fixing-alter-table-errors-with-flask-migrate-and-sqlite
   
 # Changing Metrics
