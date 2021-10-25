@@ -127,8 +127,8 @@ def send_emails():
         row_number = 0
         for row in csv_reader:
             row_number += 1
-            firstname = row[0].capitalize().strip()
-            lastname = row[1].capitalize().strip()
+            firstname = row[0].strip()
+            lastname = row[1].strip()
             email = row[2].lower().strip()
             role = row[3]
             team = row[4]
