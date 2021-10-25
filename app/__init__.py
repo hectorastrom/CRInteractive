@@ -9,7 +9,11 @@ import os
 #from imgurpython import ImgurClient
 
 app = Flask(__name__)
-is_production = True
+is_production = os.getenv("production")
+if is_production.lower() == "true":
+    is_production = True
+else:
+    is_production = False
 #client = ImgurClient(client_id=config.client_id, client_secret=config.client_secret)
 
 #authorization_url = client.get_auth_url('pin')
