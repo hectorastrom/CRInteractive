@@ -38,7 +38,7 @@ In the future, athletes will be able to share their condition: how they slept la
 
 1. Run `flask db upgrade` and `python run.py` to test change.
 
-1. If everything works as expected, **set is_production to *True*** and merge branch with main
+1. If everything works as expected, **set is_production to *True***, push the change, and merge branch with main
 
 1. Do this at night and set the CRInteractive Heroku server into maintenance mode. 
 
