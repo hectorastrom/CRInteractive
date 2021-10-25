@@ -7,7 +7,7 @@ rgb(42, 43, 44) */
     font-family: "CRI";
     color: rgb(177, 23, 49);
     font-size: 32px;
-    text-shadow: .5px .5px 1px rgb(235, 234, 234);
+    text-shadow: .5px .5px .1px rgb(235, 234, 234);
 }
 
 @media screen and (max-width: 355px)
@@ -33,11 +33,22 @@ rgb(42, 43, 44) */
     width: 80%;
 }
 
-.navbar-custom
+a
 {
-    background-color: rgb(42, 43, 44);
-    height: 60px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, .4);
+    color:black;
+    border-bottom: 1.5px dashed red;
+}
+
+a:hover
+{
+    border-bottom: 1.5px solid red;
+    color:black;
+    text-decoration: none;
+}
+
+.dropdown-item, .nav-link, .navbar-brand, .dropdown-item:hover, .nav-link:hover, .navbar-brand:hover
+{
+    border:none;       
 }
 
 .nav-link
@@ -50,6 +61,14 @@ rgb(42, 43, 44) */
 {
     color: rgba(223, 223, 223, 0.6) !important;
 }
+
+.navbar-custom
+{
+    background-color: rgb(42, 43, 44);
+    height: 60px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .4);
+}
+
 
 /* Not doing anything right now but could be used later */
 .navbar-toggler-icon
@@ -192,17 +211,29 @@ html, body
     background: rgb(177, 133, 11) !important;
 }
 
-.slider.slider-yellow.disabled
+
+.slider.slider-blue::-webkit-slider-thumb
+{
+    background: rgba(123, 20, 201,1) !important;
+}
+
+
+.slider.slider-blue::-moz-range-thumb 
+{
+    background: rgba(123, 20, 201,1) !important;
+}
+
+.slider.disabled
 {
     opacity: .65;
 }
 
-.slider.slider-yellow.disabled::-webkit-slider-thumb
+.slider.disabled::-webkit-slider-thumb
 {
     cursor: default;
 }
 
-.slider.slider-yellow.disabled::-moz-range-thumb
+.slider.disabled::-moz-range-thumb
 {
     cursor: default;
 }
@@ -229,6 +260,18 @@ label[for="enable_default"]
     margin-left: auto;
     margin-right: auto;
 }
+
+.hidden-link
+{
+    color:black;
+}
+.hidden-link:hover
+{
+    text-decoration:none;
+    color:red;
+}
+
+
 
 
 .form-check-input-xl
@@ -329,6 +372,7 @@ header
     position: absolute;
     top:0;
     width:100%;
+    z-index: 10;
 }
 
 

@@ -73,7 +73,7 @@ def remove_user(email):
 @click.argument("email")
 @with_appcontext
 def query_user(email):
-    user = User.query.filter(User.email.like(email.lower())).first()
+    user = User.query.filter(User.email.ilike(email)).first()
     if not user:
         print("User with", email, "email does not exist.")
     else:
@@ -101,6 +101,16 @@ def query_user(email):
         print(f"Role: {role}")
         print(f"Date Created: {user.date_created}")
 
+@click.command(name='send_email')
+@click.argument("email")
+@with_appcontext
+def send_email(email):
+    user = User.query.filter(User.email.ilike(email)).first()
+    if user:
+        messages = [create_email(user)]
+        email_links(messages)
+    else:
+        print(f"No user with {email} found. Try adding the user first.")
 
 @click.command(name='send_emails')
 @with_appcontext

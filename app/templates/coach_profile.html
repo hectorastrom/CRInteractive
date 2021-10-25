@@ -46,19 +46,15 @@
         {% endif %}
     {% if current_user.team == user.team %}
     <legend class="border-bottom border-dark mb-2" style="font-weight: 600;">Set Ratings</legend>
-    <p><span style="color:#007bff;">Blue</span> means you have set that metric, <span style="color:#dc3545;">Red</span> means you still need to.<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+    <p><span style="color:#007bff; font-weight: bold;">Blue</span> means you have set that metric, <span style="color:#dc3545; font-weight: bold;">Red</span> means you still need to. <span style="color:indigo; font-weight: bold;">Indigo</span> means {{ user.firstname }} has indicated their rating for that metric.<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
         width="22" height="22"
         viewBox="0 0 30 30"
-        style="fill:#000000; margin-bottom: 1px; margin-left: 8px; margin-right: 3px;"><path d="M 15 5 C 6.081703 5 0.32098813 14.21118 0.21679688 14.378906 A 1 1 0 0 0 0 15 A 1 1 0 0 0 0.16210938 15.544922 A 1 1 0 0 0 0.16601562 15.550781 C 0.18320928 15.586261 5.0188313 25 15 25 C 24.938822 25 29.767326 15.678741 29.826172 15.564453 A 1 1 0 0 0 29.837891 15.544922 A 1 1 0 0 0 30 15 A 1 1 0 0 0 29.785156 14.380859 A 1 1 0 0 0 29.783203 14.378906 C 29.679012 14.21118 23.918297 5 15 5 z M 15 8 C 18.866 8 22 11.134 22 15 C 22 18.866 18.866 22 15 22 C 11.134 22 8 18.866 8 15 C 8 11.134 11.134 8 15 8 z M 15 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 18 A 3 3 0 0 0 18 15 A 3 3 0 0 0 15 12 z"></path></svg>  means that the rower can view that metric.</p>
+        style="fill:#000000; margin-bottom: 1px; margin-left: 8px; margin-right: 3px;"><path d="M 15 5 C 6.081703 5 0.32098813 14.21118 0.21679688 14.378906 A 1 1 0 0 0 0 15 A 1 1 0 0 0 0.16210938 15.544922 A 1 1 0 0 0 0.16601562 15.550781 C 0.18320928 15.586261 5.0188313 25 15 25 C 24.938822 25 29.767326 15.678741 29.826172 15.564453 A 1 1 0 0 0 29.837891 15.544922 A 1 1 0 0 0 30 15 A 1 1 0 0 0 29.785156 14.380859 A 1 1 0 0 0 29.783203 14.378906 C 29.679012 14.21118 23.918297 5 15 5 z M 15 8 C 18.866 8 22 11.134 22 15 C 22 18.866 18.866 22 15 22 C 11.134 22 8 18.866 8 15 C 8 11.134 11.134 8 15 8 z M 15 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 18 A 3 3 0 0 0 18 15 A 3 3 0 0 0 15 12 z"></path></svg>  means that the user can view that metric.</p>
     <svg width="0" height="0">
         <defs>
             <linearGradient id="CurveGradient" x1="0" x2=".75" y1="0" y2="0">
                 <stop offset="50%" stop-color="rgba(223,23,34,.5)"/>
                 <stop offset="100%" stop-color="rgba(223,23,200,.5)"/>
-            </linearGradient>
-            <linearGradient id="CurveGradient2" x1="0" x2=".75" y1="0" y2="0">
-                <stop offset="50%" stop-color="rgba(89,164,235,.5)"/>
-                <stop offset="100%" stop-color="rgba(23,50,189,.5)"/>
             </linearGradient>
         </defs>
     </svg>
@@ -67,10 +63,12 @@
         let active = ""
         let has_update = false
         {% for metric in all_metrics %}
-            {% if metric.has_set %}
-                button_class = "btn-primary";
+            {% if not metric.has_update %}
+                button_color = "indigo";
+            {% elif metric.has_set %}
+                button_color = "#007bff";
             {% else %}
-                button_class = "btn-danger";
+                button_color = "#dc3545";
             {% endif %}
 
             {% if metric.view_allowed %}
@@ -85,7 +83,7 @@
                 has_update = false
             {% endif %}
 
-            drawCoachBellCurve(has_update, "{{ metric.tag }}", "{{ metric.name }}", "{{ metric.desc }}", {{ metric.coach_rating }}, {{ metric.coach_importance }}, {{ metric.user_rating }}, "{{ metric.note }}", button_class, active, "{{ user.firstname }}");
+            drawCoachBellCurve(has_update, "{{ metric.tag }}", "{{ metric.name }}", "{{ metric.desc }}", {{ metric.coach_rating }}, {{ metric.coach_importance }}, {{ metric.user_rating }}, "{{ metric.note }}", button_color, active, "{{ user.firstname }}");
         {% endfor %}
     </script>
     {% endif %}

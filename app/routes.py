@@ -185,6 +185,7 @@ def profile(firstname, id):
                 requested_metric.user_rating = request.form.get(f"{requested_metric.tag}_user_rating")
                 requested_metric.has_update = False
                 db.session.commit()
+                flash(f"You may now view coach's rating for {requested_metric.name}.", "success")
 
             return redirect('#')
         else:
