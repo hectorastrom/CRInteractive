@@ -80,6 +80,7 @@ class Metric(db.Model):
 class Status(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     note = db.Column(db.Text)
+    mood = db.Column(db.Integer)
     sleep = db.Column(db.Text)
     sickness = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
