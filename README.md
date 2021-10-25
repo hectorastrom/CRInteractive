@@ -28,25 +28,31 @@ In the future, athletes will be able to share their condition: how they slept la
 
 
 # Making Changes On Production Server
-
-## Steps to upgrade the database on the live server: 
+#### Ideally, database changes should be done at night and with the CRInteractive Heroku server into maintenance mode. 
+Commands to preface:
+  - `flask db migrate` creates a migration file, a python file with instructions for flask migrate on how to upgrade and downgrade the database
+  - `flask db upgrade` upgrades the database to the migration file after the one it is currently on.
+  - `flask db current` tells you the current migration file you are currently on
+  - `flask db stamp head` skips all migrations up to the head and just stamps the head (most recent) migration as the one that is supposedly "active for the database". Try to avoid this but it can also solve some weird issues.
+  
+  Important Note: Don't **EVER** run flask db migrate on the production server. This will generate a migration file that only exists on the emphermal file system of Heroku and cannot be accessed elsewhere (troubleshooting below in case you ever do). Also, don't upgrade the database on the local environment (VSCode) before pushing it to production); this will make it so the production server thinks its already upgraded which it might not have been. Instead, upgrade and test on local environment after pushing to production, and if there appears to be an issue just revert the change.
+  
+  ## Steps to upgrade the database on the live server: 
 1. Create new branch on VSCode and **set is_production to *False***
 
 1. Edit models.py for database change
 
 1. Run `flask db migrate -m "change description"`
 
-1. Run `flask db upgrade` and `python run.py` to test change.
-
-1. If everything works as expected, **set is_production to *True***, push the change, and merge branch with main
-
-1. Do this at night and set the CRInteractive Heroku server into maintenance mode. 
+1. **Set is_production to *True***, push the change, and merge branch with main
 
 1. Push changes and wait for deployment to Heroku to finish
 
-1. Once in Heroku run flask db upgrade
+1. Run `flask db upgrade` and `python run.py` in VSCode to test change before upgrading database on live server. 
 
-1. If an error message appears saying "Missing revision with id ..." then head back to VSCode main branch and run `flask db revision --rev-id ...`, otherwise skip steps 10 and 11
+1. If all works as expected, in Heroku run `flask db upgrade`
+
+1. If an error message appears saying "Missing revision with id ..." then head back to VSCode main branch and run `flask db revision --rev-id ...`, otherwise skip steps 10 and 11. This error occurs from having run `flask db migrate` on the production server, which creates a migration file only on the production server (not in repo).
 
 1. Push the change with the new revision
 
