@@ -31,6 +31,7 @@ class User(db.Model, UserMixin):
     twoks = db.relationship('Twok', backref='rower', lazy=True)
     fiveks = db.relationship('Fivek', backref='rower', lazy=True)
     metric = db.relationship('Metric', backref='rower', lazy=True)
+    status = db.relationship('Status', backref='rower', lazy=True)
 
     def __repr__(self):
         if not self.deleted:
@@ -75,5 +76,12 @@ class Metric(db.Model):
     
     def __repr__(self):
         return f"Metric(Metric Name: 'f{self.name}', Coach Rating: '{self.coach_rating}', User Rating: '{self.user_rating}', User Importance: '{self.user_importance}', View Allowed: '{self.view_allowed}', Has Set: '{self.has_set}', user_id: '{self.user_id}', Note: '{self.note}')"
+
+class Status(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    note = db.Column(db.Text)
+    sleep = db.Column(db.Text)
+    sickness = db.Column(db.Text)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
         
