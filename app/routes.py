@@ -349,8 +349,8 @@ def edit_roster():
                 flash(f"Deleted account for {user.firstname}.", "success")
                 return redirect(request.url)
         else:
-            firstname = request.form.get("firstname").capitalize().strip()
-            lastname = request.form.get("lastname").capitalize().strip()
+            firstname = request.form.get("firstname").strip()
+            lastname = request.form.get("lastname").strip()
             email = request.form.get("email").lower().strip()
             role = request.form.get("role")
             team = request.form.get("team")
