@@ -83,7 +83,7 @@
                 has_update = false
             {% endif %}
 
-            drawCoachBellCurve(has_update, "{{ metric.tag }}", "{{ metric.name }}", "{{ metric.desc }}", {{ metric.coach_rating }}, {{ metric.coach_importance }}, {{ metric.user_rating }}, "{{ metric.note }}", button_color, active, "{{ user.firstname }}");
+            drawCoachBellCurve(has_update, `{{ metric.tag }}`, `{{ metric.name }}`, `{{ metric.desc }}`, {{ metric.coach_rating }}, {{ metric.coach_importance }}, {{ metric.user_rating }}, `{{ metric.note }}`, button_color, active, `{{ user.firstname }}`);
         {% endfor %}
     </script>
     {% endif %}

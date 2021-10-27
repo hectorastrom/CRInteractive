@@ -204,7 +204,7 @@ def profile(firstname, id):
 
                 updated_metric.coach_rating = request.form.get(f"{updated_metric.tag}_coach_rating")
                 updated_metric.coach_importance = request.form.get(f"{updated_metric.tag}_coach_importance")
-                updated_metric.note = request.form.get(f"{updated_metric.tag}_coach_notes")
+                updated_metric.note = request.form.get(f"{updated_metric.tag}_coach_notes").strip()
                 updated_metric.view_allowed = bool(request.form.get(f"{updated_metric.tag}_view_allowed"))
                 updated_metric.has_set = True
                 # When there's an update available, a user should have to indicate their rating

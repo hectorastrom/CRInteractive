@@ -99,7 +99,7 @@
                 {% else %}
                     has_update = false
                 {% endif %}
-                drawUserBellCurve(has_update, "{{ metric.tag }}", "{{ metric.name }}", "{{ metric.desc }}", {{ metric.coach_rating }}, {{ metric.coach_importance }}, {{ metric.user_rating }}, "{{ metric.note }}", "{{ user.firstname }}")
+                drawUserBellCurve(has_update, `{{ metric.tag }}`, `{{ metric.name }}`, `{{ metric.desc }}`, {{ metric.coach_rating }}, {{ metric.coach_importance }}, {{ metric.user_rating }}, `{{ metric.note }}`, `{{ user.firstname }}`);
             {% endfor %}
         </script>
         {% endif %}
