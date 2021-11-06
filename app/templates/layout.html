@@ -9,16 +9,12 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
         <!-- Mobile Bookmark Icon -->
         <link rel="apple-touch-icon" sizes="128x128" href="{{ url_for('static',filename='mobile-logo.png') }}">
-
-        <!-- Prompt to add to homescreen -->
-        <link rel="stylesheet" type="text/css" href="../../style/addtohomescreen.css">
-        <script src="../../src/addtohomescreen.js"></script>
-        <script>
-        addToHomescreen();
-        </script>
+        <link rel="apple-touch-startup-image" href="{{ url_for('static',filename='mobile-logo.png') }}">
         
 
         <!-- http://getbootstrap.com/docs/4.5/ -->
