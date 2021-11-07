@@ -5,16 +5,17 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, width=device-width">
-        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="theme-color" content="#2a2b2c">
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="mobile-web-app-capable" content="yes" />
         <meta name="mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
         <!-- Mobile Bookmark Icon -->
         <link rel="apple-touch-icon" sizes="128x128" href="{{ url_for('static',filename='mobile-logo.png') }}">
         <link rel="apple-touch-startup-image" href="{{ url_for('static',filename='mobile-logo.png') }}">
+
+        <!-- Web Manifest -->
+        <link rel="manifest" href="{{ url_for('static',filename='manifest.json') }}">
         
 
         <!-- http://getbootstrap.com/docs/4.5/ -->
