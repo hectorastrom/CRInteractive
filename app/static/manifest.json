@@ -20,7 +20,7 @@
     ],
     "start_url": "../",
     "background_color": "#ebeaea",
-    "display": "minimal-ui",
+    "display": "fullscreen",
     "scope": "..",
     "theme_color": "#2a2b2c",
     "description": "Tool to increase coach-athlete transparency at CRI.",
