@@ -122,12 +122,18 @@ html, body
 {
     height: 100%;
     font-family: Ubuntu;
+    background-color: rgb(42, 43, 44);
+}
+
+#body-white
+{
+    height:100%;
     background-color: rgb(235, 234, 234);
 }
 
 #main-content
 {
-    min-height: 100%;
+    height: 100%;
 }
 
 
@@ -406,10 +412,10 @@ header
 
 .footer-container
 {
-    padding: 15px;
+    padding-bottom: 5px;
     padding-left: 30px;
     padding-right: 30px;
-    background:#343a40;
+    background-color: rgb(42, 43, 44);
 }
 
 .footer

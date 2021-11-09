@@ -52,119 +52,120 @@
     </head>
 
     <body>
-        <nav class="navbar navbar-expand-md navbar-dark navbar-custom">
-            <a class="navbar-brand fonta" href="{{ url_for('index') }}">
-                <span class="brand">CRInteractive</span>
-            </a>
-            <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbar">
-                    {% if current_user.is_authenticated %}
-                        {% if not current_user.is_coach %}
+        <div id="body-white">
+            <nav class="navbar navbar-expand-md navbar-dark navbar-custom">
+                <a class="navbar-brand fonta" href="{{ url_for('index') }}">
+                    <span class="brand">CRInteractive</span>
+                </a>
+                <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbar">
+                        {% if current_user.is_authenticated %}
+                            {% if not current_user.is_coach %}
+                                <ul class="navbar-nav mr-auto mt-1">
+                                    <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+                                    <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('roster') }}">Team</a></li>
+                                    {% if not current_user.is_coxswain %}
+                                    <li class="nav-item hover-effect dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Log
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdown">
+                                        <a class="dropdown-item" href="{{ url_for('upload_twok') }}">Upload 2k</a>
+                                        <a class="dropdown-item" href="{{ url_for('upload_fivek') }}">Upload 5k</a>
+                                        </div>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                                <ul class="navbar-nav ml-auto mt-1">
+                                    <li class="nav-item dropdown dropleft profile-dropdown">
+                                        <a class="nav-link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <img width="35" height="35" src="{{ url_for('static',filename='white_usericon.png') }}">
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="profile-dropdown">
+                                            <a class="dropdown-item" href="{{ url_for('settings') }}">Settings</a>
+                                            <div class="dropdown-divider border-bottom border-dark" style="width:70%; margin-left: auto; margin-right: auto;"></div>
+                                            <a class="dropdown-item" href="{{ url_for('logout') }}"><span style="color:red;">Logout</span></a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            {%else%}
+                                <ul class="navbar-nav mr-auto mt-1">
+                                    <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+                                </ul> 
+    
+                                <ul class="navbar-nav ml-auto mt-1">
+                                    {% if current_user.is_head %}
+                                    <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('edit_roster') }}">Edit Roster</a></li>
+                                    {% endif %}
+                                    <li class="nav-item dropdown dropleft profile-dropdown">
+                                        <a class="nav-link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <img width="35" height="35" src="{{ url_for('static',filename='white_usericon.png') }}">
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="profile-dropdown">
+                                            <a class="dropdown-item" href="{{ url_for('settings') }}">Settings</a>
+                                            <div class="dropdown-divider border-bottom border-dark" style="width:70%; margin-left: auto; margin-right: auto;"></div>
+                                            <a class="dropdown-item" href="{{ url_for('logout') }}"><span style="color:red;">Logout</span></a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            {%endif%}
+                                
+                        {% else %}
                             <ul class="navbar-nav mr-auto mt-1">
                                 <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
-                                <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('roster') }}">Team</a></li>
-                                {% if not current_user.is_coxswain %}
-                                <li class="nav-item hover-effect dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Log
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdown">
-                                    <a class="dropdown-item" href="{{ url_for('upload_twok') }}">Upload 2k</a>
-                                    <a class="dropdown-item" href="{{ url_for('upload_fivek') }}">Upload 5k</a>
-                                    </div>
-                                </li>
-                                {% endif %}
                             </ul>
                             <ul class="navbar-nav ml-auto mt-1">
-                                <li class="nav-item dropdown dropleft profile-dropdown">
-                                    <a class="nav-link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img width="35" height="35" src="{{ url_for('static',filename='white_usericon.png') }}">
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="profile-dropdown">
-                                        <a class="dropdown-item" href="{{ url_for('settings') }}">Settings</a>
-                                        <div class="dropdown-divider border-bottom border-dark" style="width:70%; margin-left: auto; margin-right: auto;"></div>
-                                        <a class="dropdown-item" href="{{ url_for('logout') }}"><span style="color:red;">Logout</span></a>
-                                    </div>
-                                </li>
+                                <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('search_code') }}">Register</a></li>
+                                <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
                             </ul>
-                        {%else%}
-                            <ul class="navbar-nav mr-auto mt-1">
-                                <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
-                            </ul> 
-
-                            <ul class="navbar-nav ml-auto mt-1">
-                                {% if current_user.is_head %}
-                                <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('edit_roster') }}">Edit Roster</a></li>
-                                {% endif %}
-                                <li class="nav-item dropdown dropleft profile-dropdown">
-                                    <a class="nav-link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img width="35" height="35" src="{{ url_for('static',filename='white_usericon.png') }}">
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="profile-dropdown">
-                                        <a class="dropdown-item" href="{{ url_for('settings') }}">Settings</a>
-                                        <div class="dropdown-divider border-bottom border-dark" style="width:70%; margin-left: auto; margin-right: auto;"></div>
-                                        <a class="dropdown-item" href="{{ url_for('logout') }}"><span style="color:red;">Logout</span></a>
-                                    </div>
-                                </li>
-                            </ul>
-                        {%endif%}
-                            
-                    {% else %}
-                        <ul class="navbar-nav mr-auto mt-1">
-                            <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
-                        </ul>
-                        <ul class="navbar-nav ml-auto mt-1">
-                            <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('search_code') }}">Register</a></li>
-                            <li class="nav-item hover-effect"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
-                        </ul>
-                    {% endif %}
-            </div>
-        </nav>
-        
-        <header>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-                {% for category, message in messages %}
-                    {% if category == "error" %}
-                      <div class = "alert alert-danger alter-dismissable flash fade show" role = "alert">
-                          <strong>Error: </strong>{{ message }}
-                          <button type = "button" class = "close" data-dismiss = "alert">
-                              <span aria-hidden = "true">&times;</span>
-                          </button>
-                      </div>
-                    {% elif category == "success" %}
-                    <div class = "alert alert-success alter-dismissable flash fade show" role = "alert">
-                          <strong>Success! </strong>{{ message }}
-                          <button type = "button" class = "close" data-dismiss = "alert">
-                              <span aria-hidden = "true">&times;</span>
-                          </button>
-                     </div>
-                    {% else %}
-                        <div class = "alert alert-info alter-dismissable flash fade show" role = "alert">
-                            {{ message }}
-                            <button type = "button" class = "close" data-dismiss = "alert">
-                                <span aria-hidden = "true">&times;</span>
-                            </button>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-          {% endif %}
-        {% endwith %}
-        </header>
-        
-        <main class="container p-5" id="main-content">
-            {% block main %}{% endblock %}
-        </main>
-
-        <footer>
-            <div class="footer-container footer">
-                <p>Copyright &copy; 2021 CRInterative. All rights reserved.</p>
-                <p>Created by Albert Astrom and Hector Astrom.</p>
-            </div>
-        </footer>
-
+                        {% endif %}
+                </div>
+            </nav>
+            
+            <header>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                    {% for category, message in messages %}
+                        {% if category == "error" %}
+                          <div class = "alert alert-danger alter-dismissable flash fade show" role = "alert">
+                              <strong>Error: </strong>{{ message }}
+                              <button type = "button" class = "close" data-dismiss = "alert">
+                                  <span aria-hidden = "true">&times;</span>
+                              </button>
+                          </div>
+                        {% elif category == "success" %}
+                        <div class = "alert alert-success alter-dismissable flash fade show" role = "alert">
+                              <strong>Success! </strong>{{ message }}
+                              <button type = "button" class = "close" data-dismiss = "alert">
+                                  <span aria-hidden = "true">&times;</span>
+                              </button>
+                         </div>
+                        {% else %}
+                            <div class = "alert alert-info alter-dismissable flash fade show" role = "alert">
+                                {{ message }}
+                                <button type = "button" class = "close" data-dismiss = "alert">
+                                    <span aria-hidden = "true">&times;</span>
+                                </button>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+              {% endif %}
+            {% endwith %}
+            </header>
+            
+            <main class="container p-5" id="main-content">
+                {% block main %}{% endblock %}
+            </main>
+    
+            <footer>
+                <div class="footer-container footer">
+                    <p>Copyright &copy; 2021 CRInterative. All rights reserved.</p>
+                    <p>Created by Albert Astrom and Hector Astrom.</p>
+                </div>
+            </footer>
+        </div>
     </body>
    
 </html>
