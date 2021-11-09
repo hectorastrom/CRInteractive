@@ -125,15 +125,9 @@ html, body
     background-color: rgb(235, 234, 234);
 }
 
-#body-white
-{
-    height:100%;
-    background-color: rgb(235, 234, 234);
-}
-
 #main-content
 {
-    height: 100%;
+    min-height: 100%;
 }
 
 
@@ -415,7 +409,7 @@ header
     padding: 15px;
     padding-left: 30px;
     padding-right: 30px;
-    background-color: rgb(42, 43, 44);
+    background:#343a40;
 }
 
 .footer
