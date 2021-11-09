@@ -133,7 +133,7 @@ html, body
 
 #main-content
 {
-    height: 90%;
+    height: 100%;
 }
 
 
@@ -409,14 +409,9 @@ header
     border-width: 1.5px;
 }
 
-#footer-spacer
-{
-    height:3vh;
-}
 
 .footer-container
 {
-    padding-top: 15px;
     padding-bottom: 5px;
     padding-left: 30px;
     padding-right: 30px;
