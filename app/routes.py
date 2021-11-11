@@ -177,6 +177,7 @@ def profile(firstname, id):
                 current_user.pinged = True
                 db.session.commit()
                 flash("Review has been requested.", "success")
+                return redirect('')
             else:
                 requested_metric = Metric.query.filter(Metric.user_id == id, Metric.tag == request.form.get("form_identifier")).first()
                 if not requested_metric:
@@ -186,14 +187,14 @@ def profile(firstname, id):
                 requested_metric.has_update = False
                 db.session.commit()
                 flash(f"You may now view coach's rating for {requested_metric.name}.", "success")
-
-            return redirect('#')
+                return redirect('')
+        # If the user is a coach: 
         else:
             if request.form.get("form_identifier") == "silence":
                 user.pinged = False
                 db.session.commit()
                 flash("Request has been silenced.", "success")
-                return redirect('#')
+                return redirect('')
             else:
                 # Get the metric with the name of the form identifier that was submitted
                 updated_metric = Metric.query.filter(Metric.user_id == id, Metric.tag == request.form.get("form_identifier")).first()
@@ -201,12 +202,10 @@ def profile(firstname, id):
                 if not updated_metric:
                     flash("Problem submitting form. Please try again.", "error")
                     return redirect(request.url)
-
                 note = request.form.get(f"{updated_metric.tag}_coach_notes").strip()
                 if "`" in note:
                     flash(f"Note for {updated_metric.name} may not contain the character `.", "error")
                     return redirect(request.url)
-
                 updated_metric.coach_rating = request.form.get(f"{updated_metric.tag}_coach_rating")
                 updated_metric.coach_importance = request.form.get(f"{updated_metric.tag}_coach_importance")
                 updated_metric.note = note
@@ -216,7 +215,7 @@ def profile(firstname, id):
                 updated_metric.has_update = True
                 db.session.commit()
                 flash(f"Updated {updated_metric.name} for {user.firstname}.", "success")
-                return redirect('#')
+                return redirect('')
     else:
         image_file = url_for('static', filename='profile_pics/' + user.image_file)
         twok = Twok.query.filter_by(user_id=id).order_by("seconds").first()

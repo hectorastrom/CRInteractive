@@ -154,9 +154,11 @@
         {% endwith %}
         </header>
         
-        <main class="container p-5" id="main-content">
-            {% block main %}{% endblock %}
-        </main>
+        <div id="bg-white">
+            <main class="container p-5" id="main-content">
+                {% block main %}{% endblock %}
+            </main>
+        </div>
 
         <footer>
             <div class="footer-container footer">

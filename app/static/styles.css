@@ -122,6 +122,12 @@ html, body
 {
     height: 100%;
     font-family: Ubuntu;
+    background-color: rgb(42, 43, 44);
+}
+
+div#bg-white
+{
+    min-height: 100%;
     background-color: rgb(235, 234, 234);
 }
 
