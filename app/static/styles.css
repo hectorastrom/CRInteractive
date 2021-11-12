@@ -134,6 +134,7 @@ div#bg-white
 #main-content
 {
     min-height: 100%;
+    position: relative;
 }
 
 
@@ -637,6 +638,8 @@ header
 {
     border:none;
     text-decoration: none;
+    position: absolute;
+    top:0;
 }
 
 #back-button span

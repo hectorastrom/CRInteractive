@@ -4,9 +4,9 @@
 
 {% block main %}
     {% if user.id != current_user.id %}
-        <a class="p-3" href="{{ url_for('roster')}}" id="back-button"><span>To Team</span></a>
+        <a class="p-3" href="{{ url_for('roster')}}" id="back-button"><span>Back</span></a>
     {% endif %}
-    <div class="content-section"> 
+    <div class="content-section" style="margin-top: 5px;"> 
         {% if user == current_user and ((not current_user.is_coxswain and current_user.side == "none") or not current_user.grade) %}
             <div style = "position:relative; margin-bottom: 40px;" class = "alert alert-info show">
                 Your account isn't fully set up yet. Head to <a href="{{ url_for('settings') }}">Settings</a> to customize your profile.

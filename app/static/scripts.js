@@ -216,7 +216,7 @@ function drawCoachBellCurve(has_update, metric_tag, metric_name, metric_desc, co
     if (!has_update)
     {
     user_dot_html = `
-    <a data-toggle="popover" data-trigger="hover" data-content="User Rating" data-placement="top">
+    <a data-toggle="popover" data-trigger="hover" data-content="User's Rating" data-placement="top">
         <circle
             r="6"
             cy="0"
