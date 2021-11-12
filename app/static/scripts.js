@@ -4,7 +4,10 @@ $(document).ready(function(){
     $('[data-toggle="popover"]').popover()
 });
 
-
+function goBack()
+{
+    window.history.back()
+}
 
 // Fade Flashes
 setTimeout(function() {

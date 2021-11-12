@@ -3,7 +3,8 @@
 {% block title %}Profile{% endblock %}
 
 {% block main %}
-    <div class="content-section">
+    <button onclick="goBack()" class ="btn pt-3 pl-3" style="color:rgb(6,69,173); text-decoration: underline; font-size: larger;">Go Back</button>
+    <div class="content-section"> 
         {% if user == current_user and ((not current_user.is_coxswain and current_user.side == "none") or not current_user.grade) %}
             <div style = "position:relative; margin-bottom: 40px;" class = "alert alert-info show">
                 Your account isn't fully set up yet. Head to <a href="{{ url_for('settings') }}">Settings</a> to customize your profile.
