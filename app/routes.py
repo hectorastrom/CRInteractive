@@ -307,6 +307,7 @@ def upload_fivek():
 @app.route('/roster', strict_slashes=False)
 @login_required
 def roster():
+    # Coaches renders roster
     if current_user.is_coach:
         users = User.query.filter(User.team==current_user.team, User.is_coach == False, User.deleted == False).order_by(User.pinged.desc(), User.lastname).all()
         # Athletes is a dictionary of all users on the coach's roster and their status of if all metrics are set.
@@ -327,6 +328,7 @@ def roster():
         athletes = sorted(athletes.items(), key=lambda x: x[1])
             
         return render_template('roster.html', athletes=athletes)
+    # Rowers render team
     else:
         users = User.query.filter(User.team==current_user.team, User.is_coach == False, User.deleted == False).order_by(User.lastname).all()
         return render_template("team.html", users=users)

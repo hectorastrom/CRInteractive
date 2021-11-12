@@ -635,8 +635,14 @@ header
 
 #back-button
 {
-    color:rgb(6,69,173); 
-    text-decoration: underline; 
+    border:none;
+    text-decoration: none;
+}
+
+#back-button span
+{
+    color:rgb(6,69,173) !important; 
+    text-decoration: underline rgb(6,69,173);
     font-size: larger;
 }
 
