@@ -337,6 +337,11 @@ def roster():
 @app.route('/edit-roster', methods=["GET", "POST"], strict_slashes=False)
 @login_required
 def edit_roster():
+    # List of team names
+    team_names = teams.keys()
+    # Valid Role inputs
+    valid_roles = ["rower", "coxswain", "coach", "hcoach"]
+
     if request.method == "POST":
         form_identifier = request.form.get("form_identifier")
         if form_identifier:
@@ -345,8 +350,17 @@ def edit_roster():
                 user.firstname = request.form.get("firstname")
                 user.lastname = request.form.get("lastname")
                 role = request.form.get("role")
+                if not role or role not in valid_roles:
+                    flash("Invalid input for role.", "error")
+                    return redirect("")
                 chooseRole(user, role)
-                user.team = request.form.get("team")
+
+                team = request.form.get("team")
+                if not team or team not in team_names:
+                    flash("Invalid input for team.", "error")
+                    return redirect("")
+                user.team = team
+
                 db.session.commit()
                 flash(f"Updated Information for {user.firstname}.", "success")
                 return redirect(request.url)
@@ -373,8 +387,14 @@ def edit_roster():
             if not role:
                 flash("Must specify value for role.", "error")
                 return redirect("")
+            if role not in valid_roles:
+                flash("Invalid input for role.", "error")
+                return redirect("")
             if not team:
                 flash("Must specify value for team.", "error")
+                return redirect("")
+            if team not in team_names:
+                flash("Invalid input for team.", "error")
                 return redirect("")
             user, message = create_account(firstname, lastname, email, role, team)
             if message == "exists":
@@ -386,15 +406,16 @@ def edit_roster():
                 email_links(email)
                 if message == "readded":
                     flash(f"User for {firstname} has been re-activated and an email has been sent!", "success")
-                else:
+                elif message == "added":
                     flash(f"User for {firstname} has been created and an email has been sent!", "success")
+                else:
+                    flash("An error has occurred when creating the account")
         return redirect("")
     else:
         # Only head coaches have access to the edit-roster page
         if current_user.is_coach and current_user.is_head:
             users = User.query.filter(User.password != "not set", User.deleted == False).order_by(User.is_coach.desc(), User.is_head.desc(), User.id).all()
             pending = User.query.filter(User.password == "not set", User.deleted == False).all()
-            team_names = teams.keys()
             return render_template('edit_roster.html', users=users, pending=pending, teams=team_names)
         else:
             flash("You do not have permissions to access that page.", "error")

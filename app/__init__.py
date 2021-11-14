@@ -22,7 +22,7 @@ if is_production:
 else: 
     app.config['SECRET_KEY'] = 'alksdjfasdfikluwenfdsfuje'
 
-# Teams
+# Teams and abbreviations, abbreviations must be lowercase
 mvabrv = ["mv"]
 flabrv = ["fl", "l"]
 teams = {"Men's Varsity": mvabrv, "Fall Launchpad": flabrv}

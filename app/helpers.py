@@ -3,10 +3,9 @@ from flask import url_for, flash, redirect
 from flask.helpers import url_for
 from flask_login import current_user
 from functools import wraps
-from app import db, is_production
+from app import db, is_production, teams
 from app.models import User
 import os
-import csv
 import smtplib
 from email.message import EmailMessage
 from email.utils import formataddr
@@ -22,6 +21,9 @@ def coach_required(f):
     return decorated_function
 
 def convert_from_seconds(total, form):
+    """
+    Takes in a total amount of seconds from the database and a form to be converted to (split or normal minutes:seconds) and returns teh final string.
+    """
     if form == "split":
         split_seconds = total/4
         minutes = int(split_seconds/60)
@@ -35,18 +37,32 @@ def convert_from_seconds(total, form):
     return str(minutes) + ":" + str(seconds)
 
 def chooseTeam(input:str) -> str:
+    """
+    Iterates through the teams dictionary in __init__.py to look for valid team entries.
+    Any abbreviations or proper spellings of team from teams will return the proper team.
+    A string with the final team name as will be stored in the database is returned.
+    """
     input = input.lower().strip()
-    if input == "mv" or input == "men's varsity":
-        team = "Men's Varsity"
-    elif input == "l" or input == "fl" or input == "launchpad" or input == "fall launchpad":
-        team = "Fall Launchpad"
-    elif input != "men's varsity" and input != "fall launchpad":
-        # Unrecognized team names default to launchpad
-        team = "Fall Launchpad"
+    # Iterates through possible teams in __init__.py
+    for team in teams:
+        # If the input is in the list of abbreviations for a team
+        # or is equal to the name of the actual team, assign them
+        # to that team
+        if input in teams[team] or input == team:
+            user_team = team
+            break
+        else: 
+            # Unrecognized team names return error, will only happen for command inputs which aren't checked like edit-roster is
+            user_team = "error"
     
-    return team
+    return user_team
 
 def chooseRole(user:User, input:str):
+    """
+    Chooses a role for a user and automatically updates the database to assign them that role.
+    Valid Inputs include 'cox' 'coxswain' 'coach' 'hcoach' or anything else which will become a rower.
+    """
+    input = input.lower().strip()
     if input == "coxswain" or input == "cox":
         user.is_coxswain = True
         user.is_coach = False
@@ -63,14 +79,26 @@ def chooseRole(user:User, input:str):
         user.is_coxswain = False
         user.is_coach = False
         user.is_head = False
+
     db.session.commit()
 
 
 def create_account(firstname, lastname, email, role, team):
+    """
+    Takes in a firstname, lastname, email, role (cox, coxswain, hcoach, coach, or anything else => rower), and team (team or abbreviation from teams in __init__.py) and does one of 3 things with:
+    1. If the account with that email exists and is active, it returns the exiting user and a message that says it exists.
+    2. If the account with that email exists and is disabled, it returns the existing user and reactivates the account and says readded.
+    3. If the account does not exist, it creates the account, adds it to the database, and returns that it was added. NO EMAIL IS SENT.
+    """
     firstname = firstname.capitalize().strip()
     lastname = lastname.capitalize().strip()
     email = email.lower().strip()
     role = role.lower().strip() 
+    # If the team is not valid, then it will end the function there and return error
+    team = chooseTeam(team)
+    if team == "error":
+        print("Invalid team input")
+        return (None, "error")
     existing_user = User.query.filter_by(email=email).first()
     if existing_user and not existing_user.deleted:
         return (existing_user, "exists")
@@ -84,12 +112,13 @@ def create_account(firstname, lastname, email, role, team):
         existing_user.firstname = firstname
         existing_user.lastname = lastname
         existing_user.password = "not set"
-        existing_user.team = chooseTeam(team)
+        # Team is already the result of chooseTeam(team)
+        existing_user.team = team
         chooseRole(existing_user, role)
         db.session.commit()
         return(existing_user, "readded")
     else:
-        team = chooseTeam(team)
+        team = team
         unique_id = randint(10000000, 99999999)
         while User.query.filter_by(uuid=str(unique_id)).first():
             unique_id = randint(10000000, 99999999)
@@ -101,6 +130,9 @@ def create_account(firstname, lastname, email, role, team):
         return (user, "added")
 
 def create_email(user:User):
+    """
+    Takes in a user and creates a single email to be sent to the user.
+    """
     EMAIL_ADDRESS = "crinteractivebot@gmail.com"
 
     msg = EmailMessage()
@@ -207,6 +239,9 @@ def create_email(user:User):
     return msg
 
 def email_links(messages):
+    """
+    Takes in a LIST of emails and iterates through them, sending the emails using the information in the email object.
+    """
     if is_production:
         EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
         EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
