@@ -426,7 +426,45 @@ def edit_roster():
 @login_required
 def edit_metrics():
     if request.method == "POST":
-        pass
+        # Format of form_identifier: ('c' or 'r' for cox or rower)('e' or 'a' for edit or add)(metric tag, only for editing metrics)
+        action = request.form.get("form_identifier")
+        name = request.form.get("name")
+        if not name: 
+            flash("Metrics must have a name.")
+            return redirect("")
+        desc = request.form.get("desc").strip()
+
+        # Setting who the metric is for
+        if action[0] == "r":
+            for_cox = False
+        else:
+            for_cox = True
+
+        # If the action is e for edit then we edit the current empirical metric
+        if action[1] == "e":
+            tag = action[2:]
+            metric = EmpMetrics.query.filter(EmpMetrics.tag == tag, EmpMetrics.team == current_user.team, for_cox=for_cox)
+
+            active = bool(request.form.get("active"))
+            metric.name = name
+            metric.desc = desc
+            metric.active = active
+
+            db.session.commit()
+
+
+        # If the action is a for add then we create a new empirical metric
+        elif action[1] == "a":
+            # Need to have temp tag while we create the metric so we know what the id of the new metric is
+            tag = "temp"
+            new_metric = EmpMetrics(tag=tag, name=name, desc=desc, team=current_user.team, active=True, for_cox=for_cox)
+            # Tags are set to be the first character of the metric name and their id
+            new_metric.tag = (name[0] + str(new_metric.id))
+
+            db.session.add(new_metric)
+            db.session.commit()
+
+
     elif request.method == "GET":
         if current_user.is_coach and current_user.is_head:
             team = current_user.team
