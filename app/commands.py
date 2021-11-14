@@ -38,8 +38,10 @@ def add_user(firstname, lastname, email, role, team):
         print("Added", user, "to database.")
     elif message == "readded":
         print("Re-activated", user, "in database.")
-    else:
+    elif message == "exists":
         print("User with email", email, "already exists:", user)
+    else:
+        print("Error occured while trying to add user.")
 
 
 
