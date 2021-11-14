@@ -160,7 +160,8 @@ def settings():
         db.session.commit()
         return redirect(url_for('index'))
     else:
-        return render_template("settings.html", teams=teams, possible_feet=possible_feet, possible_inches=possible_inches, grades=grades, user_feet = user_feet, user_inches = user_inches)
+        team_names = teams.keys()
+        return render_template("settings.html", teams=team_names, possible_feet=possible_feet, possible_inches=possible_inches, grades=grades, user_feet = user_feet, user_inches = user_inches)
     
 
 @app.route('/profile/<firstname>:<id>', methods=["GET", "POST"], strict_slashes=False)
@@ -393,7 +394,8 @@ def edit_roster():
         if current_user.is_coach and current_user.is_head:
             users = User.query.filter(User.password != "not set", User.deleted == False).order_by(User.is_coach.desc(), User.is_head.desc(), User.id).all()
             pending = User.query.filter(User.password == "not set", User.deleted == False).all()
-            return render_template('edit_roster.html', users=users, pending=pending, teams=teams)
+            team_names = teams.keys()
+            return render_template('edit_roster.html', users=users, pending=pending, teams=team_names)
         else:
             flash("You do not have permissions to access that page.", "error")
             return redirect(url_for('index'))
