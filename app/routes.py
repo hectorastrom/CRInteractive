@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, redirect, request
 from flask.helpers import url_for
 from app import app, db, bcrypt, teams, is_production
 from app.forms import RegistrationForm, LoginForm, TwokForm, CoachRegistrationForm
-from app.models import User, Twok, Fivek, Metric
+from app.models import EmpMetrics, User, Twok, Fivek, Metric
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import date, datetime
 from random import randint
@@ -397,7 +397,27 @@ def edit_roster():
         else:
             flash("You do not have permissions to access that page.", "error")
             return redirect(url_for('index'))
-                
+
+# DOWNGRADE MIGRATION BEFORE YOU PUSH TO MAIN!!! -------------------------------------------------------------------------
+@app.route('/edit-metrics', methods=["GET", "POST"], strict_slashes=False)
+@login_required
+def edit_metrics():
+    if request.method == "POST":
+        pass
+    elif request.method == "GET":
+        if current_user.is_coach and current_user.is_head:
+            team = current_user.team
+            # Getting all kinds of metrics seperated into 4 lists. All from current team
+            rower_active = EmpMetrics.query.filter(EmpMetrics.for_cox == False, EmpMetrics.active == True, EmpMetrics.team == team).all()
+            rower_disabled = EmpMetrics.query.filter(EmpMetrics.for_cox == False, EmpMetrics.active == False, EmpMetrics.team == team).all()
+            cox_active = EmpMetrics.query.filter(EmpMetrics.for_cox == True, EmpMetrics.active == True, EmpMetrics.team == team).all()
+            cox_disabled = EmpMetrics.query.filter(EmpMetrics.for_cox == True, EmpMetrics.active == False, EmpMetrics.team == team).all()
+
+            return render_template("edit_metrics.html", rower_active=rower_active, rower_disabled=rower_disabled, cox_active=cox_active, cox_disabled=cox_disabled)
+        else:
+            flash("You do not have permissions to access that page.", "error")
+            return redirect(url_for('index'))
+
 if not is_production:
     @app.route('/aboutus', strict_slashes=False)
     def about_us():

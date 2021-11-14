@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}Edit Metrics{% endblock %}
+
+{% block main %}
+
+<h1>Metrics for {{ current_user.team }}</h1>
+<button onclick="rowerMetrics()" class="btn btn-secondary">Rower Metrics</button>
+<button onclick="coxMetrics()" class="btn btn-secondary">Coxswain Metrics</button>
+<table class="table table-responsive table-striped table-bordered w-100 d-block d-md-table">
+    <thead>
+        <tr>
+            <th>Metric Tag</th>
+            <th>Metric Name</th>
+            <th>Metric Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+    
+    
+</table>
+
+{% endblock main %}

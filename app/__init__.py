@@ -22,11 +22,10 @@ if is_production:
 else: 
     app.config['SECRET_KEY'] = 'alksdjfasdfikluwenfdsfuje'
 
-# Coach keys
-valid_keys = ["ABC123"]
-
 # Teams
-teams = ["Men's Varsity", "Fall Launchpad"]
+mvabrv = ["mv"]
+flabrv = ["fl", "l"]
+teams = {"Men's Varsity": mvabrv, "Fall Launchpad": flabrv}
 
 # To hash do bycrypt.generate_password_hash(password).decode('utf-8')
 # To check password do bycrypt.check_password_hash(hashed_password, password)

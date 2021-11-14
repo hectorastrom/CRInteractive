@@ -16,7 +16,10 @@ In the future, athletes will be able to share their condition: how they slept la
 ### `flask drop_tables`
 - Drops all tables in database (users, workouts, and metrics) after prompting the user to confirm they want to drop the tables.
 ### `flask add_user 'firstname' 'lastname' 'email' 'role' 'team'`
-- Using the provided inputs, add_user creates a user if they don't already exist. If they already exist and are not deleted, it will print the information of the existing user. If they already exist and are deleted it'll reactive the user and print their information. If the user does not exist it will add them BUT WILL NOT SEND AN EMAIL TO THEM.
+- Using the provided inputs, add_user creates a user if they don't already exist. If they already exist and are not deleted, it will print the information of the existing user. If they already exist and are deleted it'll reactive the user and print their information. If the user does not exist it will add them BUT WILL NOT SEND AN EMAIL TO THEM. 
+- The valid inputs for role are "cox", "coxswain", "coach", "hcoach". Any other input for role will become a rower
+- The valid inputs for team are "men's varsity", "mv", "l", "fl", "fall launchpad". Multiple word teams must be put in "quotes" as input.
+- All inputs are defaulted to lowercase and are stripped for easier inputs.
 ### `flask remove_user 'email'`
 - Removes user with the email provided, asking for confirmation before DELETING (not setting to deleted) the user.
 ### `flask query_user 'email'`
@@ -35,7 +38,7 @@ Commands to preface:
   - `flask db current` tells you the current migration file you are currently on
   - `flask db stamp head` skips all migrations up to the head and just stamps the head (most recent) migration as the one that is supposedly "active for the database". Try to avoid this but it can also solve some weird issues.
   
-  Important Note: Don't **EVER** run flask db migrate on the production server. This will generate a migration file that only exists on the emphermal file system of Heroku and cannot be accessed elsewhere (troubleshooting below in case you ever do). Also, don't upgrade the database on the local environment (VSCode) before pushing it to production); this will make it so the production server thinks its already upgraded which it might not have been. Instead, upgrade and test on local environment after pushing to production, and if there appears to be an issue just revert the change.
+  Important Note: Don't **EVER** run flask db migrate on the production server. This will generate a migration file that only exists on the emphermal file system of Heroku and cannot be accessed elsewhere (troubleshooting below in case you ever do). Also, don't upgrade the database on the local environment (VSCode) before pushing it to production; this will make it so the production server thinks its already upgraded which it might not have been. Instead, upgrade and test on local environment after pushing to production, and if there appears to be an issue just revert the change. I hypothesize that you can also just upgrade on local, make sure everything works, downgrade, and then push.
   
   ## Steps to upgrade the database on the live server: 
 1. Create new branch on VSCode with relevant name for database change

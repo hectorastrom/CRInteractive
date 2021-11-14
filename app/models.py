@@ -77,6 +77,15 @@ class Metric(db.Model):
     def __repr__(self):
         return f"Metric(Metric Name: 'f{self.name}', Coach Rating: '{self.coach_rating}', User Rating: '{self.user_rating}', User Importance: '{self.user_importance}', View Allowed: '{self.view_allowed}', Has Set: '{self.has_set}', user_id: '{self.user_id}', Note: '{self.note}')"
 
+class EmpMetrics(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    tag = db.Column(db.String(5), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
+    desc = db.Column(db.Text)
+    team = db.Column(db.String(20), nullable=False)
+    active = db.Column(db.Boolean, default=True)
+    for_cox = db.Column(db.Boolean, default=False)
+
 class Status(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     note = db.Column(db.Text)

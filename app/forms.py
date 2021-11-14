@@ -9,7 +9,6 @@ from app.models import User
 from datetime import date
 from wtforms.fields.html5 import DateField
 from flask_login import current_user
-from app import valid_keys
 
 import email_validator
 
