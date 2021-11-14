@@ -414,3 +414,10 @@ function searchTable(inputId, tableId)
         emptyMessage.style.display = "none"    
     }
 }
+
+// When button is pressed: rower button should turn into a success button and make the display of the table for rowers be block instead of none
+// Is a toggle so it will turn on display none and change it back to a primary if displayed again 
+function rowerMetrics()
+{
+
+}
