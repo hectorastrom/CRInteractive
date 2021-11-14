@@ -5,25 +5,149 @@
 {% block main %}
 
 <h1>Metrics for {{ current_user.team }}</h1>
-<button onclick="rowerMetrics()" class="btn btn-secondary">Rower Metrics</button>
-<button onclick="coxMetrics()" class="btn btn-secondary">Coxswain Metrics</button>
-<table class="table table-responsive table-striped table-bordered w-100 d-block d-md-table">
-    <thead>
-        <tr>
-            <th>Metric Tag</th>
-            <th>Metric Name</th>
-            <th>Metric Description</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-    
-    
-</table>
+<button id="erm" onclick="rowerMetrics()" class="btn btn-secondary">Rower Metrics</button>
+<button id="crm" onclick="coxMetrics()" class="btn btn-secondary">Coxswain Metrics</button>
+
+<div id="ermt">
+    <p>Inactive Metrics for Rowers</p>
+    <table class="table table-responsive table-striped table-bordered w-100 d-block d-md-table">
+        <thead>
+            <tr>
+                <th>Metric Tag</th>
+                <th>Metric Name</th>
+                <th>Metric Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    
+                </td>
+            </tr>
+        </tbody>
+        
+        
+    </table>
+    <p>Inactive Metrics for Rowers</p>
+    <table class="table table-responsive table-striped table-bordered w-100 d-block d-md-table">
+        <thead>
+            <tr>
+                <th>Metric Tag</th>
+                <th>Metric Name</th>
+                <th>Metric Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    
+                </td>
+            </tr>
+        </tbody>
+        
+        
+    </table>
+</div>
+
+<div id="crmt" class="inactivetab">
+    <p>Active metrics for Coxswains</p>
+    <table class="table table-responsive table-striped table-bordered w-100 d-block d-md-table">
+        <thead>
+            <tr>
+                <th>Metric Tag</th>
+                <th>Metric Name</th>
+                <th>Metric Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    
+                </td>
+            </tr>
+        </tbody>
+        
+        
+    </table>
+    <p>Inactive metrics for Coxswains</p>
+    <table class="table table-responsive table-striped table-bordered w-100 d-block d-md-table">
+        <thead>
+            <tr>
+                <th>Metric Tag</th>
+                <th>Metric Name</th>
+                <th>Metric Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    
+                </td>
+            </tr>
+        </tbody>
+        
+        
+    </table>
+</div>
+
+
+<script>
+    // When button is pressed: rower button should turn into a success button and make the display of the table for rowers be block instead of none
+    // Is a toggle so it will turn on display none and change it back to a primary if displayed again 
+    // CSS class called active that sets the display to block
+    // The function will check whether or not the table has that class in it and then make the button green it it's active and if it isn't active then it will have the button set to primary 
+    var rower_button = document.getElementById("erm");
+    var rower_table = document.getElementById("ermt");
+
+
+    if (!rower_table.classList.contains("inactivetab"))
+    {
+        rower_button.classList.remove("btn-secondary");
+        rower_button.classList.add("btn-success");
+    }
+
+    function rowerMetrics()
+    {
+        var button = document.getElementById("erm");
+        var table = document.getElementById("ermt");
+
+
+        if (!table.classList.contains("inactivetab"))
+        {
+            button.classList.remove("btn-success");
+            button.classList.add("btn-secondary");
+            table.classList.add("inactivetab");
+        }
+        else
+        {
+            button.classList.remove("btn-secondary");
+            button.classList.add("btn-success");
+            table.classList.remove("inactivetab");
+        }
+
+    }
+
+    function coxMetrics() 
+    {
+        var button = document.getElementById("crm");
+        var table = document.getElementById("crmt");
+
+
+        if (!table.classList.contains("inactivetab"))
+        {
+            button.classList.remove("btn-success");
+            button.classList.add("btn-secondary");
+            table.classList.add("inactivetab");
+        }
+        else
+        {
+            button.classList.remove("btn-secondary");
+            button.classList.add("btn-success");
+            table.classList.remove("inactivetab");
+        }
+
+    }
+
+</script>
 
 {% endblock main %}

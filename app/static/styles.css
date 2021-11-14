@@ -649,6 +649,12 @@ header
     font-size: larger;
 }
 
+.inactivetab
+{
+    display: none !important;
+}
+
+
 
 @font-face 
 {
