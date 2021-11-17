@@ -49,6 +49,22 @@ a:hover
     text-decoration: none;
 }
 
+.account
+{
+    color:rgba(197, 8, 40, 0.45);
+    transition: color .2s;
+    border-bottom: none;
+    font-weight: bolder;
+}
+
+.account:hover
+{
+    color:rgb(177, 23, 49);
+    -webkit-transition: .2s;
+    transition: color .2s;
+    border-bottom: none;
+}
+
 .dropdown-item, .nav-link, .navbar-brand, .dropdown-item:hover, .nav-link:hover, .navbar-brand:hover
 {
     border:none;      

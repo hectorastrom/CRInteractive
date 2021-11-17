@@ -22,7 +22,7 @@
                     {% for item in athletes %}
                     <tr>
                         <td>
-                            <a href="{{ url_for('profile', firstname=item.0.firstname.lower(), id=item.0.id) }}">
+                            <a class="account" href="{{ url_for('profile', firstname=item.0.firstname.lower(), id=item.0.id) }}">
                             {{ item.0.firstname + " " + item.0.lastname }}
                             </a>
                         </td>
