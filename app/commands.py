@@ -3,7 +3,7 @@ import os
 from flask.cli import with_appcontext
 from random import randint
 from app import db, is_production
-from app.models import User, Metric, Twok, Fivek
+from app.models import EmpMetrics, User, Metric, Twok, Fivek
 from app.helpers import create_account, create_email, email_links, chooseTeam
 
 @click.command(name='create_tables')
@@ -153,3 +153,24 @@ def send_emails():
         print("0 new users to email.\n")
     print("Finished 'send_emails' command.")
 
+@click.command(name='create_empmetric')
+@click.argument("tag")
+@click.argument("name")
+@click.argument("team")
+@with_appcontext
+def create_empmetric(tag, name, team):
+    """
+    Function just for testing purposes until a dedicated interface is developed for creating empirical metrics. Takes in tag, name and team.
+    """
+    if team.lower() == "mv" or "men's varsity":
+        team = "Men's Varsity"
+    elif team.lower() == "l" or "fl" or "fall launchpad":
+        team = "Fall Launchpad"
+    existing_metric = EmpMetrics.query.filter(EmpMetrics.tag==tag, EmpMetrics.team==team).first()
+    if existing_metric:
+        print(f"A metric on {team} with tag {tag} already exists.")
+    else:
+        new_metric = EmpMetrics(tag=tag, name=name, desc="Test description", team=team)
+        db.session.add(new_metric)
+        db.session.commit()
+        print(f"Added {new_metric} to emperical metric list")

@@ -261,14 +261,14 @@ class MetricText():
         self.tag = tag
         self.name = name
         self.desc = desc
-        
+
     def __repr__(self) -> str:
         return f'*Tag: {self.tag}, Name: {self.name}, Description: {self.desc}*'
 
 
 class MetricObj():
     def __init__(self, tag:str, name:str, desc:str, coach_rating:int, coach_importance:int, user_rating:int, view_allowed:bool, has_set:bool, has_update:bool, note:str) -> None:
-        self.tag = tag
+        self.tag = tag  
         self.name = name
         self.desc = desc
         self.note = note
@@ -280,9 +280,11 @@ class MetricObj():
         self.has_update = has_update
 
     def __repr__(self) -> str:
-        return f"""Metric {self.tag}
+        return f"""
+        Metric {self.tag}
         Name: {self.name}
         Note: '{self.note}'
         CoachRating: {self.coach_rating}
         CoachImp: {self.coach_importance}
-        UserRating: {self.user_rating}"""
+        UserRating: {self.user_rating}
+        """

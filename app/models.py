@@ -83,17 +83,19 @@ class Metric(db.Model):
 # do not store redundant information such as name, desc, or tag
 class Entry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    coach_rating = db.Column(db.Integer, default=50)
-    coach_importance = db.Column(db.Integer, default=5)
-    user_rating = db.Column(db.Integer, default=50)
+    coach_rating = db.Column(db.Integer, nullable=False)
+    coach_importance = db.Column(db.Integer, nullable=False)
+    user_rating = db.Column(db.Integer)
     view_allowed = db.Column(db.Boolean, default=False)
-    has_update = db.Column(db.Boolean, default=True)
     date_created = db.Column(db.DateTime, default = datetime.datetime.utcnow)
+    coach_id = db.Column(db.Integer)
+    note = db.relationship('EntryNote', backref='entry', lazy=True)
     empmetric_id = db.Column(db.Integer, db.ForeignKey('empmetrics.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
-        return f"""Entry({self.id})
+        return f"""
+        Entry({self.id})
         CoachRating: {self.coach_rating}
         CoachImp: {self.coach_importance}
         UserRating: {self.user_rating}
@@ -109,14 +111,15 @@ class EntryNote(db.Model):
     entry_id = db.Column(db.Integer, db.ForeignKey('entry.id'), nullable=False)
 
     def __repr__(self) -> str:
-        return f"""EntryNote({self.id})
+        return f"""
+        EntryNote({self.id})
         Content: {self.content}
         EntryId: {self.entry_id}
         """
 
 class EmpMetrics(db.Model):
     __tablename__ = 'empmetrics'
-    
+
     id = db.Column(db.Integer, primary_key=True)
     tag = db.Column(db.String(5), nullable=False)
     name = db.Column(db.String(50), nullable=False)
@@ -127,7 +130,8 @@ class EmpMetrics(db.Model):
     entries = db.relationship('Entry', backref='empmetrics', lazy=True)
 
     def __repr__(self):
-        return f"""EmpMetric({self.id})
+        return f"""
+        EmpMetric({self.id})
         Tag: {self.tag}
         Name: {self.name}
         Description: '{self.desc}'

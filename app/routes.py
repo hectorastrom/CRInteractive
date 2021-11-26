@@ -1,12 +1,14 @@
 from flask import render_template, url_for, flash, redirect, request
+from flask.ctx import copy_current_request_context
 from flask.helpers import url_for
+from werkzeug.datastructures import ContentRange
 from app import app, db, bcrypt, teams, is_production
 from app.forms import RegistrationForm, LoginForm, TwokForm
 from app.models import User, Twok, Fivek, Metric, EmpMetrics, Entry, EntryNote
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import date, datetime
 from random import randint
-from app.helpers import convert_from_seconds, coach_required, create_account, create_email, email_links, chooseRole
+from app.helpers import MetricObj, convert_from_seconds, coach_required, create_account, create_email, email_links, chooseRole
 from app.static.metrics import rower_metric_list, cox_metric_list
 
 
@@ -179,42 +181,60 @@ def profile(firstname, id):
                 flash("Review has been requested.", "success")
                 return redirect('')
             else:
-                requested_metric = Metric.query.filter(Metric.user_id == id, Metric.tag == request.form.get("form_identifier")).first()
-                if not requested_metric:
+                updated_metric = EmpMetrics.query.filter(EmpMetrics.tag == request.form.get("form_identifier"), EmpMetrics.team == current_user.team).first()
+                updated_entry = Entry.query.filter(Entry.empmetric_id == updated_metric.id, Entry.user_id == user.id).order_by(Entry.id.desc()).first()
+                # If nothing was found, which could happen if the user inspects element, then it won't continue
+                if not updated_entry:
                     flash("Problem submitting form. Please try again.", "error")
-                    return redirect(request.url)
-                requested_metric.user_rating = request.form.get(f"{requested_metric.tag}_user_rating")
-                requested_metric.has_update = False
+                    return redirect('')
+                user_rating = int(request.form.get(f"{updated_metric.tag}_user_rating"))
+                if not user_rating or user_rating < 0 or user_rating > 100:
+                    flash("Invalid value for user rating", "error")
+                    return redirect('')
+                updated_entry.user_rating = user_rating
                 db.session.commit()
-                flash(f"You may now view coach's rating for {requested_metric.name}.", "success")
+                flash(f"You may now view coach's rating for {updated_metric.name}.", "success")
                 return redirect('')
-        # If the user is a coach: 
-        else:
+                # STILL NEED TO MAKE POST ROUTING FOR COACHES AND DETECT IF THERE'S A USER RATING IN ORDER TO SET HAS UPDATE IN COACH AND USER PROFILE
+        elif current_user.is_coach:
             if request.form.get("form_identifier") == "silence":
                 user.pinged = False
                 db.session.commit()
                 flash("Request has been silenced.", "success")
                 return redirect('')
             else:
-                # Get the metric with the name of the form identifier that was submitted
-                updated_metric = Metric.query.filter(Metric.user_id == id, Metric.tag == request.form.get("form_identifier")).first()
-                # If nothing was found, which could happen if the user inspects element, then it won't continue
-                if not updated_metric:
-                    flash("Problem submitting form. Please try again.", "error")
-                    return redirect(request.url)
-                note = request.form.get(f"{updated_metric.tag}_coach_notes").strip()
-                if "`" in note:
-                    flash(f"Note for {updated_metric.name} may not contain the character `.", "error")
-                    return redirect(request.url)
-                updated_metric.coach_rating = request.form.get(f"{updated_metric.tag}_coach_rating")
-                updated_metric.coach_importance = request.form.get(f"{updated_metric.tag}_coach_importance")
-                updated_metric.note = note
-                updated_metric.view_allowed = bool(request.form.get(f"{updated_metric.tag}_view_allowed"))
-                updated_metric.has_set = True
-                # When there's an update available, a user should have to indicate their rating
-                updated_metric.has_update = True
+                reference_metric = EmpMetrics.query.filter(EmpMetrics.tag == request.form.get("form_identifier"), EmpMetrics.team == current_user.team).first()
+                coach_rating = int(request.form.get(f"{reference_metric.tag}_coach_rating"))
+                if not coach_rating or coach_rating < 0 or coach_rating > 100:
+                    flash("Invalid value for coach rating", "error")
+                    return redirect('')
+                coach_importance = int(request.form.get(f"{reference_metric.tag}_coach_importance"))
+                if not coach_importance or coach_importance < 0 or coach_importance > 10:
+                    flash("Invalid value for coach importance", "error")
+                    return redirect('')
+                view_allowed = bool(request.form.get(f"{reference_metric.tag}_view_allowed"))
+                new_entry = Entry(
+                    coach_rating=coach_rating, 
+                    coach_importance=coach_importance, 
+                    view_allowed=view_allowed, 
+                    coach_id=current_user.id,
+                    empmetric_id=reference_metric.id, 
+                    user_id=user.id
+                    )
+                db.session.add(new_entry)
                 db.session.commit()
-                flash(f"Updated {updated_metric.name} for {user.firstname}.", "success")
+
+                note = request.form.get(f"{reference_metric.tag}_coach_notes").strip()
+                if "`" in note:
+                    flash(f"Note for {reference_metric.name} may not contain the character `.", "error")
+                    return redirect(request.url)
+                if note:
+                    new_note = EntryNote(content=note, entry_id=new_entry.id)
+                    db.session.add(new_note)
+                
+
+                db.session.commit()
+                flash(f"Updated {reference_metric.name} for {user.firstname}.", "success")
                 return redirect('')
     # If it's a GET request
     else:
@@ -234,53 +254,62 @@ def profile(firstname, id):
             return render_template('user_profile.html', image_file = image_file, user=user, twok=twok, fivek=fivek)
         
 
-        # if user.is_coach:
-        #     entries = Entry.query.filter(Entry.user_id == user.id).all()
-        #     for entry in entries:
-
-
-        if user.is_coxswain:
-            for_coxswain = True
-            focused_list = cox_metric_list
-        else:
-            for_coxswain = False
-            focused_list = rower_metric_list
-        # Goes through and adds all important metrics for a user if they don't exist when a coach is viewing
+        active_metrics = EmpMetrics.query.filter(EmpMetrics.team == current_user.team, EmpMetrics.for_cox == user.is_coxswain, EmpMetrics.active == True).all()
+        # Entries will store all the entries for the current empirical metrics
+        entries = []
+        for metric in active_metrics:
+            # Ordered by descending id so we get the most recent entry with the filters 
+            # Could also be done with descending datetime but that seems more intensive in my mind
+            entry = Entry.query.filter(Entry.empmetric_id == metric.id, Entry.user_id == user.id).order_by(Entry.id.desc()).first()
+            if entry:
+                if not entry.user_rating:
+                    user_rating = 0
+                else:
+                    user_rating = entry.user_rating
+                entries.append(
+                    MetricObj(
+                        tag=metric.tag,
+                        name=metric.name,
+                        desc=metric.desc,
+                        coach_rating=entry.coach_rating,
+                        coach_importance=entry.coach_importance,
+                        user_rating=user_rating,
+                        view_allowed=entry.view_allowed,
+                        # Has_set will almost always be true, except for the first time
+                        # when there is no entry where it will be false
+                        has_set=True,
+                        # If there's no user_rating then there's an update (for the rower), otherwise there's an update
+                        # since there is no rower response
+                        has_update=bool(not entry.user_rating),
+                        # Need this crazy stuff since entry.note is a backref that returns a list of all EntryNotes
+                        # with the id of the Entry and the list is interpreted as a string and printed as [] when it should
+                        # just be blank
+                        note="" if not bool(entry.note) else entry.note
+                    )
+                )
+            # Only coaches will add metrics to the list of "entries" to be displayed
+            # since they need to see the metrics on each profile even if they're not created
+            elif not entry and current_user.is_coach:
+                entries.append(
+                    MetricObj(
+                        tag=metric.tag,
+                        name=metric.name,
+                        desc=metric.desc,
+                        coach_rating=50,
+                        coach_importance=5,
+                        user_rating=50,
+                        # view_allowed is defaulted to be whatever the coach has their view prefs as
+                        view_allowed=current_user.default_on,
+                        has_set=False,
+                        has_update=True,
+                        note=""
+                    )
+                )
         if current_user.is_coach:
-            for defMetric in focused_list:
-                metric = Metric.query.filter(Metric.user_id==id, Metric.tag==defMetric.tag, Metric.name==defMetric.name).first()
-                if not metric:
-                    if current_user.default_on:
-                        metric = Metric(user_id=id, tag=defMetric.tag, name=defMetric.name, view_allowed = True, desc=defMetric.desc, for_coxswain=for_coxswain)
-                    else:
-                        metric = Metric(user_id=id, tag=defMetric.tag, name=defMetric.name, desc=defMetric.desc, for_coxswain=for_coxswain)
-                    db.session.add(metric)
-                    db.session.commit()
-            # All metrics is to be sent to profiles to be displayed
-            # The purpose of a for loop instead of querying Metrics with user_id.all() is that metrics that have had their name changed or removed will not longer appear as metrics to view.
-            all_metrics = []
-            for metric in focused_list:
-                new_metric = Metric.query.filter(Metric.user_id==id, Metric.tag==metric.tag, Metric.name==metric.name).first()
-                if new_metric is not None:
-                    if new_metric.desc != metric.desc:
-                        new_metric.desc = metric.desc
-                        db.session.commit()
-                    all_metrics.append(new_metric)
-
-        all_user_metrics = []
-        if user.id == current_user.id:
-            for metric in focused_list:
-                new_metric = Metric.query.filter(Metric.user_id==id, Metric.tag==metric.tag, Metric.name==metric.name, Metric.has_set==True, Metric.view_allowed==True).first()
-                if new_metric is not None:
-                    new_metric.desc = metric.desc
-                    db.session.commit()
-                    all_user_metrics.append(new_metric)
-            # Sort user displayed metrics by their importance
-            all_user_metrics.sort(key=lambda x:x.coach_importance, reverse=True)
-        if current_user.is_coach:
-            return render_template('coach_profile.html', image_file = image_file, user=user, all_metrics=all_metrics, twok=twok, fivek=fivek)
+            return render_template('coach_profile.html', image_file = image_file, user=user, entries=entries, twok=twok, fivek=fivek)
         else:
-            return render_template('user_profile.html', image_file = image_file, user=user, all_metrics=all_user_metrics, twok=twok, fivek=fivek)
+            entries.sort(key=lambda x:x.coach_importance, reverse=True)
+            return render_template('user_profile.html', image_file = image_file, user=user, entries=entries, twok=twok, fivek=fivek)
 
 
 @app.route('/2k', methods=['GET', 'POST'], strict_slashes=False)
