@@ -195,7 +195,6 @@ def profile(firstname, id):
                 db.session.commit()
                 flash(f"You may now view coach's rating for {updated_metric.name}.", "success")
                 return redirect('')
-                # STILL NEED TO MAKE POST ROUTING FOR COACHES AND DETECT IF THERE'S A USER RATING IN ORDER TO SET HAS UPDATE IN COACH AND USER PROFILE
         elif current_user.is_coach:
             if request.form.get("form_identifier") == "silence":
                 user.pinged = False
