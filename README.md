@@ -38,7 +38,9 @@ Commands to preface:
   - `flask db current` tells you the current migration file you are currently on
   - `flask db stamp head` skips all migrations up to the head and just stamps the head (most recent) migration as the one that is supposedly "active for the database". Try to avoid this but it can also solve some weird issues.
   
-  Important Note: Don't **EVER** run flask db migrate on the production server. This will generate a migration file that only exists on the emphermal file system of Heroku and cannot be accessed elsewhere (troubleshooting below in case you ever do). Also, don't upgrade the database on the local environment (VSCode) before pushing it to production; this will make it so the production server thinks its already upgraded which it might not have been. Instead, upgrade and test on local environment after pushing to production, and if there appears to be an issue just revert the change. I hypothesize that you can also just upgrade on local, make sure everything works, downgrade, and then push.
+  Important Note: Don't **EVER** run flask db migrate on the production server. This will generate a migration file that only exists on the ephemeral file system of Heroku and cannot be accessed elsewhere (troubleshooting below in case you ever do). Also, don't upgrade the database on the local environment (VSCode) before pushing it to production; this will make it so the production server thinks its already upgraded which it might not have been. Instead, upgrade and test on local environment after pushing to production, and if there appears to be an issue just revert the change. 
+  
+  I hypothesize that you can also just upgrade on local, make sure everything works, downgrade, and then push. The thing to keep in mind here is that the alembic version of the local database has to be the same as the production database before pushing so they're all synced. Otherwise, it will not know to upgrade.
   
   ## Steps to upgrade the database on the live server: 
 1. Create new branch on VSCode with relevant name for database change

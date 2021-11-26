@@ -1,12 +1,12 @@
 from flask import render_template, url_for, flash, redirect, request
 from flask.helpers import url_for
 from app import app, db, bcrypt, teams, is_production
-from app.forms import RegistrationForm, LoginForm, TwokForm, CoachRegistrationForm
-from app.models import EmpMetrics, User, Twok, Fivek, Metric
+from app.forms import RegistrationForm, LoginForm, TwokForm
+from app.models import User, Twok, Fivek, Metric, EmpMetrics, Entry, EntryNote
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import date, datetime
 from random import randint
-from app.helpers import convert_from_seconds, coach_required, MetricObj, create_account, create_email, email_links, chooseRole
+from app.helpers import convert_from_seconds, coach_required, create_account, create_email, email_links, chooseRole
 from app.static.metrics import rower_metric_list, cox_metric_list
 
 
@@ -68,7 +68,6 @@ def register(uuid):
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user.password = hashed_password
-        user.date_created = datetime.utcnow()
         user.deleted = False
         db.session.commit()
         login_user(user, remember=True)
@@ -217,6 +216,7 @@ def profile(firstname, id):
                 db.session.commit()
                 flash(f"Updated {updated_metric.name} for {user.firstname}.", "success")
                 return redirect('')
+    # If it's a GET request
     else:
         image_file = url_for('static', filename='profile_pics/' + user.image_file)
         twok = Twok.query.filter_by(user_id=id).order_by("seconds").first()
@@ -233,6 +233,12 @@ def profile(firstname, id):
         if current_user.id != user.id and not current_user.is_coach:
             return render_template('user_profile.html', image_file = image_file, user=user, twok=twok, fivek=fivek)
         
+
+        # if user.is_coach:
+        #     entries = Entry.query.filter(Entry.user_id == user.id).all()
+        #     for entry in entries:
+
+
         if user.is_coxswain:
             for_coxswain = True
             focused_list = cox_metric_list

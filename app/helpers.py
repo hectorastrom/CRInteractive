@@ -256,10 +256,33 @@ def email_links(messages):
             smtp.send_message(message)
             print("Email sent to", message['To'])
 
-class MetricObj():
+class MetricText():
     def __init__(self, tag, name, desc=""):
         self.tag = tag
         self.name = name
         self.desc = desc
+        
     def __repr__(self) -> str:
         return f'*Tag: {self.tag}, Name: {self.name}, Description: {self.desc}*'
+
+
+class MetricObj():
+    def __init__(self, tag:str, name:str, desc:str, coach_rating:int, coach_importance:int, user_rating:int, view_allowed:bool, has_set:bool, has_update:bool, note:str) -> None:
+        self.tag = tag
+        self.name = name
+        self.desc = desc
+        self.note = note
+        self.coach_rating = coach_rating
+        self.coach_importance = coach_importance
+        self.user_rating = user_rating
+        self.view_allowed = view_allowed
+        self.has_set = has_set
+        self.has_update = has_update
+
+    def __repr__(self) -> str:
+        return f"""Metric {self.tag}
+        Name: {self.name}
+        Note: '{self.note}'
+        CoachRating: {self.coach_rating}
+        CoachImp: {self.coach_importance}
+        UserRating: {self.user_rating}"""
