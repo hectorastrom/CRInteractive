@@ -38,9 +38,7 @@ Commands to preface:
   - `flask db current` tells you the current migration file you are currently on
   - `flask db stamp head` skips all migrations up to the head and just stamps the head (most recent) migration as the one that is supposedly "active for the database". Try to avoid this but it can also solve some weird issues.
   
-  Important Note: Don't **EVER** run flask db migrate on the production server. This will generate a migration file that only exists on the ephemeral file system of Heroku and cannot be accessed elsewhere (troubleshooting below in case you ever do). Also, don't upgrade the database on the local environment (VSCode) before pushing it to production; this will make it so the production server thinks its already upgraded which it might not have been. Instead, upgrade and test on local environment after pushing to production, and if there appears to be an issue just revert the change. 
-  
-  I hypothesize that you can also just upgrade on local, make sure everything works, downgrade, and then push. The thing to keep in mind here is that the alembic version of the local database has to be the same as the production database before pushing so they're all synced. Otherwise, it will not know to upgrade.
+  Important Note: Don't **EVER** run flask db migrate on the production server. This will generate a migration file that only exists on the ephemeral file system of Heroku and cannot be accessed elsewhere (troubleshooting below in case you ever do).
   
   ## Steps to upgrade the database on the live server: 
 1. Create new branch on VSCode with relevant name for database change
@@ -49,13 +47,13 @@ Commands to preface:
 
 1. Run `flask db migrate -m "change description"`
 
-1. Push the change, and merge branch with main
-
-1. Push changes and wait for deployment to Heroku to finish
-
 1. Run `flask db upgrade` and `python run.py` in VSCode to test change before upgrading database on live server. 
 
-1. If all works as expected, in Heroku run `flask db upgrade`
+1. If all works as expected, put Heroku server into maintenance mode to prepare the change
+
+1. Push the change, and merge branch with main
+
+1. Once the built in finished in Heroku, run `flask db upgrade`
 
 1. Take server out of maintenance mode
 
@@ -74,6 +72,8 @@ Potential Errors:
     * Edit downgrade() function so that the only thing reversed is what was changed (top bullet)
     * Run `flask db downgrade` to downgrade that migration
     * Delete failed migration file and figure out the issue.
+
+1. If an upgrade version is not recognized (no relevant message printed from `flask db upgrade`), then this could be because the database was pushed to main in an upgraded state (not the same migration version as production server is) which makes the production server think it has already upgraded even though it's still on a lower version. If this does happen (which I'm not sure why it would since alembic version in local db is different from production but I think it's happened before), then go into VSCode and downgrade the database to match the production migration file, and then push this new version of the database. Then you can probably run `flask db upgrade` on production and it'll recognize the new changes. 
 
 
 For more information, refer to here:
