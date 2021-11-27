@@ -481,8 +481,7 @@ def edit_metrics():
         # If the action is e for edit then we edit the current empirical metric
         if action[1] == "e":
             tag = action[2:]
-            metric = EmpMetrics.query.filter(EmpMetrics.tag == tag, EmpMetrics.team == current_user.team, EmpMetrics.for_cox==for_cox)
-
+            metric = EmpMetrics.query.filter(EmpMetrics.tag == tag, EmpMetrics.team == current_user.team, EmpMetrics.for_cox==for_cox).first()
             active = True
             if request.form.get("active") == "False":
                 active = False
