@@ -58,6 +58,11 @@
             </linearGradient>
         </defs>
     </svg>
+    {% if not entries %}
+        <div style = "position:relative; margin-bottom: 40px;" class = "alert alert-info show">
+            You don't have any active metrics set up for {% if user.is_coxswain %}coxswains{% else %}rowers{% endif %} yet. Head to <a href='{{ url_for("edit_metrics") }}'>Edit Metrics</a> to set them up.
+        </div>
+    {% endif %}
     <script>
         let button_class = "btn-success"
         let active = ""

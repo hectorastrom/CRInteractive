@@ -254,7 +254,7 @@ def profile(firstname, id):
         
 
         active_metrics = EmpMetrics.query.filter(EmpMetrics.team == current_user.team, EmpMetrics.for_cox == user.is_coxswain, EmpMetrics.active == True).all()
-        # Entries will store all the entries for the current empirical metrics
+        # Entries will store all the entries for the CURRENT empirical metrics
         entries = []
         for metric in active_metrics:
             # Ordered by descending id so we get the most recent entry with the filters 
@@ -364,8 +364,8 @@ def roster():
             athletes[user] = status
         # This turns athletes into a list of tuples sorted by incomplete or not
         athletes = sorted(athletes.items(), key=lambda x: x[1])
-        has_rower_metrics = bool(EmpMetrics.query.filter(EmpMetrics.team == current_user.team, EmpMetrics.for_cox == False).all())
-        has_cox_metrics = bool(EmpMetrics.query.filter(EmpMetrics.team == current_user.team, EmpMetrics.for_cox == True).all())
+        has_rower_metrics = bool(EmpMetrics.query.filter(EmpMetrics.team == current_user.team, EmpMetrics.for_cox == False, EmpMetrics.active == True).all())
+        has_cox_metrics = bool(EmpMetrics.query.filter(EmpMetrics.team == current_user.team, EmpMetrics.for_cox == True, EmpMetrics.active == True).all())
         return render_template('roster.html', athletes=athletes, has_cox_metrics = has_cox_metrics, has_rower_metrics = has_rower_metrics)
     # Rowers render team
     else:
