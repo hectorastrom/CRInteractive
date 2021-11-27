@@ -27,10 +27,53 @@
             {% for metric in rower_active %}
                 <tr>
                     <td>
-                        {{ metric.name }}
+                        <strong>{{ metric.name }}</strong>
                     </td>
                     <td>
                         {{ metric.desc }}
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-outline-success" style="width:90px;" data-toggle="modal" data-target="#edit{{ metric.tag }}">Edit</button>
+                        <div class="modal fade" id="edit{{ metric.tag }}">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3>Edit {{ metric.name }} Metric</h3>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="">
+                                            <small>Name</small>
+                                            <div class="form-group short">
+                                                <input type="text" class="form-control boxy" value="{{ metric.name }}" name="name" autocomplete="off">
+                                            </div>
+                                        
+                                            <small>Description</small>
+                                            <div class="form-group short">
+                                                <input type="text" class="form-control boxy" value="{{ metric.desc }}" name="desc" autocomplete="off">
+                                            </div>
+
+                                            <small>Active</small>
+                                            <div class="form-group short">
+                                                <select class="form-select form-control boxy" aria-label="Active Selector" name="active">
+                                                    <option selected=true value="True">Active</option>
+                                                    <option value="False">Inactive</option>
+                                                    
+                                                </select>
+                                            </div>
+                                            
+                                            
+                                            <input type="hidden" value="re{{ metric.tag }}" name="form_identifier">
+                                            <button type="submit" class="btn btn-outline-success" style="width:90px; position:absolute;">Update</button>
+                                            <div style="height:40px;"></div>
+                                        </form>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             {% endfor %}
@@ -73,6 +116,49 @@
                     <td>
                         {{ metric.desc }}
                     </td>
+                    <td>
+                        <button type="button" class="btn btn-outline-success" style="width:90px;" data-toggle="modal" data-target="#edit{{ metric.tag }}">Edit</button>
+                        <div class="modal fade" id="edit{{ metric.tag }}">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3>Edit {{ metric.name }} Metric</h3>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="">
+                                            <small>Name</small>
+                                            <div class="form-group short">
+                                                <input type="text" class="form-control boxy" value="{{ metric.name }}" name="name" autocomplete="off">
+                                            </div>
+                                        
+                                            <small>Description</small>
+                                            <div class="form-group short">
+                                                <input type="text" class="form-control boxy" value="{{ metric.desc }}" name="desc" autocomplete="off">
+                                            </div>
+
+                                            <small>Active</small>
+                                            <div class="form-group short">
+                                                <select class="form-select form-control boxy" aria-label="Active Selector" name="active">
+                                                    <option value="True">Active</option>
+                                                    <option selected=true value="False">Inactive</option>
+                                                    
+                                                </select>
+                                            </div>
+                                            
+                                            
+                                            <input type="hidden" value="re{{ metric.tag }}" name="form_identifier">
+                                            <button type="submit" class="btn btn-outline-success" style="width:90px; position:absolute;">Update</button>
+                                            <div style="height:40px;"></div>
+                                        </form>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -105,8 +191,63 @@
                     <td>
                         {{ metric.desc }}
                     </td>
+                    <td>
+                        <button type="button" class="btn btn-outline-success" style="width:90px;" data-toggle="modal" data-target="#edit{{ metric.tag }}">Edit</button>
+                        <div class="modal fade" id="edit{{ metric.tag }}">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3>Edit {{ metric.name }} Metric</h3>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="">
+                                            <small>Name</small>
+                                            <div class="form-group short">
+                                                <input type="text" class="form-control boxy" value="{{ metric.name }}" name="name" autocomplete="off">
+                                            </div>
+                                        
+                                            <small>Description</small>
+                                            <div class="form-group short">
+                                                <input type="text" class="form-control boxy" value="{{ metric.desc }}" name="desc" autocomplete="off">
+                                            </div>
+
+                                            <small>Active</small>
+                                            <div class="form-group short">
+                                                <select class="form-select form-control boxy" aria-label="Active Selector" name="active">
+                                                    <option selected=true value="True">Active</option>
+                                                    <option value="False">Inactive</option>
+                                                    
+                                                </select>
+                                            </div>
+                                            
+                                            
+                                            <input type="hidden" value="ce{{ metric.tag }}" name="form_identifier">
+                                            <button type="submit" class="btn btn-outline-success" style="width:90px; position:absolute;">Update</button>
+                                            <div style="height:40px;"></div>
+                                        </form>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             {% endfor %}
+            <form action="" method="POST">
+                <tr>
+                    <td><input type="text" class="form-control boxy" placeholder="Metric Name" name="name" autocomplete="off"></td>
+                    <td><textarea class="form-control boxy" placeholder="Metric Description" name="desc" autocomplete="off" rows="1" cols="50" onfocusin="extendRows()" onfocusout="resetRows()" id="ratextarea"></textarea></td>
+                    <td>
+                        <div class="row justify-content-center">
+                            <button class="btn btn-outline-danger small" type="submit">Create Metric</button>
+                        </div>
+                    </td>
+                </tr>
+                <input type="hidden" name="form_identifier" value="ca">
+            </form>
         </tbody>
         
         
@@ -133,6 +274,49 @@
                     </td>
                     <td>
                         {{ metric.desc }}
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-outline-success" style="width:90px;" data-toggle="modal" data-target="#edit{{ metric.tag }}">Edit</button>
+                        <div class="modal fade" id="edit{{ metric.tag }}">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3>Edit {{ metric.name }} Metric</h3>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="">
+                                            <small>Name</small>
+                                            <div class="form-group short">
+                                                <input type="text" class="form-control boxy" value="{{ metric.name }}" name="name" autocomplete="off">
+                                            </div>
+                                        
+                                            <small>Description</small>
+                                            <div class="form-group short">
+                                                <input type="text" class="form-control boxy" value="{{ metric.desc }}" name="desc" autocomplete="off">
+                                            </div>
+
+                                            <small>Active</small>
+                                            <div class="form-group short">
+                                                <select class="form-select form-control boxy" aria-label="Active Selector" name="active">
+                                                    <option value="True">Active</option>
+                                                    <option selected=true value="False">Inactive</option>
+                                                    
+                                                </select>
+                                            </div>
+                                            
+                                            
+                                            <input type="hidden" value="ce{{ metric.tag }}" name="form_identifier">
+                                            <button type="submit" class="btn btn-outline-success" style="width:90px; position:absolute;">Update</button>
+                                            <div style="height:40px;"></div>
+                                        </form>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             {% endfor %}

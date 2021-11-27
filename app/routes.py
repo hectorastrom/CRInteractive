@@ -481,9 +481,12 @@ def edit_metrics():
         # If the action is e for edit then we edit the current empirical metric
         if action[1] == "e":
             tag = action[2:]
-            metric = EmpMetrics.query.filter(EmpMetrics.tag == tag, EmpMetrics.team == current_user.team, for_cox=for_cox)
+            metric = EmpMetrics.query.filter(EmpMetrics.tag == tag, EmpMetrics.team == current_user.team, EmpMetrics.for_cox==for_cox)
 
-            active = bool(request.form.get("active"))
+            active = True
+            if request.form.get("active") == "False":
+                active = False
+            
             metric.name = name
             metric.desc = desc
             metric.active = active
@@ -499,6 +502,12 @@ def edit_metrics():
             # Tags are set to be the first character of the metric name and their id
             new_metric.tag = (name[0] + str(new_metric.id))
             db.session.commit()
+        elif action[1] == "r":
+            tag = action[2:]
+            target_metric = EmpMetrics.query.filter(EmpMetrics.tag==tag, EmpMetrics.name==name)
+            db.session.remove(target_metric)
+            db.session.commit()
+            
 
         return redirect('')
     elif request.method == "GET":
