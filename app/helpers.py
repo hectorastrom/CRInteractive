@@ -48,7 +48,7 @@ def chooseTeam(input:str) -> str:
         # If the input is in the list of abbreviations for a team
         # or is equal to the name of the actual team, assign them
         # to that team
-        if input in teams[team] or input == team:
+        if input in teams[team] or input == team.lower():
             user_team = team
             break
         else: 

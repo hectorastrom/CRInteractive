@@ -1,5 +1,5 @@
 import click
-import os
+from flask import url_for
 from flask.cli import with_appcontext
 from random import randint
 from app import db, is_production
@@ -72,12 +72,23 @@ def remove_user(email):
         print("No user with email", email, "found.")
 
 @click.command(name='query_user')
-@click.argument("email")
+@click.argument("input")
 @with_appcontext
-def query_user(email):
-    user = User.query.filter(User.email.ilike(email)).first()
-    if not user:
-        print("User with", email, "email does not exist.")
+def query_user(input):
+    """
+    Accepts either user emails or id's as input and prints information regrading the chosen user.
+    """
+    is_email = False
+    if '@' in input:
+        is_email = True
+    if is_email:
+        user = User.query.filter(User.email.ilike(input)).first()
+    elif input.isnumeric(): 
+        user = User.query.get(int(input))
+    if not user and is_email:
+        print("User with", input, "email does not exist.")
+    elif not user and not is_email:
+        print(f"User with id {input} does not exist.")
     else:
         if user.password == "not set":
             status = "Uninitialized"
@@ -102,6 +113,8 @@ def query_user(email):
             role="Rower"
         print(f"Role: {role}")
         print(f"Date Created: {user.date_created}")
+        if not is_production:
+            print(f"Link to Register Page: 127.0.0.1:5000/register/{user.uuid}")
 
 @click.command(name='send_email')
 @click.argument("email")
