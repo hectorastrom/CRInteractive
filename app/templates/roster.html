@@ -7,6 +7,19 @@
 {% block main %}
     <!-- If they're a coach -->
     {% if current_user.is_coach %}
+        {% if not has_rower_metrics and not has_cox_metrics %}
+            <div style = "position:relative; margin-bottom: 40px;" class = "alert alert-info show">
+                You don't have any metrics set up yet so all users appear 'All Set'. Head to <a href='{{ url_for("edit_metrics") }}'>Edit Metrics</a> to set them up.
+            </div>
+        {% elif not has_rower_metrics %}
+            <div style = "position:relative; margin-bottom: 40px;" class = "alert alert-info show">
+                You don't have any rower metrics set up yet so all rowers will appear 'All set'. Head to <a href='{{ url_for("edit_metrics") }}'>Edit Metrics</a> to set them up.
+            </div>
+        {% elif not has_cox_metrics %}
+            <div style = "position:relative; margin-bottom: 40px;" class = "alert alert-info show">
+                You don't have any coxswain metrics set up yet so all coxswains appear 'All Set'. Head to <a href='{{ url_for("edit_metrics") }}'>Edit Metrics</a> to set them up.
+            </div>
+        {% endif %}
         {% if current_user.team != "none" %}
             <h2>{{ current_user.team }} Roster</h2> 
             <input type="text" id="tableSearch" class="form-control boxy w-100 p-3 mb-2 mt-1" onkeyup="searchTable('tableSearch', 'rosterTable')" placeholder="Search Users...">
@@ -15,6 +28,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Status</th>
+                        <th>Role</th>
                         <th>Grade</th>
                     </tr>
                 </thead>
@@ -37,6 +51,13 @@
 
                             {% if not item.0.pinged and item.1 == "set" %}
                                 <h6><span class="badge badge-success">All Set</span></h6>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.0.is_coxswain %}
+                                Coxswain
+                            {% else %}
+                                Rower
                             {% endif %}
                         </td>
                         {% if item.0.grade %}

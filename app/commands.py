@@ -3,7 +3,7 @@ import os
 from flask.cli import with_appcontext
 from random import randint
 from app import db, is_production
-from app.models import EmpMetrics, User, Metric, Twok, Fivek
+from app.models import EmpMetrics, Entry, EntryNote, User, Metric, Twok, Fivek
 from app.helpers import create_account, create_email, email_links, chooseTeam
 
 @click.command(name='create_tables')
@@ -174,3 +174,26 @@ def create_empmetric(tag, name, team):
         db.session.add(new_metric)
         db.session.commit()
         print(f"Added {new_metric} to emperical metric list")
+
+@click.command(name='clear_empmetrics')
+@with_appcontext
+def clear_empmetrics():
+    current_empmetrics = EmpMetrics.query.all()
+    numMetrics = len(current_empmetrics)
+    response = input(f"Are you sure you would like to clear all {numMetrics} Metrics PERMANENTELY: ").lower()
+    if response == "yes" or response == "y":
+        EmpMetrics.query.delete()
+        db.session.commit()
+        print("Metrics successfully deleted.")
+    else:
+        print("Metrics were not deleted.")
+    current_entries = Entry.query.all()
+    numEntries = len(current_empmetrics)
+    response = input(f"Would you also like to clear all {numEntries} Entries (otherwise existing Entries with correlate with new Emp Metrics): ")
+    if response == "yes" or response == "y":
+        Entry.query.delete()
+        EntryNote.query.delete()
+        db.session.commit()
+        print("Entries have been deleted.")
+    else:
+        print("Entries were not deleted.")

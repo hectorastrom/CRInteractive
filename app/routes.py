@@ -262,7 +262,9 @@ def profile(firstname, id):
             entry = Entry.query.filter(Entry.empmetric_id == metric.id, Entry.user_id == user.id).order_by(Entry.id.desc()).first()
             if entry:
                 if not entry.user_rating:
-                    user_rating = 0
+                    user_rating = 50
+                elif entry.user_rating == entry.coach_rating and entry.user_rating > 0:
+                    user_rating = entry.user_rating - 1
                 else:
                     user_rating = entry.user_rating
                 entries.append(
@@ -351,18 +353,20 @@ def roster():
             for_coxswain = False
             if user.is_coxswain:
                 for_coxswain = True
-            incomplete_metric = Metric.query.filter(Metric.user_id == user.id, Metric.has_set == False, Metric.for_coxswain == for_coxswain).first()
-            # Need an any metric since if they have not had metrics created yet then they will also have 0 incomplete metrics.
-            any_metric = Metric.query.filter(Metric.user_id == user.id, Metric.for_coxswain == for_coxswain).first()
-            if incomplete_metric or not any_metric:
-                status = "incomplete"
-            else:
-                status = "set"
+            # Status for a user is default set and set to incomplete if there
+            # is a single empirical metric without an entry for the user
+            status = "set"
+            active_metrics = EmpMetrics.query.filter(EmpMetrics.team == current_user.team, EmpMetrics.active == True, EmpMetrics.for_cox == user.is_coxswain).all()
+            for metric in active_metrics:
+                if not Entry.query.filter(Entry.empmetric_id == metric.id, Entry.user_id == user.id).first():
+                    status = "incomplete"
+                    break
             athletes[user] = status
         # This turns athletes into a list of tuples sorted by incomplete or not
         athletes = sorted(athletes.items(), key=lambda x: x[1])
-            
-        return render_template('roster.html', athletes=athletes)
+        has_rower_metrics = bool(EmpMetrics.query.filter(EmpMetrics.team == current_user.team, EmpMetrics.for_cox == False).all())
+        has_cox_metrics = bool(EmpMetrics.query.filter(EmpMetrics.team == current_user.team, EmpMetrics.for_cox == True).all())
+        return render_template('roster.html', athletes=athletes, has_cox_metrics = has_cox_metrics, has_rower_metrics = has_rower_metrics)
     # Rowers render team
     else:
         users = User.query.filter(User.team==current_user.team, User.is_coach == False, User.deleted == False).order_by(User.lastname).all()
@@ -460,7 +464,7 @@ def edit_roster():
 @login_required
 def edit_metrics():
     if request.method == "POST":
-        # Format of form_identifier: ('c' or 'r' for cox or rower)('e' or 'a' for edit or add)(metric tag, only for editing metrics)
+        # Format of form_identifier: ('c' or 'r' for cox or rower)('e' or 'a' for edit or add)[metric tag, only for editing metrics]
         action = request.form.get("form_identifier")
         name = request.form.get("name")
         if not name: 
@@ -485,20 +489,18 @@ def edit_metrics():
             metric.active = active
 
             db.session.commit()
-
-
         # If the action is a for add then we create a new empirical metric
         elif action[1] == "a":
             # Need to have temp tag while we create the metric so we know what the id of the new metric is
             tag = "temp"
             new_metric = EmpMetrics(tag=tag, name=name, desc=desc, team=current_user.team, active=True, for_cox=for_cox)
-            # Tags are set to be the first character of the metric name and their id
-            new_metric.tag = (name[0] + str(new_metric.id))
-
             db.session.add(new_metric)
             db.session.commit()
+            # Tags are set to be the first character of the metric name and their id
+            new_metric.tag = (name[0] + str(new_metric.id))
+            db.session.commit()
 
-
+        return redirect('')
     elif request.method == "GET":
         if current_user.is_coach and current_user.is_head:
             team = current_user.team
