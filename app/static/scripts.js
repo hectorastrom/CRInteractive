@@ -378,11 +378,23 @@ function enableSorting()
     })
 }
 
-function searchTable(inputId, tableId) 
+function searchTable(inputId, tableId, emptyMessageId, multiple) 
 {
     let table = document.getElementById(tableId);
     let input = document.getElementById(inputId).value.toLowerCase();
-    let tr = table.getElementsByTagName("tr");
+    // Multiple is a boolean that tells the function if there are multiple tables
+    // If there are multiple tables then emptyMessageId will have a number after it 
+    // to say which emptyMessageId it is. It will use that number to find all tr
+    // elements with the class name of tr[number] so that trs from the other tables are ignored
+    if (!multiple)
+    {
+        var tr = table.getElementsByTagName("tr");
+    }
+    else 
+    {
+        number = emptyMessageId.charAt(emptyMessageId.length-1);
+        var tr = table.getElementsByClassName(`tr${number}`)
+    }
 
     let allInvisible = true
     // Last row is the empty message which we wont include
@@ -404,7 +416,8 @@ function searchTable(inputId, tableId)
         }
     }
 
-    let emptyMessage = document.getElementById("emptyMessage")
+    
+    let emptyMessage = document.getElementById(emptyMessageId)
     if (allInvisible)
     {
         emptyMessage.style.display = ""
