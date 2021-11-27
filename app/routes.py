@@ -503,7 +503,7 @@ def edit_metrics():
             db.session.commit()
         elif action[1] == "r":
             tag = action[2:]
-            target_metric = EmpMetrics.query.filter(EmpMetrics.tag==tag, EmpMetrics.name==name)
+            target_metric = EmpMetrics.query.filter(EmpMetrics.tag==tag, EmpMetrics.name==name).first
             db.session.remove(target_metric)
             db.session.commit()
             
