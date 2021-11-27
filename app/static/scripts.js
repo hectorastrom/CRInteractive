@@ -14,7 +14,7 @@ setTimeout(function() {
 let coachDotColor = "rgba(177,23,49,.8)";
 let userDotColor = "rgba(123, 20, 201,.8)"
 
-function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coach_value, coach_importance, user_value, metric_notes, firstname)
+function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coach_value, coach_importance, user_value, metric_notes, firstname, date, coach_name)
 {
     let coach_info_html = ""
     let user_curve_html = ""
@@ -136,7 +136,8 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
             ${coach_info_html}
             ${user_curve_html}
         </div>
-        <div class="modal-footer" style="margin-top: 50px;">
+        <small class="text-muted ml-4 mt-4 mb-0">Last Updated by ${coach_name} on ${date}</small>
+        <div class="modal-footer" style="margin-top: 30px;">
             <button type="button" class="btn btn-secondary close" data-dismiss="modal" aria-label="Close">Close</button>
         </div>
         </div>

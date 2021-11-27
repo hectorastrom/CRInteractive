@@ -111,11 +111,7 @@ class EntryNote(db.Model):
     entry_id = db.Column(db.Integer, db.ForeignKey('entry.id'), nullable=False)
 
     def __repr__(self) -> str:
-        return f"""
-        EntryNote({self.id})
-        Content: {self.content}
-        EntryId: {self.entry_id}
-        """
+        return f"""EntryNote({self.id}), Content: '{self.content}', EntryId: {self.entry_id}"""
 
 class EmpMetrics(db.Model):
     __tablename__ = 'empmetrics'

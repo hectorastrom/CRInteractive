@@ -231,7 +231,6 @@ def profile(firstname, id):
                     new_note = EntryNote(content=note, entry_id=new_entry.id)
                     db.session.add(new_note)
                 
-
                 db.session.commit()
                 flash(f"Updated {reference_metric.name} for {user.firstname}.", "success")
                 return redirect('')
@@ -267,6 +266,10 @@ def profile(firstname, id):
                     user_rating = entry.user_rating - 1
                 else:
                     user_rating = entry.user_rating
+                date = entry.date_created.strftime('%A, %B %e, %Y')
+                note = EntryNote.query.filter_by(entry_id = entry.id).first()
+                coach = User.query.get(entry.coach_id)
+                coach_name = f"{coach.firstname} {coach.lastname}"
                 entries.append(
                     MetricObj(
                         tag=metric.tag,
@@ -285,7 +288,9 @@ def profile(firstname, id):
                         # Need this crazy stuff since entry.note is a backref that returns a list of all EntryNotes
                         # with the id of the Entry and the list is interpreted as a string and printed as [] when it should
                         # just be blank
-                        note="" if not bool(entry.note) else entry.note
+                        note="" if not note else note.content,
+                        date=date,
+                        coach_name = coach_name
                     )
                 )
             # Only coaches will add metrics to the list of "entries" to be displayed
@@ -303,7 +308,9 @@ def profile(firstname, id):
                         view_allowed=current_user.default_on,
                         has_set=False,
                         has_update=True,
-                        note=""
+                        note="",
+                        date="",
+                        coach_name=""
                     )
                 )
         if current_user.is_coach:

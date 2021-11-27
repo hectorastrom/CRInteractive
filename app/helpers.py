@@ -267,7 +267,7 @@ class MetricText():
 
 
 class MetricObj():
-    def __init__(self, tag:str, name:str, desc:str, coach_rating:int, coach_importance:int, user_rating:int, view_allowed:bool, has_set:bool, has_update:bool, note:str) -> None:
+    def __init__(self, tag:str, name:str, desc:str, coach_rating:int, coach_importance:int, user_rating:int, view_allowed:bool, has_set:bool, has_update:bool, note:str, date: str, coach_name: str) -> None:
         self.tag = tag  
         self.name = name
         self.desc = desc
@@ -278,6 +278,8 @@ class MetricObj():
         self.view_allowed = view_allowed
         self.has_set = has_set
         self.has_update = has_update
+        self.date = date
+        self.coach_name = coach_name
 
     def __repr__(self) -> str:
         return f"""
@@ -287,4 +289,6 @@ class MetricObj():
         CoachRating: {self.coach_rating}
         CoachImp: {self.coach_importance}
         UserRating: {self.user_rating}
+        Date: {self.date}
+        CoachName = {self.coach_name}
         """

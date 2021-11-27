@@ -110,7 +110,7 @@
                 {% else %}
                     has_update = false
                 {% endif %}
-                drawUserBellCurve(has_update, `{{ entry.tag }}`, `{{ entry.name }}`, `{{ entry.desc }}`, {{ entry.coach_rating }}, {{ entry.coach_importance }}, {{ entry.user_rating }}, `{{ entry.note }}`, `{{ user.firstname }}`);
+                drawUserBellCurve(has_update, `{{ entry.tag }}`, `{{ entry.name }}`, `{{ entry.desc }}`, {{ entry.coach_rating }}, {{ entry.coach_importance }}, {{ entry.user_rating }}, `{{ entry.note }}`, `{{ user.firstname }}`, `{{ entry.date }}`, `{{ entry.coach_name }}`);
             {% endfor %}
         </script>
         {% endif %}
