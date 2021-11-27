@@ -30,7 +30,11 @@
                         <strong>{{ metric.name }}</strong>
                     </td>
                     <td>
-                        {{ metric.desc }}
+                        {% if metric.desc %}
+                            {{ metric.desc }}
+                        {% else %}
+                            <p class="nodesc">No Description</p>
+                        {% endif %}
                     </td>
                     <td>
                         <button type="button" class="btn btn-outline-success" style="width:118px;" data-toggle="modal" data-target="#edit{{ metric.tag }}">Edit</button>
@@ -79,7 +83,7 @@
             {% endfor %}
             <form action="" method="POST">
                 <tr>
-                    <td><input type="text" class="form-control boxy" placeholder="Metric Name" name="name" autocomplete="off"></td>
+                    <td><input type="text" class="form-control boxy" placeholder="Metric Name" name="name" autocomplete="off" autofocus></td>
                     <td><textarea class="form-control boxy" placeholder="Metric Description" name="desc" autocomplete="off" rows="1" cols="50" onfocusin="extendRows()" onfocusout="resetRows()" id="ratextarea"></textarea></td>
                     <td>
                         <div class="row justify-content-center">
@@ -114,7 +118,11 @@
                         <strong>{{ metric.name }}</strong>
                     </td>
                     <td>
-                        {{ metric.desc }}
+                        {% if metric.desc %}
+                            {{ metric.desc }}
+                        {% else %}
+                            <p class="nodesc">No Description</p>
+                        {% endif %}
                     </td>
                     <td>
                         <button type="button" class="btn btn-outline-success" style="width:118px;" data-toggle="modal" data-target="#edit{{ metric.tag }}">Edit</button>
@@ -189,7 +197,11 @@
                         <strong>{{ metric.name }}</strong>
                     </td>
                     <td>
-                        {{ metric.desc }}
+                        {% if metric.desc %}
+                            {{ metric.desc }}
+                        {% else %}
+                            <p class="nodesc">No Description</p>
+                        {% endif %}
                     </td>
                     <td>
                         <button type="button" class="btn btn-outline-success" style="width:118px;" data-toggle="modal" data-target="#edit{{ metric.tag }}">Edit</button>
@@ -273,7 +285,11 @@
                         <strong>{{ metric.name }}</strong>
                     </td>
                     <td>
-                        {{ metric.desc }}
+                        {% if metric.desc %}
+                            {{ metric.desc }}
+                        {% else %}
+                            <p class="nodesc">No Description</p>
+                        {% endif %}
                     </td>
                     <td>
                         <button type="button" class="btn btn-outline-success" style="width:118px;" data-toggle="modal" data-target="#edit{{ metric.tag }}">Edit</button>

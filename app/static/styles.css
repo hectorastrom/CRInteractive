@@ -670,6 +670,12 @@ header
     display: none !important;
 }
 
+.nodesc
+{
+    font-style: italic;
+    opacity: .7;
+}
+
 
 
 @font-face 
