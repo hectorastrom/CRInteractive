@@ -448,11 +448,17 @@ header
     color: rgb(177, 23, 49);
     font-weight: bold;
     padding-left: 0;
-}
+}   
 
 #url
 {
     color: #007bff;
+    border-bottom: none !important;
+}
+
+#url:hover
+{
+    color: #0063ce;
 }
 
 .tooltip-inner
