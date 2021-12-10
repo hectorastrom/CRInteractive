@@ -22,7 +22,7 @@ itsdangerous==2.0.1
 Jinja2==3.0.1
 Mako==1.1.5
 MarkupSafe==2.0.1
-psycopg2==2.9.1
+psycopg2
 pycparser==2.20
 pyOpenSSL==21.0.0
 python-dotenv==0.19.2
