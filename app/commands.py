@@ -182,10 +182,10 @@ def create_empmetric(tag, name, team):
     """
     Function just for testing purposes until a dedicated interface is developed for creating empirical metrics. Takes in tag, name and team.
     """
-    if team.lower() == "mv" or "men's varsity":
-        team = "Men's Varsity"
-    elif team.lower() == "l" or "fl" or "fall launchpad":
-        team = "Fall Launchpad"
+    team = chooseTeam(team.lower().strip())
+    if team == "error":
+        print("Invalid team input.")
+        return 1
     existing_metric = EmpMetrics.query.filter(EmpMetrics.tag==tag, EmpMetrics.team==team).first()
     if existing_metric:
         print(f"A metric on {team} with tag {tag} already exists.")
@@ -193,7 +193,7 @@ def create_empmetric(tag, name, team):
         new_metric = EmpMetrics(tag=tag, name=name, desc="Test description", team=team)
         db.session.add(new_metric)
         db.session.commit()
-        print(f"Added {new_metric} to emperical metric list")
+        print(f"Added {new_metric}to emperical metric list")
 
 @click.command(name='clear_empmetrics')
 @with_appcontext
@@ -217,3 +217,29 @@ def clear_empmetrics():
         print("Entries have been deleted.")
     else:
         print("Entries were not deleted.")
+
+@click.command(name='print_usertable')
+@click.argument("team")
+@with_appcontext
+def print_usertable(team):
+    team = chooseTeam(team.lower().strip())
+    if team == "error":
+        print("Invalid team input")
+        return 1
+    users = User.query.filter_by(team=team).all()
+    for user in users:
+        if user.password != "not set":
+            status="Registered"
+        else:
+            status="Unregistered"
+
+        if user.is_head:
+            role = "Head Coach"
+        elif user.is_coach:
+            role = "Coach"
+        elif user.is_coxswain:
+            role = "Coxswain"
+        else: 
+            role = "Rower"
+
+        print(f'{status} {role} with Name: "{user.firstname} {user.lastname}", Email: "{user.email}", Created: {user.date_created}')
