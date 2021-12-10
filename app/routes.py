@@ -534,6 +534,10 @@ def edit_metrics():
             flash("You do not have permissions to access that page.", "error")
             return redirect(url_for('index'))
 
+@app.route('/contact', strict_slashes=False)
+def contact():
+    return render_template('contact.html')
+
 if not is_production:
     @app.route('/aboutus', strict_slashes=False)
     def about_us():
