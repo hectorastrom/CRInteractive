@@ -19,10 +19,7 @@ else:
 #client = ImgurClient(client_id=config.client_id, client_secret=config.client_secret)
 
 #authorization_url = client.get_auth_url('pin')
-if is_production:
-    app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
-else: 
-    app.config['SECRET_KEY'] = 'alksdjfasdffikluwenfdsfuje'
+app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
 # Teams and abbreviations, abbreviations must be lowercase
 mvabrv = ["mv", "vm"]
