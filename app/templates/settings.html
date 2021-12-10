@@ -76,11 +76,11 @@
                             <option disabled selected>Choose Team</option>
                         {% endif %}
                         {% for team in teams %}
-                        {% if current_user.team == team %}
-                            <option selected value='{{ team }}'>{{ team }}</option>
-                        {% else %}
-                            <option value='{{ team }}'>{{ team }}</option>
-                        {% endif %}
+                            {% if current_user.team == team %}
+                                <option selected value='{{ team }}'>{{ team }}</option>
+                            {% else %}
+                                <option value='{{ team }}'>{{ team }}</option>
+                            {% endif %}
                         {% endfor %}
                     </select>
                 </div>

@@ -159,9 +159,13 @@
                         <td>
                             <div class="form-group short">
                                 <select class="form-select form-control boxy" aria-label="Team Selector" name="team">  
-                                    <option disabled selected>Team</option>
+                                    <option disabled>Team</option>
                                     {% for team in teams %}
-                                    <option value="{{ team }}">{{ team }}</option>
+                                        {% if current_user.team == team %}
+                                            <option selected value="{{ team }}">{{ team }}</option>
+                                        {% else %}
+                                            <option value="{{ team }}">{{ team }}</option>
+                                        {% endif %}
                                     {% endfor %}
                                 </select>   
                             </div>
@@ -179,7 +183,7 @@
             </tbody>
         </table>
         {% if pending %}
-        <h2 class="mt-4">Pending Invites For CRInteractive</h2>
+        <h2 class="mt-4">Pending Invites For {{ current_user.team }}</h2>
         <input type="text" id="tableSearch2" class="form-control boxy w-100 p-3 mb-2 mt-1" onkeyup="searchTable('tableSearch2', 'pendingTable', 'emptyMessage2', true)" placeholder="Search Pending Users..."> 
         <table id="pendingTable" class="table table-responsive table-striped table-bordered w-100 d-block d-md-table">
             <thead>
