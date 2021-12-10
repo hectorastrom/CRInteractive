@@ -242,4 +242,4 @@ def print_usertable(team):
         else: 
             role = "Rower"
 
-        print(f'{status} {role} with Name: "{user.firstname} {user.lastname}", Email: "{user.email}", Created: {user.date_created}')
+        print(f'ID {user.id}: {status} {role} with Name: "{user.firstname} {user.lastname}", Email: "{user.email}", Created: {user.date_created}')

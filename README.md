@@ -29,7 +29,7 @@ In the future, athletes will be able to share their condition: how they slept la
 ### `flask send_emails`
 - Opens and reads the rowers.csv file in the static folder and creates accounts for and emails all users not already in the database. Each user added is printed and a messages if an email was sent to them is printed. If a user is already in the database then they are ignored.
 ### `flask print_usertable 'team'`
-- Takes in a team name (abbreviated or not) and prints a table with all users on that team. Each user's registration status, name, email, and registration date is printed.
+- Takes in a team name (abbreviated or not) and prints a table with all users on that team. Each user's id, registration status, name, email, and registration date is printed.
 
 
 # Making Changes On Production Server
