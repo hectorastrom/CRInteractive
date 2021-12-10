@@ -8,7 +8,7 @@
     
     <!-- If they're a coach -->
     {% if current_user.is_coach %}
-        <h2>Active Roster For CRInteractive</h2>
+        <h2>Active Roster For {{ current_user.team }}</h2>
         <input type="text" id="tableSearch1" class="form-control boxy w-100 p-3 mb-2 mt-1" onkeyup="searchTable('tableSearch1', 'activeTable', 'emptyMessage1', true)" placeholder="Search Active Users...">  
         <table id="activeTable" class="table table-responsive table-striped table-bordered w-100 d-block d-md-table">
             <thead>

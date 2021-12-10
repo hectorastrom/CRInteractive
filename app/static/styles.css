@@ -49,6 +49,11 @@ a:hover
     text-decoration: none;
 }
 
+.badge-info
+{
+    background-color: rgb(218, 142, 2);
+}
+
 .account
 {
     color:rgba(197, 8, 40, 0.45);

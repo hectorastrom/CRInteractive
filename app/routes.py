@@ -42,7 +42,7 @@ def login():
         elif user and user.password == "not set":
             flash(f"Account for {form.email.data} is not yet initalized. Head to the registration link in your email to finish creating your account.", "error")
         else: 
-            flash(f"Acccount registed with {form.email.data} does not exist.", "error")
+            flash(f"Incorrect credentials. Please check email and password.", "error")
     return render_template('login.html', form=form)
 
 @app.route('/logout')
@@ -76,8 +76,12 @@ def register(uuid):
         flash(f'Your account has been created!', 'success')
         return redirect(url_for('index'))
     else:
+        if current_user.is_authenticated:
+            flash("You may not register an account while logged in.", "error")
+            logout_user()
+            return redirect(url_for("login"))
         if not user:
-            flash("Registration page for that code does not exist.", "error")
+            flash("Invalid Registration Code.", "error")
             return redirect(url_for("search_code"))
         elif user and user.password != "not set":
             flash("Account has already been created.", "error")
@@ -459,8 +463,8 @@ def edit_roster():
     else:
         # Only head coaches have access to the edit-roster page
         if current_user.is_coach and current_user.is_head:
-            users = User.query.filter(User.password != "not set", User.deleted == False).order_by(User.is_coach.desc(), User.is_head.desc(), User.id).all()
-            pending = User.query.filter(User.password == "not set", User.deleted == False).all()
+            users = User.query.filter(User.password != "not set", User.deleted == False, User.team == current_user.team).order_by(User.is_coach.desc(), User.is_head.desc(), User.id).all()
+            pending = User.query.filter(User.password == "not set", User.deleted == False, User.team == current_user.team).all()
             return render_template('edit_roster.html', users=users, pending=pending, teams=team_names)
         else:
             flash("You do not have permissions to access that page.", "error")

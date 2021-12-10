@@ -211,7 +211,7 @@ function drawUserBellCurve(has_update, metric_tag, metric_name, metric_desc, coa
 }
 
 
-function drawCoachBellCurve(has_update, metric_tag, metric_name, metric_desc, coach_value, coach_importance, user_value, metric_notes, button_color, active, firstname)
+function drawCoachBellCurve(has_update, metric_tag, metric_name, metric_desc, coach_value, coach_importance, user_value, metric_notes, button_color, active, firstname, date, coach_name)
 {
     let user_dot_html = ""
     if (!has_update)
@@ -236,6 +236,16 @@ function drawCoachBellCurve(has_update, metric_tag, metric_name, metric_desc, co
         viewBox="0 0 30 30"
         style=" fill:#000000;"><path d="M 15 5 C 6.081703 5 0.32098813 14.21118 0.21679688 14.378906 A 1 1 0 0 0 0 15 A 1 1 0 0 0 0.16210938 15.544922 A 1 1 0 0 0 0.16601562 15.550781 C 0.18320928 15.586261 5.0188313 25 15 25 C 24.938822 25 29.767326 15.678741 29.826172 15.564453 A 1 1 0 0 0 29.837891 15.544922 A 1 1 0 0 0 30 15 A 1 1 0 0 0 29.785156 14.380859 A 1 1 0 0 0 29.783203 14.378906 C 29.679012 14.21118 23.918297 5 15 5 z M 15 8 C 18.866 8 22 11.134 22 15 C 22 18.866 18.866 22 15 22 C 11.134 22 8 18.866 8 15 C 8 11.134 11.134 8 15 8 z M 15 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 18 A 3 3 0 0 0 18 15 A 3 3 0 0 0 15 12 z"></path></svg>`
     }
+
+    if (date)
+    {
+        updatedText = `<small class="text-muted ml-4 mt-4 mb-0">Last Updated by ${coach_name} on ${date}</small>`
+    }
+    else
+    {
+        updatedText = ``
+    }
+    
     let html = `
     <div class="metric-group">
     <button id="${metric_tag}Button" type="button" class="btn metric-button" style="background-color:${button_color};" data-toggle="modal" data-target="#${metric_tag}modal">${metric_name}</button> 
@@ -304,6 +314,7 @@ function drawCoachBellCurve(has_update, metric_tag, metric_name, metric_desc, co
                         <textarea class="form-control notes" id="${metric_tag}_coach_notes" name="${metric_tag}_coach_notes" rows="2">${metric_notes}</textarea>
                     </div>
                 </div>
+                ${updatedText}
                 <div class="modal-footer">
                     <div class="form-group col text-center">
                         <button type="submit" class="btn btn-outline-danger rounded-pill">Update</button>

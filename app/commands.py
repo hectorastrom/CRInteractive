@@ -140,6 +140,7 @@ def send_emails():
         # Skips the titles of each column
         next(csv_reader) 
         row_number = 0
+        has_error = False
         for row in csv_reader:
             row_number += 1
             firstname = row[0].strip()
@@ -150,6 +151,9 @@ def send_emails():
             user, message = create_account(firstname, lastname, email, role, team)
             if message == "exists":
                 print("User with email", email, "already exists in the database with code " + user.uuid + ". Ignored.")
+            elif message == "error":
+                print(f"Invalid team input in row {row_number}. User with email {email} not added to database and no email sent.")
+                has_error = True
             else:
                 if message == "added":
                     print("User with firstname:", firstname, "lastname:", lastname, "email:", email, "UUID:", user.uuid, "added to database.")
@@ -158,7 +162,10 @@ def send_emails():
                 msg = create_email(user)
                 messages.append(msg)      
 
-    print("\nFinished iteration through csv.")
+    if not has_error:
+        print("\nFinished iteration through csv with no problems.")
+    else:
+        print("\nFinished iteration through csv with one or more errors. Look above.")
     if(messages):
         print(f"Sending {len(messages)} emails now...\n")
         email_links(messages)

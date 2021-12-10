@@ -20,12 +20,13 @@ else:
 if is_production:
     app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 else: 
-    app.config['SECRET_KEY'] = 'alksdjfasdfikluwenfdsfuje'
+    app.config['SECRET_KEY'] = 'alksdjfasdffikluwenfdsfuje'
 
 # Teams and abbreviations, abbreviations must be lowercase
-mvabrv = ["mv"]
+mvabrv = ["mv", "vm"]
 flabrv = ["fl", "l"]
-teams = {"Men's Varsity": mvabrv, "Fall Launchpad": flabrv}
+vwabrv = ["gv", "vw"]
+teams = {"Men's Varsity": mvabrv, "Fall Launchpad": flabrv, "Varsity Women":vwabrv}
 
 # To hash do bycrypt.generate_password_hash(password).decode('utf-8')
 # To check password do bycrypt.check_password_hash(hashed_password, password)

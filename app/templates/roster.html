@@ -43,16 +43,20 @@
                             </a>
                         </td>
                         <td>
-                            {% if item.1 == "incomplete" %}
-                                <h6><span class="badge badge-danger">Incomplete</span></h6>
+                            {% if not item.0.pinged and item.1 == "set" %}
+                                <h6><span class="badge badge-success">All Set</span></h6>
                             {% endif %}
 
                             {% if item.0.pinged %}
                                 <h6>  <span class="badge badge-primary">Requested</span></h6>
                             {% endif %}
 
-                            {% if not item.0.pinged and item.1 == "set" %}
-                                <h6><span class="badge badge-success">All Set</span></h6>
+                            {% if item.1 == "incomplete" %}
+                                <h6><span class="badge badge-danger">Incomplete</span></h6>
+                            {% endif %}
+
+                            {% if item.0.password == "not set" %}
+                                <h6><span class="badge badge-info">Unregistered</span></h6>
                             {% endif %}
                         </td>
                         <td>

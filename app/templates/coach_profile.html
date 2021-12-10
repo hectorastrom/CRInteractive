@@ -58,9 +58,13 @@
             </linearGradient>
         </defs>
     </svg>
-    {% if not entries %}
+    {% if not entries and current_user.is_head %}
         <div style = "position:relative; margin-bottom: 40px;" class = "alert alert-info">
             You don't have any active metrics set up for {% if user.is_coxswain %}coxswains{% else %}rowers{% endif %} yet. Head to <a href='{{ url_for("edit_metrics") }}'>Edit Metrics</a> to set them up.
+        </div>
+    {% elif not entries %}
+        <div style = "position:relative; margin-bottom: 40px;" class = "alert alert-info">
+            The {{ current_user.team }} head coach doesn't have any active metrics set up for {% if user.is_coxswain %}coxswains{% else %}rowers{% endif %} yet. Let them know or wait until they are set up.
         </div>
     {% endif %}
     <script>
@@ -88,7 +92,7 @@
                 has_update = false
             {% endif %}
 
-            drawCoachBellCurve(has_update, `{{ entry.tag }}`, `{{ entry.name }}`, `{{ entry.desc }}`, {{ entry.coach_rating }}, {{ entry.coach_importance }}, {{ entry.user_rating }}, `{{ entry.note }}`, button_color, active, `{{ user.firstname }}`);
+            drawCoachBellCurve(has_update, `{{ entry.tag }}`, `{{ entry.name }}`, `{{ entry.desc }}`, {{ entry.coach_rating }}, {{ entry.coach_importance }}, {{ entry.user_rating }}, `{{ entry.note }}`, button_color, active, `{{ user.firstname }}`, `{{ entry.date }}`, `{{ entry.coach_name }}`);
         {% endfor %}
     </script>
     {% endif %}
