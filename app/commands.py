@@ -149,13 +149,13 @@ def send_emails():
             role = row[3]
             team = row[4]
             user, message = create_account(firstname, lastname, email, role, team)
-            # if message == "exists":
-            #     print("User with email", email, "already exists in the database with code " + user.uuid + ". Ignored.")
-            if message == "error":
+            if message == "exists":
+                print("User with email", email, "already exists in the database with code " + user.uuid + ". Ignored.")
+            elif message == "error":
                 print(f"Invalid team input in row {row_number}. User with email {email} not added to database and no email sent.")
                 has_error = True
             else:
-                if message == "added" or message == "exists": #DO NOT ALWAYS HAVE THIS. THIS WILL SEND EMAILS TO PEOPLE ALREADY IN THE DATABASE
+                if message == "added":
                     print("User with firstname:", firstname, "lastname:", lastname, "email:", email, "UUID:", user.uuid, "added to database.")
                 elif message == "readded":
                     print("User with firstname:", firstname, "lastname:", lastname, "email:", email, "UUID:", user.uuid, "re-activated in database.")
