@@ -4,11 +4,13 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_manager
 from flask_migrate import Migrate
 from werkzeug.datastructures import auth_property 
+from dotenv import load_dotenv, find_dotenv
 import os
 #from app import config
 #from imgurpython import ImgurClient
 
 app = Flask(__name__)
+load_dotenv(find_dotenv())
 is_production = os.getenv("production")
 if is_production.lower() == "true":
     is_production = True

@@ -4,3 +4,4 @@ site.db
 config.py
 .DS_Store
 .vscode/
+.env
