@@ -92,8 +92,4 @@ https://blog.miguelgrinberg.com/post/fixing-alter-table-errors-with-flask-migrat
   
 # Changing Metrics
   
-Metrics can be added and changed in case different information needs to be assessed. 
-- To change the description of a metric, simply head into metrics.py and adjust the description. 
-- To adjust the name of a metric, you may change the name of the metric but must also change the tag of the metric. 
-- To add a metric, enter metrics.py and add the metric you need for the role.
-- To remove a metric, simply delete it from metrics.py. 
+Metrics are now changed by the head coach and are specific to each team. 

@@ -25,6 +25,7 @@ class User(db.Model, UserMixin):
     default_on = db.Column(db.Boolean, default=True)
     deleted = db.Column(db.Boolean, default=False)
     date_created = db.Column(db.DateTime, default = datetime.datetime.utcnow)
+    last_accessed = db.Column(db.DateTime)
     # Height is in inches
     height = db.Column(db.Integer())
     weight = db.Column(db.Integer())

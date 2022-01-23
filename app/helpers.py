@@ -9,6 +9,7 @@ import os
 import smtplib
 from email.message import EmailMessage
 from email.utils import formataddr
+from datetime import datetime
 
 # Coach Required Decorator 
 def coach_required(f):
@@ -292,3 +293,7 @@ class MetricObj():
         Date: {self.date}
         CoachName = {self.coach_name}
         """
+
+def accessed():
+    current_user.last_accessed = datetime.now()
+    db.session.commit()

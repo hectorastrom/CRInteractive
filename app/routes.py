@@ -8,7 +8,7 @@ from app.models import User, Twok, Fivek, Metric, EmpMetrics, Entry, EntryNote
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import date, datetime
 from random import randint
-from app.helpers import MetricObj, convert_from_seconds, coach_required, create_account, create_email, email_links, chooseRole
+from app.helpers import MetricObj, convert_from_seconds, coach_required, create_account, create_email, email_links, chooseRole, accessed
 from app.static.metrics import rower_metric_list, cox_metric_list
 
 
@@ -94,6 +94,7 @@ def register(uuid):
 @app.route('/settings', methods=["GET", "POST"], strict_slashes=False)
 @login_required
 def settings():
+    accessed()
     possible_feet = [1,2,3,4,5,6,7]
     possible_inches = [0,1,2,3,4,5,6,7,8,9,10,11]
     user_inches = -1
@@ -172,6 +173,7 @@ def settings():
 @app.route('/profile/<firstname>:<id>', methods=["GET", "POST"], strict_slashes=False)
 @login_required
 def profile(firstname, id):
+    accessed()
     user = User.query.filter(User.firstname.ilike(firstname), User.id==id, User.deleted == False).first()
     if not user:
         flash("Profile not found", 'error')
@@ -327,6 +329,7 @@ def profile(firstname, id):
 @app.route('/2k', methods=['GET', 'POST'], strict_slashes=False)
 @login_required
 def upload_twok():
+    accessed()
     form = TwokForm()
     if form.validate_on_submit():
         total_seconds = int(form.minutes.data)*60 + form.seconds.data
@@ -341,6 +344,7 @@ def upload_twok():
 @app.route('/5k', methods=['GET', 'POST'], strict_slashes=False)
 @login_required
 def upload_fivek():
+    accessed()
     form = TwokForm()
     if form.validate_on_submit():
         total_seconds = int(form.minutes.data)*60 + form.seconds.data
@@ -355,6 +359,7 @@ def upload_fivek():
 @app.route('/roster', strict_slashes=False)
 @login_required
 def roster():
+    accessed()
     # Coaches renders roster
     if current_user.is_coach:
         users = User.query.filter(User.team==current_user.team, User.is_coach == False, User.deleted == False).order_by(User.pinged.desc(), User.lastname).all()
@@ -386,6 +391,7 @@ def roster():
 @app.route('/edit-roster', methods=["GET", "POST"], strict_slashes=False)
 @login_required
 def edit_roster():
+    accessed()
     # List of team names
     team_names = teams.keys()
     # Valid Role inputs
@@ -478,10 +484,10 @@ def edit_roster():
             flash("You do not have permissions to access that page.", "error")
             return redirect(url_for('index'))
 
-# DOWNGRADE MIGRATION BEFORE YOU PUSH TO MAIN!!! -------------------------------------------------------------------------
 @app.route('/edit-metrics', methods=["GET", "POST"], strict_slashes=False)
 @login_required
 def edit_metrics():
+    accessed()
     if request.method == "POST":
         # Format of form_identifier: ('c' or 'r' for cox or rower)('e' or 'a' for edit or add)[metric tag, only for editing metrics]
         action = request.form.get("form_identifier")
