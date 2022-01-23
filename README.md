@@ -20,6 +20,8 @@ In the future, athletes will be able to share their condition: how they slept la
 - The valid inputs for role are "cox", "coxswain", "coach", "hcoach". Any other input for role will become a rower
 - The valid inputs for team are "men's varsity", "mv", "l", "fl", "fall launchpad". Multiple word teams must be put in "quotes" as input.
 - All inputs are defaulted to lowercase and are stripped for easier inputs.
+### `flask edit_user 'email'`
+- Finds user with specified email to change either their name, role, or team.
 ### `flask remove_user 'email'`
 - Removes user with the email provided, asking for confirmation before DELETING (not setting to deleted) the user.
 ### `flask query_user 'email'`

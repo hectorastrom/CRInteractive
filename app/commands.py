@@ -1,10 +1,11 @@
+from re import U
 import click
 from flask import url_for
 from flask.cli import with_appcontext
 from random import randint
 from app import db, is_production
 from app.models import EmpMetrics, Entry, EntryNote, User, Metric, Twok, Fivek
-from app.helpers import create_account, create_email, email_links, chooseTeam
+from app.helpers import chooseRole, create_account, create_email, email_links, chooseTeam
 
 @click.command(name='create_tables')
 @with_appcontext
@@ -115,6 +116,42 @@ def query_user(input):
         print(f"Date Created: {user.date_created}")
         if not is_production:
             print(f"Link to Register Page: 127.0.0.1:5000/register/{user.uuid}")
+
+@click.command(name='edit_user')
+@click.argument("email")
+@with_appcontext
+def edit_user(email):
+    user = User.query.filter(User.email == email).first()
+    if not user: 
+        print(f"User with email {email} not found.")
+        return 1
+    print(f"What element would you like to edit for {email}?")
+    print("1. Name")
+    print("2. Role")
+    print("3. Team")
+    choice = input()
+    while not choice.isdigit() or int(choice) not in [1,2,3]:
+        choice = input("Invalid input. Try again: ")
+    choice = int(choice)
+    if choice == 1:
+        print(f"Current name: {user.firstname} {user.lastname}")
+        name = input(f"What is their name (case-sensitive, first and lastname seperated by space): ")
+        user.firstname = name[:name.index(" ")]
+        user.lastname = name[name.index(" ") + 1:]
+        db.session.commit()
+        print(f"Updated name to be {user.firstname} {user.lastname}")
+
+    if choice == 2:
+        role = input(f"What is {user.firstname}'s role: ")
+        chooseRole(user, role)
+        print(f"User now set with the following variables: is_cox: {user.is_coxswain}, is_coach:{user.is_coach}, is_head:{user.is_head}")
+
+    if choice == 3:
+        print(f"{user.firstname}'s current team: {user.team}")
+        team = input("What is the correct team: ")
+        user.team = chooseTeam(team)
+        db.session.commit()
+        print(f"User's team updated to be {user.team}.")
 
 @click.command(name='send_email')
 @click.argument("email")

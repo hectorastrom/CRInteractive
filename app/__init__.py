@@ -1,3 +1,4 @@
+from click import edit
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -54,7 +55,7 @@ login_manager.login_message_category = 'info'
 # # Need to import from helpers before adding all commands since they rely on these commands
 # from app.helpers import create_email, create_account, send_emails
 
-from app.commands import create_tables, drop_tables, send_emails, remove_user, add_user, query_user, send_email, create_empmetric, clear_empmetrics, print_usertable
+from app.commands import create_tables, drop_tables, send_emails, remove_user, add_user, query_user, edit_user, send_email, create_empmetric, clear_empmetrics, print_usertable
 
 app.cli.add_command(create_tables)
 app.cli.add_command(drop_tables)
@@ -63,6 +64,7 @@ app.cli.add_command(send_email)
 app.cli.add_command(remove_user)
 app.cli.add_command(add_user)
 app.cli.add_command(query_user)
+app.cli.add_command(edit_user)
 app.cli.add_command(create_empmetric)
 app.cli.add_command(clear_empmetrics)
 app.cli.add_command(print_usertable)
