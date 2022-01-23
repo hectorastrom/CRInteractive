@@ -287,12 +287,18 @@
                                             <input type="hidden" value="euser{{ user.id }}" name="form_identifier">
                                             <button type="submit" class="btn btn-outline-success" style="width:90px; position:absolute;">Update</button>
                                         </form>
+                                        <form id="formemail{{ user.id }}" method="POST" action="">
+                                            <div style="position:relative;">
+                                                <button type="submit" class="btn btn-outline-primary" style="width:28%; position: absolute; left:35.2%; right: 50%;">Resend Email</button> 
+                                            </div>
+                                            <input type="hidden" value="email{{ user.id }}" name="form_identifier">
+                                        </form> 
                                         <form id="formduser{{ user.id }}" method="POST" action="">
                                             <div style="position:relative;">
-                                                <button id="duser{{ user.id }}" type="button" class="btn btn-outline-danger" style="width:90px; position: absolute; right: 0;" >Delete</button> 
+                                                <button id="duser{{ user.id }}" type="button" class="btn btn-outline-danger" style="width:90px; position: absolute; right: 0;">Delete</button> 
                                             </div>
                                             <!-- Buffer height for absolutely positioned update and delete buttons -->
-                                            <div style="height:40px;"></div>
+                                            <div style="height:60px;"></div>
                                             <input type="hidden" value="duser{{ user.id }}" name="form_identifier">
                                             <script>
                                                 $(function() {
