@@ -431,6 +431,7 @@ def edit_roster():
                 except:
                     flash(f"Error sending email to {user.email}, contact developer", "error")
                     print("Email was not sent, likely because less secure app access if off")
+                    return redirect("")
                 flash(f"Resent a registration email to {user.email}", "success")
         else: # For creating a user
             firstname = request.form.get("firstname").strip()
