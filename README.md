@@ -95,3 +95,12 @@ https://blog.miguelgrinberg.com/post/fixing-alter-table-errors-with-flask-migrat
 # Changing Metrics
   
 Metrics are now changed by the head coach and are specific to each team. 
+
+# Email Issues
+
+If there is an issue sending emails (error saying that you don't have access to the gmail account) there are a few things you must do:
+1. Check if Less Secure App Access in on in Google. To find out, go to Account in Google > Security > Scroll down to Less Secure App Access and switch to On. This can turn off randomly.
+2. See if there is a popup to say that the device trying to sign in is you. If there isn't, head to Account > Security > Recent Security Activity and then click on the relevant sign in attempt to say it was you.
+3. While signed in as crinteractivebot@gmail.com head to https://accounts.google.com/b/0/DisplayUnlockCaptcha and click Allow. This basically just allows the next sign in to access the account. 
+
+**More permanently we should switch to using Google Gmail API with more information here: https://stackoverflow.com/a/54715276**
