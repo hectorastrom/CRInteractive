@@ -263,7 +263,7 @@ def print_usertable(team):
     if team == "error":
         print("Invalid team input")
         return 1
-    users = User.query.filter_by(team=team).all()
+    users = User.query.filter(User.team==team, User.deleted==False).all()
     for user in users:
         if user.password != "not set":
             status="Registered"
