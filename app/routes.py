@@ -22,28 +22,30 @@ def index():
 
 @app.route('/login', methods=["GET", "POST"], strict_slashes=False)
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter(User.email==form.email.data.lower()).first()
-        if user and user.deleted:
-            flash(f'Account deactivated.', 'error')
-            return redirect(url_for('login'))
-        if user and user.password != "not set":
-            if user and bcrypt.check_password_hash(user.password, form.password.data):
-                login_user(user, remember=form.remember.data)
-                next_page = request.args.get('next')
-                flash(f'Logged in for {form.email.data}!', 'success')
-                if next_page:
-                    return redirect(next_page)
-                else:
-                    return redirect(url_for('index'))
-            else:
-                flash(f'Incorrect credentials. Please check email and password.', 'error')
-        elif user and user.password == "not set":
-            flash(f"Account for {form.email.data} is not yet initalized. Head to the registration link in your email to finish creating your account.", "error")
-        else: 
-            flash(f"Incorrect credentials. Please check email and password.", "error")
-    return render_template('login.html', form=form)
+    return redirect(url_for('thiswascrinteractive'))
+    # form = LoginForm()
+    # if form.validate_on_submit():
+        # user = User.query.filter(User.email==form.email.data.lower()).first()
+        # if user and user.deleted:
+        #     flash(f'Account deactivated.', 'error')
+        #     return redirect(url_for('login'))
+        # if user and user.password != "not set":
+        #     if user and bcrypt.check_password_hash(user.password, form.password.data):
+        #         login_user(user, remember=form.remember.data)
+        #         next_page = request.args.get('next')
+        #         flash(f'Logged in for {form.email.data}!', 'success')
+        #         if next_page:
+        #             return redirect(next_page)
+        #         else:
+        #             return redirect(url_for('index'))
+        #     else:
+        #         flash(f'Incorrect credentials. Please check email and password.', 'error')
+        # elif user and user.password == "not set":
+        #     flash(f"Account for {form.email.data} is not yet initalized. Head to the registration link in your email to finish creating your account.", "error")
+        # else: 
+        #     flash(f"Incorrect credentials. Please check email and password.", "error")
+    #     return redirect(url_for('thiswascrinteractive'))
+    # return render_template('login.html', form=form)
 
 @app.route('/logout')
 def logout():
@@ -89,6 +91,9 @@ def register(uuid):
         else:
             return render_template("register.html", form=form, user=user)
 
+@app.route('/thiswascrinteractive', strict_slashes=False)
+def thiswascrinteractive():
+    return render_template("thiswascrinteractive.html")
 
 
 @app.route('/settings', methods=["GET", "POST"], strict_slashes=False)
