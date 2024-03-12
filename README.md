@@ -1,7 +1,7 @@
 # CRInteractive <img src="logo.png" style="float: right;" alt="logo" width="100"/>
 
 ## Introduction
-CRInteractive is an innovated web app designed to quantify the rowing stroke, create a home for coach-athlete communication, and unify team goals built for our team at Community Rowing Inc. (CRI).
+CRInteractive is an innovative web app designed to quantify the rowing stroke, create a home for coach-athlete communication, and unify team goals built for our team at Community Rowing Inc. (CRI).
 
 ## Technologies
 - **Back-End**: Built with Flask in Python. PostgreSQL database held data. 
