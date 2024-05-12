@@ -12,6 +12,8 @@ CRInteractive is an innovative web app designed to quantify the rowing stroke, c
 ## About CRInteractive
 At its core, CRInteractive was designed to quantify, track, and visualize key rowing performance metrics. This transparency in data allowed athletes to focus on specific practice goals and understand their areas of improvement. Coaches benefited from an intuitive platform to discuss team strategies and individual performance, fostering an environment of open communication and shared team objectives. At its peak, the app had over 100 active users and managed thousands of database entries, making it a pivotal tool in rowing team management.
 
+The tutorial video, provided to members of the CRI community as CRInteractive was released, showcases the key features of the app and can be found [here](https://www.youtube.com/watch?v=4w8IB8kqKDA).
+
 ## Closure
 CRInteractive has since been decommissioned, but its legacy of encouraging transparency and cutting-edge technology adaption remains at CRI.
 
